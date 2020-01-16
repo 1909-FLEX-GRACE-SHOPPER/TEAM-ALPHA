@@ -3,7 +3,7 @@ const db = require('../database');
 
 const { ENUM, INTEGER } = Sequelize;
 
-const Size = db.define('category', {
+const Size = db.define('size', {
     id: {
         type: INTEGER,
         primaryKey: true,

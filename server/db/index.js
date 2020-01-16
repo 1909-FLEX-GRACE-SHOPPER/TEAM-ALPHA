@@ -22,7 +22,6 @@ const {
 ////////////////////////
 
 // an order can only have one status
-Order.hasOne(OrderStatus);
 OrderStatus.belongsToMany(Order);
 
 //////////////////////////
@@ -30,19 +29,15 @@ OrderStatus.belongsToMany(Order);
 //////////////////////////
 
 // each product has only one category
-Product.hasOne(Category);
 Category.belongsToMany(Product);
 
 // each product has only one size
-Product.hasOne(Size);
 Size.belongsToMany(Product);
 
 // each product is either F, M, or N;
-Product.hasOne(Gender);
 Gender.belongsToMany(Product);
 
 // each product has a color
-Product.hasOne(Color);
 Color.belongsToMany(Product);
 
 ///////////////////////
@@ -50,14 +45,13 @@ Color.belongsToMany(Product);
 ///////////////////////
 
 // each user has a single type
-User.hasOne(UserType, {
+UserType.belongsToMany(User, {
     foreignKey: {
         allowNull: false,
         defaultValue: 3, // defaults to guest
     },
     onDelete: 'CASCADE'
 });
-UserType.belongsToMany(User);
 
 ///////////////////////////////////////////////
 // ASSOCIATIONS BETWEEN DIFFERENT CATEGORIES //

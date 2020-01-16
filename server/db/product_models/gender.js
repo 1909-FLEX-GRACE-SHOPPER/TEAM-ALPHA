@@ -12,7 +12,7 @@ const Gender = db.define('category', {
             max: 2, // f, m, n
         }
     },
-    size: {
+    gender: {
         type: ENUM,
         values: [
             'F',
