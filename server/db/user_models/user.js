@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('./database');
+const db = require('../database');
 
-const { STRING, INTEGER, UUID, UUIDV4 } = Sequelize; 
+const { STRING, UUID, UUIDV4 } = Sequelize; 
 
 const User = db.define('user', {
     id: {
@@ -57,16 +57,6 @@ const User = db.define('user', {
         validate: {
             notEmpty: true,
         },
-    },
-    status: {
-        type: INTEGER,
-        allowNull: false,
-        defaultValue: 5,
-        validate: {
-            max: 4,
-            min: 0,
-        },
-        // admin, pending, user, OAuth, guest
     },
 });
 
