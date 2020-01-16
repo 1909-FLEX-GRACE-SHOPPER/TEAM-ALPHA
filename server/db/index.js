@@ -59,7 +59,6 @@ UserType.belongsToMany(User, {
 
 // user and order associations
 User.hasMany(Order);
-Order.belongsTo(User);
 
 // creating orderItems
 Product.belongsToMany(Order, {through: 'OrderItems'});
