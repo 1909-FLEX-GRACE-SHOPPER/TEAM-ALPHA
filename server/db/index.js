@@ -22,35 +22,35 @@ const {
 ////////////////////////
 
 // an order can only have one status
-OrderStatus.belongsToMany(Order);
+OrderStatus.hasMany(Order);
 
 //////////////////////////
 // PRODUCT ASSOCIATIONS //
 //////////////////////////
 
 // each product has only one category
-Category.belongsToMany(Product);
+Category.hasMany(Product);
 
 // each product has only one size
-Size.belongsToMany(Product);
+Size.hasMany(Product);
 
 // each product is either F, M, or N;
-Gender.belongsToMany(Product);
+Gender.hasMany(Product);
 
 // each product has a color
-Color.belongsToMany(Product);
+Color.hasMany(Product);
 
 ///////////////////////
 // USER ASSOCIATIONS //
 ///////////////////////
 
 // each user has a single type
-UserType.belongsToMany(User, {
+UserType.hasMany(User, {
     foreignKey: {
         allowNull: false,
         defaultValue: 3, // defaults to guest
     },
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
 });
 
 ///////////////////////////////////////////////
