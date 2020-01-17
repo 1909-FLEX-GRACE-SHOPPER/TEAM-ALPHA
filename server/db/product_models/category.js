@@ -3,32 +3,32 @@ const db = require('../database');
 
 const { ENUM, INTEGER } = Sequelize;
 
-const Category = db.define('category', {
+const Categories = db.define('categories', {
     id: {
         type: INTEGER,
         primaryKey: true,
         validate: {
-            min: 0,
-            max: 7, // just guessing how many categories we want
+            min: 1,
+            max: 8, // just guessing how many categories we want
         }
     },
     category: {
         type: ENUM,
         values: [
-            'skis', // 0
-            'boots', // 1
-            'pants', // 2
-            'jackets', // 3
-            'shirts', // 4
-            'poles', // 5
-            'gloves', // 6
-            'socks' // 7
+            'skis', // 1
+            'boots', // 2
+            'pants', // 3
+            'jackets', // 4
+            'shirts', // 5
+            'poles', // 6
+            'gloves', // 7
+            'goggles' // 8
         ],
         allowNull: false,
         validate: {
             notEmpty: true,
         },
     },
-});
+}, {timestamps: false});
 
-module.exports = Category;
+module.exports = Categories;

@@ -3,13 +3,13 @@ const db = require('../database');
 
 const { ENUM, INTEGER } = Sequelize;
 
-const Gender = db.define('category', {
+const Genders = db.define('genders', {
     id: {
         type: INTEGER,
         primaryKey: true,
         validate: {
-            min: 0,
-            max: 2, // f, m, n
+            min: 1,
+            max: 3, // f, m, n
         }
     },
     gender: {
@@ -24,6 +24,6 @@ const Gender = db.define('category', {
             notEmpty: true,
         },
     },
-});
+}, {timestamps: false});
 
-module.exports = Gender;
+module.exports = Genders;

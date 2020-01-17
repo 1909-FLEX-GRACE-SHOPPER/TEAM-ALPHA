@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../database');
 
-const { DECIMAL, UUID, UUIDV4 } = Sequelize; 
+const { NOW, DECIMAL, DATE, UUID, UUIDV4 } = Sequelize;
 
-const Order = db.define('order', {
+const Orders = db.define('orders', {
     id: {
         type: UUID,
         defaultValue: UUIDV4,
@@ -17,10 +17,12 @@ const Order = db.define('order', {
     },
     orderDate: {
         type: DATE,
+        //Added this there to get the current time and date, may not be needed since we do have the createdAtDate?
+        defaultValue: NOW,
         validate: {
             isDate: true,
         },
     },
 });
 
-module.exports = Order;
+module.exports = Orders;

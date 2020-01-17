@@ -3,13 +3,14 @@ const db = require('../database');
 
 const { ENUM, INTEGER } = Sequelize;
 
-const Size = db.define('size', {
+//Do we want to include shoe size for boots?
+const Sizes = db.define('sizes', {
     id: {
         type: INTEGER,
         primaryKey: true,
         validate: {
-            min: 0,
-            max: 5,
+            min: 1,
+            max: 6,
         }
     },
     size: {
@@ -27,6 +28,6 @@ const Size = db.define('size', {
             notEmpty: true,
         },
     },
-});
+}, {timestamps: false});
 
-module.exports = Size;
+module.exports = Sizes;

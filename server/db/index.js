@@ -1,20 +1,20 @@
 const db = require('./database');
 const {
-    Product,
-    Category,
-    Size,
-    Gender,
-    Color,
+    Products,
+    Categories,
+    Sizes,
+    Genders,
+    Colors,
 } = require('./product_models/index');
 
 const {
-    Order,
-    OrderStatus,
+    Orders,
+    OrderStatuses,
 } = require('./order_models/index');
 
 const {
-    User,
-    UserType,
+    Users,
+    UserTypes,
 } = require('./user_models/index');
 
 ////////////////////////
@@ -22,30 +22,30 @@ const {
 ////////////////////////
 
 // an order can only have one status
-OrderStatus.hasMany(Order);
+OrderStatuses.hasMany(Orders);
 
 //////////////////////////
 // PRODUCT ASSOCIATIONS //
 //////////////////////////
 
 // each product has only one category
-Category.hasMany(Product);
+Categories.hasMany(Products);
 
 // each product has only one size
-Size.hasMany(Product);
+Sizes.hasMany(Products);
 
 // each product is either F, M, or N;
-Gender.hasMany(Product);
+Genders.hasMany(Products);
 
 // each product has a color
-Color.hasMany(Product);
+Colors.hasMany(Products);
 
 ///////////////////////
 // USER ASSOCIATIONS //
 ///////////////////////
 
 // each user has a single type
-UserType.hasMany(User, {
+UserTypes.hasMany(Users, {
     foreignKey: {
         allowNull: false,
         defaultValue: 3, // defaults to guest
@@ -58,21 +58,21 @@ UserType.hasMany(User, {
 ///////////////////////////////////////////////
 
 // user and order associations
-User.hasMany(Order);
+Users.hasMany(Orders);
 
 // creating orderItems
-Product.belongsToMany(Order, {through: 'OrderItems'});
-Order.belongsToMany(Product, {through: 'OrderItems'});
+Products.belongsToMany(Orders, {through: 'orderItems'});
+Orders.belongsToMany(Products, {through: 'orderItems'});
 
 module.exports = {
     db,
-    Product,
-    Category,
-    Size,
-    Gender,
-    Color,
-    Order,
-    OrderStatus,
-    User,
-    UserType,
+    Products,
+    Categories,
+    Sizes,
+    Genders,
+    Colors,
+    Orders,
+    OrderStatuses,
+    Users,
+    UserTypes,
 };

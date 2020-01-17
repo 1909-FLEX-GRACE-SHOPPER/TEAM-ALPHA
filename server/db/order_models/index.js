@@ -1,7 +1,7 @@
-const Order = require('./order');
-const OrderStatus = require('./orderStatus');
+const Orders = require('./order');
+const OrderStatuses = require('./orderStatus');
 
 module.exports = {
-    Order,
-    OrderStatus,
+    Orders,
+    OrderStatuses,
 };

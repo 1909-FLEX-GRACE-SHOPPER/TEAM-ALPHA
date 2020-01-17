@@ -1,7 +1,7 @@
-const User = require('./user');
-const UserType = require('./userType');
+const Users = require('./user');
+const UserTypes = require('./userType');
 
 module.exports = {
-    User,
-    UserType,
+    Users,
+    UserTypes,
 };

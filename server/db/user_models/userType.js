@@ -3,16 +3,16 @@ const db = require('../database');
 
 const { ENUM, INTEGER } = Sequelize;
 
-const UserType = db.define('UserType', {
+const UserTypes = db.define('userTypes', {
     id: {
         type: INTEGER,
         primaryKey: true,
         validate: {
-            min: 0,
-            max: 4,
+            min: 1,
+            max: 5,
         }
     },
-    size: {
+    userTypes: {
         type: ENUM,
         values: [
             'admin',
@@ -26,6 +26,6 @@ const UserType = db.define('UserType', {
             notEmpty: true,
         },
     },
-});
+}, {timestamps: false});
 
-module.exports = UserType;
+module.exports = UserTypes;
