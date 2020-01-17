@@ -22,42 +22,36 @@ const {
 ////////////////////////
 
 // an order can only have one status
-Order.hasOne(OrderStatus);
-OrderStatus.belongsToMany(Order);
+OrderStatus.hasMany(Order);
 
 //////////////////////////
 // PRODUCT ASSOCIATIONS //
 //////////////////////////
 
 // each product has only one category
-Product.hasOne(Category);
-Category.belongsToMany(Product);
+Category.hasMany(Product);
 
 // each product has only one size
-Product.hasOne(Size);
-Size.belongsToMany(Product);
+Size.hasMany(Product);
 
 // each product is either F, M, or N;
-Product.hasOne(Gender);
-Gender.belongsToMany(Product);
+Gender.hasMany(Product);
 
 // each product has a color
-Product.hasOne(Color);
-Color.belongsToMany(Product);
+Color.hasMany(Product);
 
 ///////////////////////
 // USER ASSOCIATIONS //
 ///////////////////////
 
 // each user has a single type
-User.hasOne(UserType, {
+UserType.hasMany(User, {
     foreignKey: {
         allowNull: false,
         defaultValue: 3, // defaults to guest
     },
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
 });
-UserType.belongsToMany(User);
 
 ///////////////////////////////////////////////
 // ASSOCIATIONS BETWEEN DIFFERENT CATEGORIES //
@@ -65,7 +59,6 @@ UserType.belongsToMany(User);
 
 // user and order associations
 User.hasMany(Order);
-Order.belongsTo(User);
 
 // creating orderItems
 Product.belongsToMany(Order, {through: 'OrderItems'});

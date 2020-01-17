@@ -3,7 +3,7 @@ const db = require('../database');
 
 const { ENUM, INTEGER } = Sequelize;
 
-const UserType = db.define('OrderStatus', {
+const UserType = db.define('UserType', {
     id: {
         type: INTEGER,
         primaryKey: true,
