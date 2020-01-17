@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../database');
 
-const { STRING, INTEGER, TEXT, DECIMAL, UUID, UUIDV4 } = Sequelize; 
+const { STRING, INTEGER, TEXT, DECIMAL, UUID, UUIDV4 } = Sequelize;
 
-const Product = db.define('product', {
+const Products = db.define('products', {
     id: {
         type: UUID,
         defaultValue: UUIDV4,
@@ -42,10 +42,11 @@ const Product = db.define('product', {
     imageUrl: {
         type: TEXT,
         defaultValue: 'to come',
-        validate: {
-            isUrl: true,
-        },
+        //NOTE: commented this out temp just to test seed templates. This forces us to insert URLS.
+        // validate: {
+        //     isUrl: true,
+        // },
     },
 });
 
-module.exports = Product;
+module.exports = Products;

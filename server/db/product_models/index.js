@@ -1,12 +1,12 @@
-const Product = require('./product');
-const Category = require('./category');
-const Size = require('./size');
-const Gender = require('./gender');
-const Color = require('./color');
+const Products = require('./product');
+const Categories = require('./category');
+const Sizes = require('./size');
+const Genders = require('./gender');
+const Colors = require('./color');
 module.exports = {
-    Product,
-    Category,
-    Size,
-    Gender,
-    Color,
+    Products,
+    Categories,
+    Sizes,
+    Genders,
+    Colors,
 };

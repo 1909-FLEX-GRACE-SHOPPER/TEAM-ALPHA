@@ -3,13 +3,13 @@ const db = require('../database');
 
 const { ENUM, INTEGER } = Sequelize;
 
-const Color = db.define('category', {
+const Colors = db.define('colors', {
     id: {
         type: INTEGER,
         primaryKey: true,
         validate: {
-            min: 0,
-            max: 8,
+            min: 1,
+            max: 9,
         }
     },
     color: {
@@ -30,6 +30,6 @@ const Color = db.define('category', {
             notEmpty: true,
         },
     },
-});
+}, {timestamps: false});
 
-module.exports = Color;
+module.exports = Colors;
