@@ -3,6 +3,7 @@ const {
     Products,
     Categories,
     Sizes,
+    ShoeSizes,
     Genders,
     Colors,
 } = require('./product_models/index');
@@ -33,6 +34,7 @@ Categories.hasMany(Products);
 
 // each product has only one size
 Sizes.hasMany(Products);
+ShoeSizes.hasMany(Products);
 
 // each product is either F, M, or N;
 Genders.hasMany(Products);
@@ -69,6 +71,7 @@ module.exports = {
     Products,
     Categories,
     Sizes,
+    ShoeSizes,
     Genders,
     Colors,
     Orders,
