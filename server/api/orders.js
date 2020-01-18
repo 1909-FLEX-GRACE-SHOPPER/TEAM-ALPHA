@@ -9,16 +9,16 @@ router.get('/', (req, res, next) => {
       next(e);
     });
 });
+//i have to comment out this part bc if we want to have the user info in the order we need to add another associate. orders.belongsTo(users)
 
 router.get('/:id', (req, res, next) => {
-  Orders.findByPk(req.params.id, {
-    include: [
-      {
-        model: Users,
-        as: 'users'
-      }
-    ]
-  })
+  Orders.findByPk(
+    req.params.id
+    //  {
+    // include: [{ model: Users }]
+    //   }
+  )
+
     .then(found => {
       if (!found) res.status(404).send('Order is not found!');
       res.send(found);
