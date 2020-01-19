@@ -1,22 +1,16 @@
 const db = require('./database');
 const {
-    Products,
-    Categories,
-    Sizes,
-    ShoeSizes,
-    Genders,
-    Colors,
+  Products,
+  Categories,
+  Sizes,
+  ShoeSizes,
+  Genders,
+  Colors
 } = require('./product_models/index');
 
-const {
-    Orders,
-    OrderStatuses,
-} = require('./order_models/index');
+const { Orders, OrderStatuses } = require('./order_models/index');
 
-const {
-    Users,
-    UserTypes,
-} = require('./user_models/index');
+const { Users, UserTypes } = require('./user_models/index');
 
 ////////////////////////
 // ORDER ASSOCIATIONS //
@@ -48,11 +42,11 @@ Colors.hasMany(Products);
 
 // each user has a single type
 UserTypes.hasMany(Users, {
-    foreignKey: {
-        allowNull: false,
-        defaultValue: 3, // defaults to guest
-    },
-    onDelete: 'CASCADE',
+  foreignKey: {
+    allowNull: false,
+    defaultValue: 3 // defaults to guest
+  },
+  onDelete: 'CASCADE'
 });
 
 ///////////////////////////////////////////////
@@ -63,19 +57,19 @@ UserTypes.hasMany(Users, {
 Users.hasMany(Orders);
 
 // creating orderItems
-Products.belongsToMany(Orders, {through: 'orderItems'});
-Orders.belongsToMany(Products, {through: 'orderItems'});
+Products.belongsToMany(Orders, { through: 'orderItems' });
+Orders.belongsToMany(Products, { through: 'orderItems' });
 
 module.exports = {
-    db,
-    Products,
-    Categories,
-    Sizes,
-    ShoeSizes,
-    Genders,
-    Colors,
-    Orders,
-    OrderStatuses,
-    Users,
-    UserTypes,
+  db,
+  Products,
+  Categories,
+  Sizes,
+  ShoeSizes,
+  Genders,
+  Colors,
+  Orders,
+  OrderStatuses,
+  Users,
+  UserTypes
 };
