@@ -8,7 +8,7 @@ const {
   Colors
 } = require('./product_models/index');
 
-const { Orders, OrderStatuses } = require('./order_models/index');
+const { Orders, OrderStatuses, OrderItems } = require('./order_models/index');
 
 const { Users, UserTypes } = require('./user_models/index');
 
@@ -70,6 +70,7 @@ module.exports = {
   Colors,
   Orders,
   OrderStatuses,
+  OrderItems,
   Users,
   UserTypes
 };
