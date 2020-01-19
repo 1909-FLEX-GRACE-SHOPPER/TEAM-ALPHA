@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Orders, Users, OrderItems } = require('../db/index');
+const { Orders, Products } = require('../db/index');
 
 router.get('/', (req, res, next) => {
   Orders.findAll()
@@ -15,8 +15,7 @@ router.get('/:id', (req, res, next) => {
   Orders.findByPk(req.params.id, {
     include: [
       {
-        model: OrderItems,
-        as: 'orderItems'
+        model: Products
       }
     ]
   })

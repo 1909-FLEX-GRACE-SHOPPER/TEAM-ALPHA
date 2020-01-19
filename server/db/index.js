@@ -57,8 +57,8 @@ UserTypes.hasMany(Users, {
 Users.hasMany(Orders);
 
 // creating orderItems
-Products.belongsToMany(Orders, { through: 'orderItems' });
-Orders.belongsToMany(Products, { through: 'orderItems' });
+Products.belongsToMany(Orders, { through: OrderItems });
+Orders.belongsToMany(Products, { through: OrderItems });
 
 module.exports = {
   db,
