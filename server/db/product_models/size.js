@@ -3,30 +3,27 @@ const db = require('../database');
 
 const { ENUM, INTEGER } = Sequelize;
 
-const Sizes = db.define('sizes', {
+const Sizes = db.define(
+  'sizes',
+  {
     id: {
-        type: INTEGER,
-        primaryKey: true,
-        validate: {
-            min: 1,
-            max: 6,
-        }
+      type: INTEGER,
+      primaryKey: true,
+      validate: {
+        min: 1,
+        max: 6
+      }
     },
     size: {
-        type: ENUM,
-        values: [
-            'XS',
-            'S',
-            'M',
-            'L',
-            'XL',
-            'XXL'
-        ],
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        },
-    },
-}, {timestamps: false});
+      type: ENUM,
+      values: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    }
+  },
+  { timestamps: false }
+);
 
 module.exports = Sizes;

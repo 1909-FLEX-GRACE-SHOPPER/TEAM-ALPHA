@@ -5,10 +5,10 @@ const Genders = require('./gender');
 const Colors = require('./color');
 const ShoeSizes = require('./shoeSize');
 module.exports = {
-    Products,
-    Categories,
-    Sizes,
-    Genders,
-    Colors,
-    ShoeSizes,
+  Products,
+  Categories,
+  Sizes,
+  Genders,
+  Colors,
+  ShoeSizes
 };

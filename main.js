@@ -6,7 +6,11 @@ db.sync()
   .then(() => {
     console.log(chalk.greenBright('db synced'));
     app.listen(PORT, () =>
-      console.log(chalk.greenBright(`Application now listening on PORT ${PORT} at http://localhost:${PORT}`))
+      console.log(
+        chalk.greenBright(
+          `Application now listening on PORT ${PORT} at http://localhost:${PORT}`
+        )
+      )
     );
   })
   .catch(e => {
