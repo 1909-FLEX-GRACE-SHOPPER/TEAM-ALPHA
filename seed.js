@@ -9,6 +9,7 @@ const {
   Colors,
   Orders,
   OrderStatuses,
+  OrderItems,
   Users,
   UserTypes
 } = require('./server/db/index');
@@ -320,6 +321,18 @@ const seed = async () => {
     ];
 
     await Orders.bulkCreate(ordersList);
+
+    const productToFind = await Products.findOne();
+    const productId = productToFind.id;
+    const orderToFind = await Orders.findOne();
+    const orderId = orderToFind.id;
+
+    const orderItemToCreate = {
+      productId,
+      orderId
+    };
+
+    await OrderItems.create(orderItemToCreate);
 
     // leaving the templates in case
     // const orderTemplate = await Orders.create({

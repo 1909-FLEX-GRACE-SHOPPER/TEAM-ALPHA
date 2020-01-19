@@ -28,7 +28,7 @@ router.get('/:id', (req, res, next) => {
       }
     })
     .catch(e => {
-      res.send('you got an internal error!');
+      console.error(e);
       next(e);
     });
 });

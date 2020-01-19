@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Orders, Users } = require('../db/index');
+const { Orders, Users, OrderItems } = require('../db/index');
 
 router.get('/', (req, res, next) => {
   Orders.findAll()
@@ -12,12 +12,14 @@ router.get('/', (req, res, next) => {
 //i have to comment out this part bc if we want to have the user info in the order we need to add another associate. orders.belongsTo(users)
 
 router.get('/:id', (req, res, next) => {
-  Orders.findByPk(
-    req.params.id
-    //  {
-    // include: [{ model: Users }]
-    //   }
-  )
+  Orders.findByPk(req.params.id, {
+    include: [
+      {
+        model: OrderItems,
+        as: 'orderItems'
+      }
+    ]
+  })
 
     .then(found => {
       if (!found) res.status(404).send('Order is not found!');
