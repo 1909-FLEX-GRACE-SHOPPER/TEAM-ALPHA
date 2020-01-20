@@ -1,0 +1,9 @@
+{
+  "extends": [
+      "fullstack",
+      "prettier",
+      "prettier/babel",
+      "prettier/react"
+  ],
+  "parser": "babel-eslint"
+}
