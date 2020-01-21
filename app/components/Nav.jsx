@@ -18,7 +18,12 @@ class Nav extends Component {
       // need to add an onClick to the button
       // need authentication thunk for it
       return (
-        <Button>Log Out!</Button>
+        <div>
+          <Link to='/myaccount' style={{textDecoration: 'none', marginLeft: '5px'}}>
+            My Account
+          </Link>
+          <Button>Log Out!</Button>
+        </div>
       )
     }
     return (
