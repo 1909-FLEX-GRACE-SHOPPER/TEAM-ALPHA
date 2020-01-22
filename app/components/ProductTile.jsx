@@ -10,6 +10,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
 const ProductTile = props => {
   useEffect(() => {
@@ -20,10 +21,10 @@ const ProductTile = props => {
   const product = props.product;
   const useStyles = makeStyles({
     card: {
-      maxWidth: 200
+      maxWidth: 300
     },
     media: {
-      height: '100%'
+      height: 140
     }
   });
   const classes = useStyles();
@@ -34,14 +35,17 @@ const ProductTile = props => {
     return (
       <div>
         <Card className={classes.card}>
-          <Link to={`/products/${product.id}`}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="140"
-                image={product.imageUrl}
+          <Link
+            to={`/products/${product.id}`}
+            onClick={() => props /*props.singleProduct(product)}*/}
+          >
+            <ButtonBase className={classes.image}>
+              <img
+                className={classes.img}
+                alt="complex"
+                src={product.imageUrl}
               />
-            </CardActionArea>
+            </ButtonBase>
           </Link>
           <CardActions>
             <Button
