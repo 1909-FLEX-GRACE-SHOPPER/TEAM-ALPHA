@@ -15,7 +15,7 @@ const Copyright = () => {
       { ' ' }
       { new Date().getFullYear() }
       { '.' }
-    </Typography>d
+    </Typography>
   )
 };
 
