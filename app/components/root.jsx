@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import store from '../store';
 import Home from './Home';
 
@@ -14,10 +14,10 @@ export default class Root extends Component {
       <Router>
         <main>
           <Switch>
-            <Route path='/' component = { Home } exact />
+            <Route path="/" component={Home} exact />
           </Switch>
         </main>
       </Router>
-    )
-  };
-};
+    );
+  }
+}
