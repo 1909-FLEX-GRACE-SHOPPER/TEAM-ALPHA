@@ -14,6 +14,7 @@ const ProductGrid = props => {
     >
       {
         products.map(product => {
+          console.log('hello from map', product)
           return (
             <Grid
               key={product.id}

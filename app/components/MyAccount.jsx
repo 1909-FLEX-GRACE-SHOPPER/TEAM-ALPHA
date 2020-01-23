@@ -1,7 +1,5 @@
 import React from 'react';
 import OrderHistory from './OrderHistory.jsx';
-import Nav from './Nav';
-import Footer from './Footer';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core';
 import PropTypes from 'prop-types';
@@ -60,7 +58,6 @@ export default function MyAccount() {
   return (
     <div className={classes.root}>
       <div>
-        <Nav />
         <Paper square>
           <Tabs
             centered={true}
@@ -80,7 +77,6 @@ export default function MyAccount() {
           <OrderHistory />
         </TabPanel>
       </div>
-      <Footer />
     </div>
   );
 }
