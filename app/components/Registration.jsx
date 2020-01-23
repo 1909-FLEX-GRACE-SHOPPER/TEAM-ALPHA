@@ -58,6 +58,7 @@ class Registration extends Component {
       billingState: '',
       billingZip: '',
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -65,7 +66,16 @@ class Registration extends Component {
     if (isLoggedIn) this.props.history.push('/');
   }
 
-  handleChange = ({ target: { value, name } }) => {
+  // handleChange = ({ target: { value, name } }) => {
+  //   // console.log('value is: ', value);
+  //   // console.log('name is: ', name);
+  //   console.log(this.state);
+  //   this.setState({
+  //     [name]: value,
+  //   });
+  // }
+
+  handleChange({ target: { value, name } }){
     // console.log('value is: ', value);
     // console.log('name is: ', name);
     console.log(this.state);
