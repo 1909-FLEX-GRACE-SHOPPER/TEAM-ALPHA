@@ -13,8 +13,17 @@ const user = {
   firstName: 'elham',
   lastName: 'amini',
   email: 'elhamfarvid@gmail.com',
-  shippingAddress: '99 battrey place,apt 8M'
+  shippingAddress1: '99 battrey place,apt 8M'
 };
+
+export const setUserAddress = user => {
+  return `${user.shippingAddress1} ${user.shippingAddress2} ${user.shippingCity} ${user.shippingState} ${user.shippingZip}`
+};
+
+export const setBillingAddress = user => {
+  return `${user.billingAddress1} ${user.billingAddress2} ${user.billingCity} ${user.billingState} ${user.billingZip}`
+};
+
 
 class UserProfile extends React.Component {
   constructor(props) {

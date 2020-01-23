@@ -10,6 +10,7 @@ router.get('/', (req, res, next) => {
     });
 });
 router.get('/:id', (req, res, next) => {
+  console.log('product id', req.params);
   Products.findOne({
     where: {
       id: req.params.id
