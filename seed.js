@@ -329,7 +329,9 @@ const seed = async () => {
 
     const orderItemToCreate = {
       productId,
-      orderId
+      orderId,
+      quantity: 2,
+      unitPrice: 1.0
     };
 
     await OrderItems.create(orderItemToCreate);
