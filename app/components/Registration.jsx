@@ -10,11 +10,11 @@ import { Button,
   FormGroup,
   FormControlLabel,
   Switch } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 
-// change to .jsx
 // need thunk to create the user
 // might need to make that thunk in such a way as to transition items / cart
+// need validations
 
 const Copyright = () => {
   return (
@@ -31,12 +31,12 @@ const Copyright = () => {
 };
 
 // use if we make with hooks
-const useStyles = makeStyles(() => ({
-  page: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-}));
+// const useStyles = makeStyles(() => ({
+//   page: {
+//     display: 'flex',
+//     flexDirection: 'column',
+//   },
+// }));
 
 class Registration extends Component {
   constructor() {
@@ -58,7 +58,6 @@ class Registration extends Component {
       billingState: '',
       billingZip: '',
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -66,19 +65,7 @@ class Registration extends Component {
     if (isLoggedIn) this.props.history.push('/');
   }
 
-  // handleChange = ({ target: { value, name } }) => {
-  //   // console.log('value is: ', value);
-  //   // console.log('name is: ', name);
-  //   console.log(this.state);
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // }
-
-  handleChange({ target: { value, name } }){
-    // console.log('value is: ', value);
-    // console.log('name is: ', name);
-    console.log(this.state);
+  handleChange = ({ target: { value, name } }) => {
     this.setState({
       [name]: value,
     });
@@ -87,7 +74,6 @@ class Registration extends Component {
   handleSwitchChange = () => {
     const { shippingIsBilling } = this.state;
     const newShippingIsBilling = !shippingIsBilling
-    console.log(newShippingIsBilling);
     this.setState({
       shippingIsBilling: newShippingIsBilling
     });
@@ -95,26 +81,6 @@ class Registration extends Component {
 
   onSubmit = ev => {
     ev.preventDefault();
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      shippingAddress1,
-      shippingAddress2,
-      shippingCity,
-      shippingState,
-      shippingZip,
-      billingAddress1,
-      billingAddress2,
-      billingCity,
-      billingState,
-      billingZip,
-    } = this.state;
-    // thunk them!
-  }
-
-  billingFields = () => {
     const { shippingIsBilling } = this.state;
     if (shippingIsBilling) {
       const {
@@ -124,17 +90,32 @@ class Registration extends Component {
         shippingState,
         shippingZip,
       } = this.state;
-      this.setState = {
-        billingAddress1: shippingAddress1,
-        billingAddress2: shippingAddress2,
-        billingCity: shippingCity,
-        billingState: shippingState,
-        billingZip: shippingZip,
+      if (this.state.billingAddress1 !== this.state.shippingAddress1) {
+        this.setState({
+          billingAddress1: shippingAddress1,
+          billingAddress2: shippingAddress2,
+          billingCity: shippingCity,
+          billingState: shippingState,
+          billingZip: shippingZip,
+        })
       }
+      // thunk this.state...
+    }
+    else {
+      // thunk this.state!
+      return null; // delete when thunks are put in
+    }
+
+  }
+
+  billingFields = () => {
+    const { shippingIsBilling } = this.state;
+    if (shippingIsBilling) {
+      return null;
     }
     else {
       return (
-        <div>
+        <Grid container spacing={3}>
           <Grid item xs={12}>
             <Typography variant='h6' color='textPrimary'>
               Billing Address
@@ -149,6 +130,7 @@ class Registration extends Component {
                 id='billingAddress1'
                 name='billingAddress1'
                 label='Address Line 1'
+                value={this.state.billingAddress1}
                 onChange={this.handleChange}
                 />
             </Grid>
@@ -160,6 +142,7 @@ class Registration extends Component {
                 id='billingAddress2'
                 name='billingAddress2'
                 label='Address Line 2'
+                value={this.state.billingAddress2}
                 onChange={this.handleChange}
                 />
             </Grid>
@@ -172,6 +155,7 @@ class Registration extends Component {
                 id='billingCity'
                 name='billingCity'
                 label='City'
+                value={this.state.billingCity}
                 onChange={this.handleChange}
                 />
             </Grid>
@@ -184,6 +168,7 @@ class Registration extends Component {
                 id='billingState'
                 name='billingState'
                 label='State'
+                value={this.state.billingState}
                 onChange={this.handleChange}
                 />
             </Grid>
@@ -196,10 +181,11 @@ class Registration extends Component {
                 id='billingZip'
                 name='billingZip'
                 label='Zip'
+                value={this.state.billingZip}
                 onChange={this.handleChange}
                 />
             </Grid>
-          </div>
+          </Grid>
       )
     }
   }
@@ -213,13 +199,17 @@ class Registration extends Component {
         <CssBaseline />
         <Typography variant='h3' color='textSecondary' align='center'>
           Register!
-          {/* (might put this inside the flexbox) */}
         </Typography>
-        <div style={{
+        <form style={{
             display: 'flex',
             flexDirection: 'column',
         }}>
           <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant='h6' color='textPrimary'>
+                Shipping Address
+              </Typography>
+            </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant='outlined'
@@ -229,6 +219,7 @@ class Registration extends Component {
                 id='firstName'
                 name='firstName'
                 label='First Name'
+                value={this.state.firstName}
                 onChange={this.handleChange}
                 />
             </Grid>
@@ -241,6 +232,7 @@ class Registration extends Component {
                 id='lastName'
                 name='lastName'
                 label='Last Name'
+                value={this.state.lastName}
                 onChange={this.handleChange}
                 />
             </Grid>
@@ -253,6 +245,7 @@ class Registration extends Component {
                 id='shippingAddress1'
                 name='shippingAddress1'
                 label='Address Line 1'
+                value={this.state.shippingAddress1}
                 onChange={this.handleChange}
                 />
             </Grid>
@@ -264,6 +257,7 @@ class Registration extends Component {
                 id='shippingAddress2'
                 name='shippingAddress2'
                 label='Address Line 2'
+                value={this.state.shippingAddress2}
                 onChange={this.handleChange}
                 />
             </Grid>
@@ -276,6 +270,7 @@ class Registration extends Component {
                 id='shippingCity'
                 name='shippingCity'
                 label='City'
+                value={this.state.shippingCity}
                 onChange={this.handleChange}
                 />
             </Grid>
@@ -288,6 +283,7 @@ class Registration extends Component {
                 id='shippingState'
                 name='shippingState'
                 label='State'
+                value={this.state.shippingState}
                 onChange={this.handleChange}
                 />
             </Grid>
@@ -300,6 +296,7 @@ class Registration extends Component {
                 id='shippingZip'
                 name='shippingZip'
                 label='Zip'
+                value={this.state.shippingZip}
                 onChange={this.handleChange}
                 />
             </Grid>
@@ -317,9 +314,58 @@ class Registration extends Component {
                 />
               </FormGroup>
             </Grid>
-            { this.billingFields() }
           </Grid>
-        </div>
+          { this.billingFields() }
+          <Grid container spacing={3}>
+          <Grid item xs={12}>
+              <TextField
+                variant='outlined'
+                margin='none'
+                required
+                fullWidth
+                id='email'
+                name='email'
+                label='email'
+                type='email'
+                value={this.state.email}
+                onChange={this.handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant='outlined'
+                margin='none'
+                required
+                fullWidth
+                id='password'
+                name='password'
+                label='password'
+                type='password'
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+            </Grid>
+          </Grid>
+          <Button
+            variant='contained'
+            type='submit'
+            color='primary'
+            fullWidth
+            style={{
+              marginTop: '6px'
+            }}
+            onClick={() => this.onSubmit(event)}
+            >
+              Register
+          </Button>
+          <Grid container justify='flex-end' style={{margin: '6px'}}>
+            <Grid item>
+              <Link to='/login' style={{textDecoration: 'none'}}>
+                Do you have an account? Log in
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
       </Container>
     )
   }

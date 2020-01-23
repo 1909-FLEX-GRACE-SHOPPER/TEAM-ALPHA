@@ -11,7 +11,6 @@ import MyAccount from './MyAccount';
 import { fetchProducts } from '../redux/products';
 import { fetchOrders } from '../redux/orders';
 import { fetchUsers } from '../redux/users';
-import Registration from './Registration';
 
 export default class Root extends Component {
   async componentDidMount() {
@@ -30,7 +29,6 @@ export default class Root extends Component {
             <Route path='/products/:id' component = { ProductPage } />
             <Route path='/login' component = { Login } />
             <Route path='/myaccount' component = { MyAccount } />
-            <Route path='/register' component = { Registration } />
           </Switch>
           <Route component = { Footer } />
         </main>
