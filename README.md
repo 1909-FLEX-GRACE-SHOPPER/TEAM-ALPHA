@@ -11,12 +11,12 @@
 8. Product listings grid (e.g. for all blue products)
 9. Summary of Order - Johnson
 10. Current Cart Items - Johnson
-11. Address Form (will be reused a lot)
-12. Guest Checkout - enter customer info (include link to sign in)
-13. checkout payment / complete order
-14. checkout success!
+11. Address Form (will be reused a lot) (IGNORE)
+12. Guest Checkout - enter customer info (include link to sign in) - Johnson
+13. checkout payment / complete order - Jake
+14. checkout success! - Ellie
 15. log in page (include link to register) - Jake
-16. register page
+16. register page - Jake
 17. User account page - Ellie
 
 ### Reducers
@@ -50,7 +50,7 @@
 MVP Shopping experience
 
 - Two roles: guests (not signed in), users (signed in)
-- Deployed
+- Deployed - Svetlana
 - See all products
 - Add to cart / edit cart
 - Checkout (submit an order)
@@ -64,7 +64,7 @@ MVP Shopping experience
 - Continuous Integration/Continuous Development (CI/CD)
 - Order history (users can see theirs, including historic cost)
 - User Profile (viewable, users can edit info)
-- Accept payment (Stripe integration/Paypal/Venmo/Braintree, Bitcoin, etc)
+- Accept payment (Stripe integration/Paypal/Venmo/Braintree, Bitcoin, etc) -Jake
 - Admin page (edit products, manage users)
 - OAuth integration
 ### Tier 3
