@@ -13,12 +13,15 @@ import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
 const ProductTile = props => {
-  useEffect(() => {
-    const { id } = props.match.params;
-    props.getProduct(id);
-  }, []);
-
+  // // useEffect(() => {
+  // //   const { id } = props.match.params;
+  // //   props.getProduct(id);
+  // // }, []);
+  // console.log('the props are:', props);
+  // const id = 5;
+  console.log(props);
   const product = props.product;
+
   const useStyles = makeStyles({
     card: {
       maxWidth: 300
@@ -65,12 +68,12 @@ const ProductTile = props => {
   }
 };
 
-const mapStateToProps = state => ({
-  product: state.product
-});
+// const mapStateToProps = state => ({
+//   product: state.product
+// });
 
 const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getProductThunk(productId))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductTile);
+export default connect(null, mapDispatchToProps)(ProductTile);

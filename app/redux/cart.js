@@ -40,7 +40,7 @@ export const editQuantity = orderItem => {
 
 // thunks
 
-export const fetchOrders = activeOrder => {
+export const fetchOrder = activeOrder => {
   return async dispatch => {
     const order = (await axios.get(`/api/orders/${activeOrder.id}`)).data;
     return dispatch(setActiveOrderProducts(order));

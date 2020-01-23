@@ -1,9 +1,11 @@
 const Sequelize = require('sequelize');
 const db = require('../database');
 
-const { STRING, UUID, UUIDV4 } = Sequelize;
+const { STRING, INTEGER, UUID, UUIDV4 } = Sequelize;
 
 //NOTE: I think fields that are using notEmpty validation should not have a defaultValue otherwise it could be left empty and pass validation. But then again we can enforce this with the frontend forms. Should we keep or remove it?
+
+// add back validation later
 
 const Users = db.define('users', {
   id: {
@@ -12,36 +14,40 @@ const Users = db.define('users', {
     primaryKey: true
   },
   firstName: {
-    type: STRING,
-    allowNull: false,
-    defaultValue: 'guestFirst',
-    validate: {
-      notEmpty: true
-    }
+    type: STRING
   },
   lastName: {
-    type: STRING,
-    allowNull: false,
-    defaultValue: 'guestLast',
-    validate: {
-      notEmpty: true
-    }
+    type: STRING
   },
-  billingAddress: {
-    type: STRING,
-    allowNull: false,
-    defaultValue: 'guestBillingAddress',
-    validate: {
-      notEmpty: true
-    }
+  billingAddress1: {
+    type: STRING
   },
-  shippingAddress: {
-    type: STRING,
-    allowNull: false,
-    defaultValue: 'guestShippingAddress',
-    validate: {
-      notEmpty: true
-    }
+  billingAddress2: {
+    type: STRING
+  },
+  billingCity: {
+    type: STRING
+  },
+  billingState: {
+    type: STRING
+  },
+  billingZip: {
+    type: INTEGER
+  },
+  shippingAddress1: {
+    type: STRING
+  },
+  shippingAddress2: {
+    type: STRING
+  },
+  shippingCity: {
+    type: STRING
+  },
+  shippingState: {
+    type: STRING
+  },
+  shippingZip: {
+    type: INTEGER
   },
   email: {
     type: STRING,

@@ -49,48 +49,48 @@
 ### Tier 1
 MVP Shopping experience
 
-Two roles: guests (not signed in), users (signed in)
-Deployed
-See all products
-Add to cart / edit cart
-Checkout (submit an order)
-Backend data validations
-Rudiments of security
+- Two roles: guests (not signed in), users (signed in)
+- Deployed
+- See all products
+- Add to cart / edit cart
+- Checkout (submit an order)
+- Backend data validations
+- Rudiments of security
 
 ### Tier 2
-Really nice design
-Front-end data validations
-DB persistent carts (load cart on new browser)
-Continuous Integration/Continuous Development (CI/CD)
-Order history (users can see theirs, including historic cost)
-User Profile (viewable, users can edit info)
-Accept payment (Stripe integration/Paypal/Venmo/Braintree, Bitcoin, etc)
-Admin page (edit products, manage users)
-OAuth integration
+- Really nice design
+- Front-end data validations
+- DB persistent carts (load cart on new browser)
+- Continuous Integration/Continuous Development (CI/CD)
+- Order history (users can see theirs, including historic cost)
+- User Profile (viewable, users can edit info)
+- Accept payment (Stripe integration/Paypal/Venmo/Braintree, Bitcoin, etc)
+- Admin page (edit products, manage users)
+- OAuth integration
 ### Tier 3
 Challenge
-Inventory tracking and management
-Persistent guest cart (front-end storage)
-Merging guest / user carts upon login
-Accessibility (a11y)
-A11y checklist
-screen reader friendly
-keyboard navigable
-colorblind issues
-Email confirmation
-Flair
-Error/loading states in UI
-Toast notifications for events
-Promo code
-Filters
-Featured products
-Wishlists
-Social media
+- Inventory tracking and management
+- Persistent guest cart (front-end storage)
+- Merging guest / user carts upon login
+- Accessibility (a11y)
+- A11y checklist
+- screen reader friendly
+- keyboard navigable
+- colorblind issues
+- Email confirmation
+- Flair
+- Error/loading states in UI
+- Toast notifications for events
+- Promo code
+- Filters
+- Featured products
+- Wishlists
+- Social media
 
 ### S Tier
-Internationalization (i18n)
-Localization (L10n)
-Visualization dashboard
-Recommendation engine
-Multi tenancy
-White labeling
+- Internationalization (i18n)
+- Localization (L10n)
+- Visualization dashboard
+- Recommendation engine
+- Multi tenancy
+- White labeling
