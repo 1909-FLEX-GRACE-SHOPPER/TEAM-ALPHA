@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Typography, TextField, Container } from '@material-ui/core';
 
-
 const lineItemStyle = {
   display: 'flex',
   justifyContent: 'space-between'
@@ -32,58 +31,68 @@ class OrderSummary extends Component {
   // }
 
   render() {
-    const { promoCode } = this.state
-    const { cart } = this.props
+    const { promoCode } = this.state;
+    const { cart } = this.props;
     return (
-      <Container component='div' maxWidth='xs'>
-        <div style={{
+      <Container component="div" maxWidth="xs">
+        <div
+          style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             backgroundColor: '#f4f4f4'
-        }}>
-          <form style={{
-              width: '100%',
-          }}>
-            <Typography variant='h6'>Summary</Typography>
+          }}
+        >
+          <form
+            style={{
+              width: '100%'
+            }}
+          >
+            <Typography variant="h6">Summary</Typography>
             <div style={lineItemStyle}>
-              <Typography variant='subtitle1'>Subtotal:</Typography>
-              <Typography variant='subtitle1'>{ cart.orderTotal }</Typography>
+              <Typography variant="subtitle1">Subtotal:</Typography>
+              <Typography variant="subtitle1">{cart.orderTotal}</Typography>
             </div>
             <div style={lineItemStyle}>
-              <Typography variant='subtitle1'>Shipping:</Typography>
+              <Typography variant="subtitle1">Shipping:</Typography>
               {/* Need to replace this when adding shipping options */}
-              <Typography variant='subtitle1'>$0.00</Typography>
+              <Typography variant="subtitle1">$0.00</Typography>
             </div>
             <div style={lineItemStyle}>
-              <Typography variant='subtitle1'>Estimated Taxes:</Typography>
+              <Typography variant="subtitle1">Estimated Taxes:</Typography>
               {/* Should we just do a fixed NYC tax for now? */}
-              <Typography variant='subtitle1'>$0.00</Typography>
+              <Typography variant="subtitle1">$0.00</Typography>
             </div>
-            <TextField name='promoCode' label="Promo Code" variant="outlined" size='small' fullWidth/>
+            <TextField
+              name="promoCode"
+              label="Promo Code"
+              variant="outlined"
+              size="small"
+              fullWidth
+            />
             <Button
-              variant='contained'
-              type='submit'
+              variant="contained"
+              type="submit"
               fullWidth
               onClick={() => this.handleSubmit(event)}
             >
               Apply Promocode
             </Button>
             <div style={lineItemStyle}>
-              <Typography variant='subtitle1'>Total:</Typography>
-              <Typography variant='subtitle1'>$0.00</Typography>
+              <Typography variant="subtitle1">Total:</Typography>
+              <Typography variant="subtitle1">$0.00</Typography>
             </div>
           </form>
         </div>
       </Container>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     cart: state.cart
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps)(OrderSummary);
