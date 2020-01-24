@@ -5,6 +5,7 @@ import usersReducer from './users';
 import userReducer from './singleUser';
 import cartReducer from './cart';
 import authenticationReducer from './authentication';
+import activeUserReducer from './activeUser';
 
 const appReduer = combineReducers({
   products: productsReducer,
@@ -12,7 +13,8 @@ const appReduer = combineReducers({
   users: usersReducer,
   user: userReducer,
   cart: cartReducer,
-  authentication: authenticationReducer
+  authentication: authenticationReducer,
+  activeUser: activeUserReducer
 });
 
 export default appReduer;

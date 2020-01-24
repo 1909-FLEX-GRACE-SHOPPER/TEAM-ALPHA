@@ -100,9 +100,11 @@ class Registration extends Component {
         })
       }
       // thunk this.state...
+      // deal with not passing shippingIsBilling
     }
     else {
       // thunk this.state!
+      // deal with not passing shippingIsBilling
       return null; // delete when thunks are put in
     }
 

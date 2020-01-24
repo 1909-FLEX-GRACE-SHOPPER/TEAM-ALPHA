@@ -56,7 +56,6 @@ class Login extends Component {
 
   onSubmit = ev => {
     ev.preventDefault();
-    console.log(this.state);
     const { email, password } = this.state;
     // thunk to sign in
   }
