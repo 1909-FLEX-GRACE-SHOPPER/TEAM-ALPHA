@@ -22,15 +22,15 @@ export default class Root extends Component {
     return (
       <Router>
         <main>
-          <Route component = { Nav } />
+          <Route component={Nav} />
           <Switch>
             <Route path="/" component={Home} exact />
-            <Route path='/cart' component = { CartTable } exact />
-            <Route path='/products/:id' component = { ProductPage } />
-            <Route path='/login' component = { Login } />
-            <Route path='/myaccount' component = { MyAccount } />
+            <Route path="/cart" component={CartTable} exact />
+            <Route path="/products/:id" component={ProductPage} />
+            <Route path="/login" component={Login} />
+            <Route path="/myaccount" component={MyAccount} />
           </Switch>
-          <Route component = { Footer } />
+          <Route component={Footer} />
         </main>
       </Router>
     );
