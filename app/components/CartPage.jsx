@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow
+} from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 
 class CartTable extends Component {
@@ -37,14 +44,18 @@ class CartTable extends Component {
               </TableRow>
             ))}
             */}
-            <TableRow className='TESTING'>
-                <TableCell><button>x</button></TableCell>
-                <TableCell><img src='test.jpg' /></TableCell>
-                <TableCell>DUMMYTEST</TableCell>
-                <TableCell align="right">1</TableCell>
-                <TableCell align="right">1</TableCell>
-                <TableCell align="right">1</TableCell>
-              </TableRow>
+            <TableRow className="TESTING">
+              <TableCell>
+                <button>x</button>
+              </TableCell>
+              <TableCell>
+                <img src="test.jpg" />
+              </TableCell>
+              <TableCell>DUMMYTEST</TableCell>
+              <TableCell align="right">1</TableCell>
+              <TableCell align="right">1</TableCell>
+              <TableCell align="right">1</TableCell>
+            </TableRow>
 
             <TableRow>
               <TableCell rowSpan={5} />
