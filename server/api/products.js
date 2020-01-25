@@ -28,6 +28,7 @@ router.get('/:id', (req, res, next) => {
       next(e);
     });
 });
+
 router.post('/', (req, res, next) => {
   Products.create(req.body)
     .then(newProduct => res.status(201).send(newProduct))

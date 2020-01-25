@@ -39,6 +39,12 @@ export const editProduct = product => {
 
 // thunks
 
+export const fetchProductsOfACat = categoryId => {
+  return async dispatch => {
+    const products = (await axios.get(`/api/categories/${categoryId}`)).data;
+    return dispatch(setProducts(products));
+  };
+};
 export const fetchProducts = () => {
   return async dispatch => {
     const products = (await axios.get('/api/products')).data;
