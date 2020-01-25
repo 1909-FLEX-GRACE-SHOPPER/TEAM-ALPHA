@@ -9,13 +9,6 @@ const Products = db.define('products', {
     defaultValue: UUIDV4,
     primaryKey: true
   },
-  name: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
-  },
   quantity: {
     type: INTEGER,
     allowNull: false,
@@ -31,21 +24,6 @@ const Products = db.define('products', {
       notEmpty: true,
       min: 0.0
     }
-  },
-  description: {
-    type: TEXT,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
-  },
-  imageUrl: {
-    type: TEXT,
-    defaultValue: 'to come'
-    //NOTE: commented this out temp just to test seed templates. This forces us to insert URLS.
-    // validate: {
-    //     isUrl: true,
-    // },
   }
 });
 

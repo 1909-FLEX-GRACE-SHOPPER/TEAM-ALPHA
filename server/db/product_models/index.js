@@ -4,11 +4,13 @@ const Sizes = require('./size');
 const Genders = require('./gender');
 const Colors = require('./color');
 const ShoeSizes = require('./shoeSize');
+const ProductListings = require('./productListing');
 module.exports = {
   Products,
   Categories,
   Sizes,
   Genders,
   Colors,
-  ShoeSizes
+  ShoeSizes,
+  ProductListings
 };
