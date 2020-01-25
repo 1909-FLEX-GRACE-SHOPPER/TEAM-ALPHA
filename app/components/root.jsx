@@ -6,6 +6,7 @@ import Nav from './Nav';
 import Footer from './Footer';
 import CartTable from './CartPage';
 import ProductPage from './ProductPage';
+import CategoriesGridPage from './CategoriesGridPage';
 import Login from './LogIn';
 import MyAccount from './MyAccount';
 import { fetchProducts } from '../redux/products';
@@ -27,6 +28,7 @@ export default class Root extends Component {
             <Route path="/" component={Home} exact />
             <Route path="/cart" component={CartTable} exact />
             <Route path="/products/:id" component={ProductPage} />
+            <Route path="/categories/:id" component={CategoriesGridPage} />
             <Route path="/login" component={Login} />
             <Route path="/myaccount" component={MyAccount} />
           </Switch>

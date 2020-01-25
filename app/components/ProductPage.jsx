@@ -81,6 +81,7 @@ const ProductPage = props => {
 
   const classes = useStyles();
   const product = props.product;
+  console.log(product);
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -107,13 +108,7 @@ const ProductPage = props => {
               >
                 Size
               </Button>
-              <Button
-                aria-controls="fade-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                Gender
-              </Button>
+
               <Menu
                 id="fade-menu"
                 anchorEl={anchorEl}
@@ -122,10 +117,9 @@ const ProductPage = props => {
                 onClose={handleClose}
                 TransitionComponent={Fade}
               >
-                <MenuItem onClick={handleClose}>red</MenuItem>
-                <MenuItem onClick={handleClose}>blue</MenuItem>
-                {/*<MenuItem onClick={handleClose}>My account</MenuItem>
-  <MenuItem onClick={handleClose}>Logout</MenuItem>*/}
+                <MenuItem onClick={handleClose}>
+                  {mapSizes[product.sizeId]}
+                </MenuItem>
               </Menu>
               <Typography variant="subtitle1">${product.price}</Typography>
               <IncrementCounter />
