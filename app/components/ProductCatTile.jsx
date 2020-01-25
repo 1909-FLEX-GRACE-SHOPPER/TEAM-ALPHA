@@ -4,22 +4,34 @@ import { getProductThunk } from '../redux/singleProduct.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
+//import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+//import CardContent from '@material-ui/core/CardContent';
+//import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+//import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
-const ProductTile = props => {
-  // useEffect(() => {
-  //   const { id } = props.match.params;
-  //   props.getProduct(id);
-  // }, []);
-  console.log('the props in ProdTile are:', props);
+const ProductCatTile = props => {
+  // // useEffect(() => {
+  // //   const { id } = props.match.params;
+  // //   props.getProduct(id);
+  // // }, []);
+  // console.log('the props are:', props);
+  // const id = 5;
+  const mapCategories = {
+    1: 'Skis',
+    2: 'Boots',
+    3: 'Pants',
+    4: 'Jackets',
+    5: 'Shirts',
+    6: 'Poles',
+    7: 'Gloves',
+    8: 'Goggles'
+  };
 
   const product = props.product;
+  const categoryId = product.categoryId;
 
   const useStyles = makeStyles({
     card: {
@@ -37,7 +49,7 @@ const ProductTile = props => {
     return (
       <div>
         <Card className={classes.card}>
-          <Link to={`/products/${product.id}`}>
+          <Link to={`/categories/${product.categoryId}`}>
             <ButtonBase className={classes.image}>
               <img
                 className={classes.img}
@@ -49,15 +61,10 @@ const ProductTile = props => {
           <CardActions>
             <Link
               style={{ textDecoration: 'none' }}
-              size="small"
-              color="primary"
-              to={`/products/${product.id}`}
+              to={`/categories/${product.categoryId}`}
             >
-              {product.name}
+              {mapCategories[categoryId]}
             </Link>
-            <Typography variant="body2" color="textSecondary" component="p">
-              ${product.price}
-            </Typography>
           </CardActions>
         </Card>
       </div>
@@ -72,7 +79,5 @@ const ProductTile = props => {
 const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getProductThunk(productId))
 });
-//const mapStateToProps = ({ product }) => ({ product });
 
-//export default connect(mapStateToProps)(ProductTile);
-export default connect(null, mapDispatchToProps)(ProductTile);
+export default connect(null, mapDispatchToProps)(ProductCatTile);

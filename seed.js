@@ -174,9 +174,9 @@ const usersList = [
 
 const productsList = [
   {
-    name: 'Skis',
+    name: 'Skis-1',
     quantity: Math.floor(10 * Math.random()),
-    price: 1.0,
+    price: 11.0,
     description: `a great product - ${Math.random()}`,
     imageUrl:
       'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$',
@@ -184,6 +184,30 @@ const productsList = [
     sizeId: 5,
     genderId: 1,
     colorId: 1
+  },
+  {
+    name: 'Skis-2',
+    quantity: Math.floor(10 * Math.random()),
+    price: 20.0,
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$',
+    categoryId: 1,
+    sizeId: 6,
+    genderId: 1,
+    colorId: 2
+  },
+  {
+    name: 'Skis-3',
+    quantity: Math.floor(10 * Math.random()),
+    price: 30.0,
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$',
+    categoryId: 1,
+    sizeId: 6,
+    genderId: 2,
+    colorId: 2
   },
   {
     name: 'Ski Boots',
@@ -238,7 +262,8 @@ const productsList = [
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
     description: `a great product - ${Math.random()}`,
-    imageUrl: '',
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/565025_565025_1?$256$',
     categoryId: 6,
     sizeId: 6,
     genderId: 3,
@@ -249,8 +274,7 @@ const productsList = [
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
     description: `a great product - ${Math.random()}`,
-    imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/565025_565025_1?$256$',
+    imageUrl: 'https://s7d2.scene7.com/is/image/SS/250169_ULG_1?$256$',
     categoryId: 7,
     sizeId: 1,
     genderId: 3,
