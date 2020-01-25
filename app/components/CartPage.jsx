@@ -65,6 +65,9 @@ class CartTable extends Component {
           </TableBody>
         </Table>
       </TableContainer>
+
+      // TODO
+      // <Button>Checkout</Button>
     );
   }
 }
