@@ -159,6 +159,7 @@ class GuestPayment extends Component {
     };
     this.props.editUser(edits);
     // complete order thunk
+    //
   };
 
   render() {
@@ -185,7 +186,6 @@ class GuestPayment extends Component {
               <Link to="/customerInfo">Edit</Link>
             </div>
             <hr />
-            <Stripe />
             <Grid container>
               <Grid item xs={12}>
                 <FormGroup row>

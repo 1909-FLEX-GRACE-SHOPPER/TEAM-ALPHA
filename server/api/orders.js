@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Orders, Products } = require('../db/index');
 
 router.get('/', (req, res, next) => {
-  Orders.findAll()
+  Orders.findAll({ include: [{ model: Products }] })
     .then(orders => res.send(orders))
     .catch(e => {
       console.error(e);
@@ -13,11 +13,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   Orders.findByPk(req.params.id, {
-    include: [
-      {
-        model: Products
-      }
-    ]
+    include: [{ model: Products }]
   })
 
     .then(found => {

@@ -1,8 +1,23 @@
 const router = require('express').Router();
-const { Products } = require('../db/index');
+const {
+  Products,
+  ProductListings,
+  Colors,
+  Genders,
+  Sizes,
+  Categories
+} = require('../db/index');
 
 router.get('/', (req, res, next) => {
-  Products.findAll()
+  Products.findAll({
+    include: [
+      { model: ProductListings },
+      { model: Colors },
+      { model: Genders },
+      { model: Categories },
+      { model: Sizes }
+    ]
+  })
     .then(products => res.send(products))
     .catch(e => {
       console.error(e);
@@ -14,7 +29,14 @@ router.get('/:id', (req, res, next) => {
   Products.findOne({
     where: {
       id: req.params.id
-    }
+    },
+    include: [
+      { model: ProductListings },
+      { model: Colors },
+      { model: Genders },
+      { model: Categories },
+      { model: Sizes }
+    ]
   })
     .then(found => {
       if (!found) {

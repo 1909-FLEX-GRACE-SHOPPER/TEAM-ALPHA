@@ -11,7 +11,8 @@ const {
   OrderStatuses,
   OrderItems,
   Users,
-  UserTypes
+  UserTypes,
+  ProductListings
 } = require('./server/db/index');
 
 /*
@@ -94,6 +95,78 @@ const userTypesList = [
   { id: 5, userTypes: 'oAuth' }
 ];
 
+const productListingsList = [
+  {
+    id: 1,
+    name: 'Skis-1',
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$'
+  },
+  {
+    id: 2,
+    name: 'Skis-2',
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$'
+  },
+  {
+    id: 3,
+    name: 'Skis-3',
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$'
+  },
+  {
+    id: 4,
+    name: 'Ski Boots',
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/519656_519656_1?$256$'
+  },
+  {
+    id: 5,
+    name: 'Ski Pants',
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/533935_533941_1?$256$'
+  },
+  {
+    id: 6,
+    name: 'Ski Jacket',
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/590537_590542_1?$256$'
+  },
+  {
+    id: 7,
+    name: 'Ski Shirt',
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/555576_555576_1?$256$'
+  },
+  {
+    id: 8,
+    name: 'Ski Poles',
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/565025_565025_1?$256$'
+  },
+  {
+    id: 9,
+    name: 'Ski Gloves',
+    description: `a great product - ${Math.random()}`,
+    imageUrl: 'https://s7d2.scene7.com/is/image/SS/250169_ULG_1?$256$'
+  },
+  {
+    id: 10,
+    name: 'Ski Goggles',
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/547688_547689_1?$256$'
+  }
+];
+
 const usersList = [
   {
     firstName: 'Elham',
@@ -174,123 +247,88 @@ const usersList = [
 
 const productsList = [
   {
-    name: 'Skis-1',
     quantity: Math.floor(10 * Math.random()),
     price: 11.0,
-    description: `a great product - ${Math.random()}`,
-    imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$',
     categoryId: 1,
-    sizeId: 5,
     genderId: 1,
-    colorId: 1
+    colorId: 1,
+    productListingId: 1
   },
   {
-    name: 'Skis-2',
     quantity: Math.floor(10 * Math.random()),
     price: 20.0,
-    description: `a great product - ${Math.random()}`,
-    imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$',
     categoryId: 1,
-    sizeId: 6,
     genderId: 1,
-    colorId: 2
+    colorId: 2,
+    productListingId: 1
   },
   {
-    name: 'Skis-3',
     quantity: Math.floor(10 * Math.random()),
     price: 30.0,
-    description: `a great product - ${Math.random()}`,
-    imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$',
     categoryId: 1,
-    sizeId: 6,
     genderId: 2,
-    colorId: 2
+    colorId: 2,
+    productListingId: 1
   },
   {
-    name: 'Ski Boots',
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
-    description: `a great product - ${Math.random()}`,
-    imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/519656_519656_1?$256$',
     categoryId: 2,
-    sizeId: 3,
     genderId: 2,
-    colorId: 2
+    colorId: 2,
+    productListingId: 4
   },
   {
-    name: 'Ski Pants',
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
-    description: `a great product - ${Math.random()}`,
-    imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/533935_533941_1?$256$',
     categoryId: 3,
     sizeId: 4,
     genderId: 1,
-    colorId: 3
+    colorId: 3,
+    productListingId: 5
   },
   {
-    name: 'Ski Jacket',
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
-    description: `a great product - ${Math.random()}`,
-    imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/590537_590542_1?$256$',
     categoryId: 4,
     sizeId: 1,
     genderId: 3,
-    colorId: 4
+    colorId: 4,
+    productListingId: 6
   },
   {
-    name: 'Ski Shirt',
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
-    description: `a great product - ${Math.random()}`,
-    imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/555576_555576_1?$256$',
     categoryId: 5,
     sizeId: 2,
     genderId: 1,
-    colorId: 5
+    colorId: 5,
+    productListingId: 7
   },
   {
-    name: 'Ski Poles',
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
-    description: `a great product - ${Math.random()}`,
-    imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/565025_565025_1?$256$',
     categoryId: 6,
-    sizeId: 6,
     genderId: 3,
-    colorId: 7
+    colorId: 7,
+    productListingId: 8
   },
   {
-    name: 'Ski Gloves',
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
-    description: `a great product - ${Math.random()}`,
-    imageUrl: 'https://s7d2.scene7.com/is/image/SS/250169_ULG_1?$256$',
     categoryId: 7,
     sizeId: 1,
     genderId: 3,
-    colorId: 9
+    colorId: 9,
+    productListingId: 9
   },
   {
-    name: 'Ski Goggles',
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
-    description: `a great product - ${Math.random()}`,
-    imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/547688_547689_1?$256$',
     categoryId: 8,
-    sizeId: 5,
     genderId: 3,
-    colorId: 8
+    colorId: 8,
+    productListingId: 10
   }
 ];
 
@@ -305,6 +343,7 @@ const seed = async () => {
     await Sizes.bulkCreate(sizesList);
     await ShoeSizes.bulkCreate(shoeSizesList);
     await UserTypes.bulkCreate(userTypesList);
+    await ProductListings.bulkCreate(productListingsList);
 
     // users and products
     await Users.bulkCreate(usersList);
