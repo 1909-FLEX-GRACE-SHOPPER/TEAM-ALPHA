@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const chalk = require('chalk');
 // these two are good for cookies
 // const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -16,6 +17,10 @@ const { db, Users } = require('./db/index');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+  console.log(chalk.cyan(`${new Date().toString()}: ${req.path}`));
+  next();
+});
 // authentication and cookies
 // app.use(cookieParser());
 app.use(
