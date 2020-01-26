@@ -43,14 +43,42 @@ export const editQuantity = orderItem => {
 export const fetchOrder = activeOrder => {
   return async dispatch => {
     const order = (await axios.get(`/api/orders/${activeOrder.id}`)).data;
+    if (order.products.length)
+      localStorage.setItem('orderItems', JSON.stringify(order.products));
+    else if (order.products.length === 0)
+      localStorage.setItem('orderItems', JSON.stringify([]));
     return dispatch(setActiveOrderProducts(order));
   };
 };
 
+//Should only POST to cart if the user is a logged in user
+//If the guest clicks on checkout and pays then POST items
+//Otherwise items should just be in localstorage
+export const addNewItemToCart = orderItem => {
+  return async (dispatch, getState) => {
+    if (getState().authentication.isLoggedIn) {
+      const addNewItem = (await axios.post(`/api/orderItems`, orderItem)).data;
+      return dispatch(addToCart(addNewItem));
+    } else {
+      const localStorageItems = JSON.parse(localStorage.getItem('orderItems'));
+      localStorageItems.push(orderItem);
+      localStorage.setItem('orderItems', JSON.stringify(localStorageItems));
+    }
+  };
+};
+
 export const removeItem = orderItem => {
-  return async dispatch => {
-    await axios.delete(`/api/orderItems/${orderItem.id}`);
-    return dispatch(removeFromCart(orderItem));
+  return async (dispatch, getState) => {
+    if (getState().authentication.isLoggedIn) {
+      await axios.delete(`/api/orderItems/${orderItem.id}`);
+      return dispatch(removeFromCart(orderItem));
+    }
+    //Will need to do this part to remove order items from localStorage
+    // else {
+    //   const localStorageItems = JSON.parse(localStorage.getItem('orderItems'));
+    //   localStorageItems.push(orderItem);
+    //   localStorage.setItem('orderItems', JSON.stringify(localStorageItems));
+    // }
   };
 };
 
