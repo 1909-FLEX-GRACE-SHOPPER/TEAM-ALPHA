@@ -5,7 +5,8 @@ const {
   Sizes,
   ShoeSizes,
   Genders,
-  Colors
+  Colors,
+  ProductListings
 } = require('./product_models/index');
 
 const { Orders, OrderStatuses, OrderItems } = require('./order_models/index');
@@ -18,6 +19,7 @@ const { Users, UserTypes } = require('./user_models/index');
 
 // an order can only have one status
 OrderStatuses.hasMany(Orders);
+Orders.belongsTo(OrderStatuses);
 
 //////////////////////////
 // PRODUCT ASSOCIATIONS //
@@ -25,16 +27,24 @@ OrderStatuses.hasMany(Orders);
 
 // each product has only one category
 Categories.hasMany(Products);
-
+Products.belongsTo(Categories);
 // each product has only one size
 Sizes.hasMany(Products);
+Products.belongsTo(Sizes);
+
 ShoeSizes.hasMany(Products);
 
 // each product is either F, M, or N;
 Genders.hasMany(Products);
+Products.belongsTo(Genders);
 
 // each product has a color
 Colors.hasMany(Products);
+Products.belongsTo(Colors);
+
+// each product has a productListing which is just 1 specific product
+ProductListings.hasMany(Products);
+Products.belongsTo(ProductListings);
 
 ///////////////////////
 // USER ASSOCIATIONS //
@@ -72,5 +82,6 @@ module.exports = {
   OrderStatuses,
   OrderItems,
   Users,
-  UserTypes
+  UserTypes,
+  ProductListings
 };
