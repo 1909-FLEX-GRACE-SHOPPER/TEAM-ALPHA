@@ -15,11 +15,13 @@ import { fetchUsers } from '../redux/users';
 import CheckoutGuestAddress from './CheckoutGuestAddress';
 import CheckoutGuestPay from './CheckoutGuestPay';
 import Success from './Success';
+import { initialLogInAttempt } from '../redux/authentication';
 
 export default class Root extends Component {
   async componentDidMount() {
     store.dispatch(fetchProducts());
     store.dispatch(fetchOrders());
+    store.dispatch(initialLogInAttempt());
     // store.dispatch(fetchUsers());
   }
   render() {
