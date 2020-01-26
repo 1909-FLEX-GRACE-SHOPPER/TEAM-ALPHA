@@ -12,6 +12,9 @@ import MyAccount from './MyAccount';
 import { fetchProducts } from '../redux/products';
 import { fetchOrders } from '../redux/orders';
 import { fetchUsers } from '../redux/users';
+import CheckoutGuestAddress from './CheckoutGuestAddress';
+import CheckoutGuestPay from './CheckoutGuestPay';
+import Success from './Success';
 
 export default class Root extends Component {
   async componentDidMount() {
@@ -31,6 +34,9 @@ export default class Root extends Component {
             <Route path="/categories/:id" component={CategoriesGridPage} />
             <Route path="/login" component={Login} />
             <Route path="/myaccount" component={MyAccount} />
+            <Route path="/checkout" component={CheckoutGuestAddress} exact />
+            <Route path="/checkout2" component={CheckoutGuestPay} exact />
+            <Route path="/success" component={Success} exact />
           </Switch>
           <Route component={Footer} />
         </main>

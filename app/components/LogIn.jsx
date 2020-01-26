@@ -10,6 +10,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { logInAttempt } from '../redux/authentication';
 // also need all the redux authentication stuff
 
 const Copyright = () => {
@@ -67,7 +68,7 @@ class Login extends Component {
   onSubmit = ev => {
     ev.preventDefault();
     const { email, password } = this.state;
-    // thunk to sign in
+    this.props.login(this.state);
   };
 
   logInError = () => {
@@ -143,6 +144,10 @@ class Login extends Component {
 
 const mapStateToProps = ({ authentication }) => ({ authentication });
 
-// mapDispatchToProps
+const mapDispatchToProps = dispatch => {
+  return {
+    login: info => dispatch(logInAttempt(info))
+  };
+};
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -194,7 +194,9 @@ class GuestAddressForm extends Component {
                     </div>
                   </Link>
                 </div>
-                <Button color="primary">Next</Button>
+                <Link to="/checkout2">
+                  <Button color="primary">Next</Button>
+                </Link>
               </Grid>
             </Grid>
           </Grid>
