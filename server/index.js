@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const chalk = require('chalk');
 // these two are good for cookies
 const cookieParser = require('cookie-parser');
 const moment = require('moment');
@@ -17,6 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // authentication and cookies
 app.use(cookieParser());
+app.use((req, res, next) => {
+  console.log(chalk.cyan(`${new Date().toString()}: ${req.path}`));
+  next();
+});
 
 // static middleware
 app.use(express.static(path.join(__dirname, '../public')));

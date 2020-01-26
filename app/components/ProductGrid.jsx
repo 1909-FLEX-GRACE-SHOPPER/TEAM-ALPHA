@@ -19,17 +19,6 @@ const getArrOfCategories = arr => {
 
 const ProductGrid = props => {
   const { products } = props; // might want authentication info too
-<<<<<<< HEAD
-  if (products.length === 0) return <h3>No Products</h3>;
-  return (
-    <Grid container spacing={2} style={{ padding: 24 }}>
-      {products.map(product => {
-        console.log('hello from map', product);
-        return (
-          <Grid key={product.id} item xs={12} sm={6} lg={3} xl={2}>
-            <ProductTile product={product} />
-=======
-
   if (products.length === 0) return <h3>No Products</h3>;
   return (
     <Grid container spacing={2} style={{ padding: 24 }}>
@@ -37,7 +26,6 @@ const ProductGrid = props => {
         return (
           <Grid key={uniqueProd.id} item xs={12} sm={6} lg={3} xl={2}>
             <ProductCatTile product={uniqueProd} />
->>>>>>> prodPageCont
           </Grid>
         );
       })}
