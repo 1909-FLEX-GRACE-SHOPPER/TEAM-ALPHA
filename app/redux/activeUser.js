@@ -1,5 +1,6 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
+import { SIGN_IN } from './authentication';
 
 const SET_USER = Symbol('set_user');
 const EDIT_USER = Symbol('edit_user');
@@ -94,7 +95,7 @@ const activeUserReducer = (state = initialState, action) => {
   const activeUser = action.activeUser;
   const editedUser = action.editedUser;
   switch (action.type) {
-    case SET_USER:
+    case SIGN_IN:
       return activeUser;
     case EDIT_USER:
       return editedUser;
