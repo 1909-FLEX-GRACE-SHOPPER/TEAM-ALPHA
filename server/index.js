@@ -39,6 +39,23 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  Users.findByPk(req.session.userId)
+    .then(userOrNull => {
+      if (!userOrNull) req.loggedIn = false;
+      else {
+        req.loggedIn = true;
+        req.user = userOrNull;
+      }
+      next();
+    })
+    .catch(e => {
+      console.log('error searching for a user by session.userId');
+      console.error(e);
+      next();
+    });
+});
+
 app.post('/auth/login', (req, res, next) => {
   Users.findOne({
     where: req.body
@@ -47,10 +64,6 @@ app.post('/auth/login', (req, res, next) => {
       if (!userOrNull) return res.sendStatus(401);
       req.session.userId = userOrNull.id;
       res.status(200).send(userOrNull);
-      // res
-      //   .status(200)
-      //   .send(userOrNull)
-      //   .redirect('/');
     })
     .catch(next);
 });
@@ -67,7 +80,17 @@ app.post('/auth/signup', (req, res, next) => {
     .catch(next);
 });
 
-// write logout route
+// make persistent either through /whoami or through
+
+app.get('/auth/signout', (req, res, next) => {
+  delete req.session.userId;
+  res.sendStatus(204);
+});
+
+app.get('/auth/me', (req, res, next) => {
+  if (req.loggedIn) return res.send(req.user);
+  res.status(401).send('no prior login!');
+});
 
 // static middleware
 app.use(express.static(path.join(__dirname, '../public')));

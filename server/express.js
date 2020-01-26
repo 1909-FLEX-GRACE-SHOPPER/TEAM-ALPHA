@@ -25,7 +25,9 @@ if (process.env.NODE_ENV === 'production') {
     .then(startServer)
     .then(() => {
       console.log(
-        chalk.greenBright('Application successfully started in development.')
+        chalk.greenBright(
+          'Application successfully started in development on http://localhost:3000/'
+        )
       );
     })
     .catch(e => {

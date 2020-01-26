@@ -29,7 +29,7 @@ export const logInAttempt = logInInfo => {
     axios
       .post('/auth/login', logInInfo)
       .then(res => {
-        // console.log('this is the response data', res.data);
+        console.log('this is the response data', res.data);
         return dispatch(signIn(res.data));
       })
       .catch(e => {
@@ -42,7 +42,7 @@ export const logInAttempt = logInInfo => {
 export const logOutAttempt = () => {
   return dispatch => {
     axios
-      .get('/logout')
+      .get('/auth/signout')
       .then(() => {
         return dispatch(signOut());
       })
@@ -56,12 +56,11 @@ export const logOutAttempt = () => {
 export const initialLogInAttempt = () => {
   return dispatch => {
     axios
-      .get('/auth/me') // fix
-      .then(() => {
-        return dispatch(signIn());
+      .get('/auth/me')
+      .then(res => {
+        return dispatch(signIn(res.data));
       })
       .catch(e => {
-        console.error(e);
         return dispatch(signOut());
       });
   };
