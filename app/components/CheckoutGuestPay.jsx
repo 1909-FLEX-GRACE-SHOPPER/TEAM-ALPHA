@@ -35,6 +35,22 @@ class GuestPayment extends Component {
     };
   }
 
+  componentDidUpdate() {
+    const { activeUser } = this.props;
+    if (
+      this.props.authentication.isLoggedIn &&
+      this.state.billingCity !== activeUser.billingCity
+    ) {
+      this.setState({
+        billingAddress1: activeUser.billingAddress1,
+        billingAddress2: activeUser.billingAddress2,
+        billingCity: activeUser.billingCity,
+        billingState: activeUser.billingState,
+        billingZip: activeUser.billingZip
+      });
+    }
+  }
+
   handleSwitchChange = () => {
     const { shippingIsBilling } = this.state;
     const newShippingIsBilling = !shippingIsBilling;
@@ -142,6 +158,7 @@ class GuestPayment extends Component {
         billingState: shippingState,
         billingZip: shippingZip
       });
+      // complete order thunk
     }
     const {
       billingAddress1,
@@ -164,6 +181,7 @@ class GuestPayment extends Component {
 
   render() {
     const { activeUser, cart } = this.props;
+    console.log('activeUser:', activeUser);
     const { orderTotal } = cart;
     // change edit link to correct address when we figure it out
     return (
@@ -181,7 +199,7 @@ class GuestPayment extends Component {
             >
               <span>
                 <b>Shipping Address </b>
-                {activeUser.shippingAddress}
+                {`${activeUser.shippingAddress1} ${activeUser.shippingAddress2} ${activeUser.shippingCity} ${activeUser.shippingState}`}
               </span>
               <Link to="/customerInfo">Edit</Link>
             </div>
@@ -228,7 +246,11 @@ class GuestPayment extends Component {
   }
 }
 
-const mapStateToProps = ({ activeUser, cart }) => ({ activeUser, cart });
+const mapStateToProps = ({ activeUser, cart, authentication }) => ({
+  activeUser,
+  cart,
+  authentication
+});
 
 const mapDispatchToProps = dispatch => {
   return {
