@@ -56,41 +56,7 @@ app.use((req, res, next) => {
     });
 });
 
-app.post('/auth/login', (req, res, next) => {
-  Users.findOne({
-    where: req.body
-  })
-    .then(userOrNull => {
-      if (!userOrNull) return res.sendStatus(401);
-      req.session.userId = userOrNull.id;
-      res.status(200).send(userOrNull);
-    })
-    .catch(next);
-});
-
-app.post('/auth/signup', (req, res, next) => {
-  Users.findOrCreate({
-    where: req.body
-  })
-    .then(user => {
-      if (!user) return res.status(500).send('error creating user');
-      req.session.userId = user.id;
-      res.send(user);
-    })
-    .catch(next);
-});
-
-// make persistent either through /whoami or through
-
-app.get('/auth/signout', (req, res, next) => {
-  delete req.session.userId;
-  res.sendStatus(204);
-});
-
-app.get('/auth/me', (req, res, next) => {
-  if (req.loggedIn) return res.send(req.user);
-  res.status(401).send('no prior login!');
-});
+app.use('/auth', require('./auth'));
 
 // static middleware
 app.use(express.static(path.join(__dirname, '../public')));
