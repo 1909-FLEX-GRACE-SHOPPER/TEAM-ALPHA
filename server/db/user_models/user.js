@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../database');
 
-const { STRING, INTEGER, UUID, UUIDV4 } = Sequelize;
+const { STRING, INTEGER, ENUM, UUID, UUIDV4 } = Sequelize;
 
 //NOTE: I think fields that are using notEmpty validation should not have a defaultValue otherwise it could be left empty and pass validation. But then again we can enforce this with the frontend forms. Should we keep or remove it?
 
@@ -62,6 +62,15 @@ const Users = db.define('users', {
     type: STRING,
     allowNull: false,
     defaultValue: 'guestPwd',
+    validate: {
+      notEmpty: true
+    }
+  },
+  userTypes: {
+    type: ENUM,
+    values: ['admin', 'pending', 'regular', 'guest', 'oAuth'],
+    allowNull: false,
+    defaultValue: 'guest',
     validate: {
       notEmpty: true
     }

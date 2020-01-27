@@ -2,41 +2,22 @@ const db = require('./database');
 const {
   Products,
   Categories,
-  Sizes,
-  ShoeSizes,
-  Genders,
   Colors,
   ProductListings
 } = require('./product_models/index');
 
-const { Orders, OrderStatuses, OrderItems } = require('./order_models/index');
+const { Orders, OrderItems } = require('./order_models/index');
 
-const { Users, UserTypes } = require('./user_models/index');
-
-////////////////////////
-// ORDER ASSOCIATIONS //
-////////////////////////
-
-// an order can only have one status
-OrderStatuses.hasMany(Orders);
-Orders.belongsTo(OrderStatuses);
+const { Users } = require('./user_models/index');
 
 //////////////////////////
 // PRODUCT ASSOCIATIONS //
 //////////////////////////
 
+//THESE ASSOCIATIONS WORK EVEN THOUGH IT SOUNDS STRANGE. WE COULD EVEN COMMENT OUT THE HASMANY ASSOCIATIONS
 // each product has only one category
 Categories.hasMany(Products);
 Products.belongsTo(Categories);
-// each product has only one size
-Sizes.hasMany(Products);
-Products.belongsTo(Sizes);
-
-ShoeSizes.hasMany(Products);
-
-// each product is either F, M, or N;
-Genders.hasMany(Products);
-Products.belongsTo(Genders);
 
 // each product has a color
 Colors.hasMany(Products);
@@ -50,14 +31,7 @@ Products.belongsTo(ProductListings);
 // USER ASSOCIATIONS //
 ///////////////////////
 
-// each user has a single type
-UserTypes.hasMany(Users, {
-  foreignKey: {
-    allowNull: false,
-    defaultValue: 3 // defaults to guest
-  },
-  onDelete: 'CASCADE'
-});
+//LEAVING THIS HERE IN CASE WE NEED TO ADD ASSOCATION
 
 ///////////////////////////////////////////////
 // ASSOCIATIONS BETWEEN DIFFERENT CATEGORIES //
@@ -74,14 +48,9 @@ module.exports = {
   db,
   Products,
   Categories,
-  Sizes,
-  ShoeSizes,
-  Genders,
   Colors,
   Orders,
-  OrderStatuses,
   OrderItems,
   Users,
-  UserTypes,
   ProductListings
 };
