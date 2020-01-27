@@ -14,6 +14,7 @@ const { Users } = require('./user_models/index');
 // PRODUCT ASSOCIATIONS //
 //////////////////////////
 
+//THESE ASSOCIATIONS WORK EVEN THOUGH IT SOUNDS STRANGE. WE COULD EVEN COMMENT OUT THE HASMANY ASSOCIATIONS
 // each product has only one category
 Categories.hasMany(Products);
 Products.belongsTo(Categories);
