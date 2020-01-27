@@ -8,7 +8,8 @@
     "start:server-dev": "./node_modules/.bin/nodemon -q --watch server server/express.js",
     "start:client-dev": "./node_modules/.bin/webpack --mode=\"development\" --watch",
     "build": "./node_modules/.bin/webpack --mode=\"production\"",
-    "start:dev": "npm run start:server-dev & npm run start:client-dev"
+    "start:dev": "npm run start:server-dev & npm run start:client-dev",
+    "seed": "node newSeed.js"
   },
   "repository": {
     "type": "git",
