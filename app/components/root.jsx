@@ -28,7 +28,7 @@ export default class Root extends Component {
     return (
       <Router>
         <main>
-          <Route component={Nav} />
+          <Nav />
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/cart" component={CartTable} exact />
@@ -40,7 +40,7 @@ export default class Root extends Component {
             <Route path="/checkout2" component={CheckoutGuestPay} exact />
             <Route path="/success" component={Success} exact />
           </Switch>
-          <Route component={Footer} />
+          <Footer />
         </main>
       </Router>
     );
