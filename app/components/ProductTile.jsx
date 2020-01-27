@@ -17,9 +17,9 @@ const ProductTile = props => {
   //   const { id } = props.match.params;
   //   props.getProduct(id);
   // }, []);
-  console.log('the props in ProdTile are:', props);
 
-  const product = props.product;
+  const products = props.product;
+  const product = products.productListing;
 
   const useStyles = makeStyles({
     card: {
@@ -37,7 +37,7 @@ const ProductTile = props => {
     return (
       <div>
         <Card className={classes.card}>
-          <Link to={`/products/${product.id}`}>
+          <Link to={`/products/${products.id}`}>
             <ButtonBase className={classes.image}>
               <img
                 className={classes.img}
@@ -51,12 +51,12 @@ const ProductTile = props => {
               style={{ textDecoration: 'none' }}
               size="small"
               color="primary"
-              to={`/products/${product.id}`}
+              to={`/products/${products.id}`}
             >
               {product.name}
             </Link>
             <Typography variant="body2" color="textSecondary" component="p">
-              ${product.price}
+              ${products.price}
             </Typography>
           </CardActions>
         </Card>

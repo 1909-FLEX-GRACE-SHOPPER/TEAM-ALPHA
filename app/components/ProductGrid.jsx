@@ -18,7 +18,7 @@ const getArrOfCategories = arr => {
 };
 
 const ProductGrid = props => {
-  const { products } = props; // might want authentication info too
+  const products = props.products; // might want authentication info too
 
   if (products.length === 0) return <h3>No Products</h3>;
   return (

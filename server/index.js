@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const morgan = require('morgan');
 // these two are good for cookies
 // const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 // we are going to need the Users for authentication
 // though we could modularize that as well
 const { db, Users } = require('./db/index');
+app.use(morgan('dev'));
 
 // body parsing
 app.use(express.json());
@@ -29,10 +31,10 @@ app.use(
 );
 
 // session logging
-app.use((req, res, next) => {
-  console.log('session', req.session);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log('session', req.session);
+//   next();
+// });
 
 app.post('/auth/login', (req, res, next) => {
   Users.findOne({

@@ -13,12 +13,6 @@ import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
 const ProductCatTile = props => {
-  // // useEffect(() => {
-  // //   const { id } = props.match.params;
-  // //   props.getProduct(id);
-  // // }, []);
-  // console.log('the props are:', props);
-  // const id = 5;
   const mapCategories = {
     1: 'Skis',
     2: 'Boots',
@@ -31,6 +25,7 @@ const ProductCatTile = props => {
   };
 
   const product = props.product;
+
   const categoryId = product.categoryId;
 
   const useStyles = makeStyles({
@@ -43,7 +38,7 @@ const ProductCatTile = props => {
   });
   const classes = useStyles();
 
-  if (!product.name) {
+  if (!product.categoryId) {
     return <div>Product not found...</div>;
   } else {
     return (
@@ -52,9 +47,10 @@ const ProductCatTile = props => {
           <Link to={`/categories/${product.categoryId}`}>
             <ButtonBase className={classes.image}>
               <img
+                style={{ width: '100' }}
                 className={classes.img}
                 alt="complex"
-                src={product.imageUrl}
+                src={product.productListing.imageUrl}
               />
             </ButtonBase>
           </Link>
@@ -71,10 +67,6 @@ const ProductCatTile = props => {
     );
   }
 };
-
-// const mapStateToProps = state => ({
-//   product: state.product
-// });
 
 const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getProductThunk(productId))
