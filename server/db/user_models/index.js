@@ -1,7 +1,6 @@
 const Users = require('./user');
-const UserTypes = require('./userType');
 
+//Leaving this here in case we need to add another association table
 module.exports = {
-  Users,
-  UserTypes
+  Users
 };
