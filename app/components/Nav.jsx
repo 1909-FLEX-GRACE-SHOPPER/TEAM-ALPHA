@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import StoreIcon from '@material-ui/icons/Store';
+import { logOutAttempt } from '../redux/authentication';
 // styling nav
 // could create two divs within the toolbar flex box and space them properly
 // and have one div be the links
@@ -30,7 +31,7 @@ class Nav extends Component {
           >
             My Account
           </Link>
-          <Button>Log Out!</Button>
+          <Button onClick={this.props.signout}>Log Out!</Button>
         </div>
       );
     }
@@ -98,6 +99,8 @@ const mapStateToProps = ({ cart, authentication }) => ({
   authentication
 });
 
-// mapDispatchToProps
+const mapDispatchToProps = dispatch => ({
+  signout: () => dispatch(logOutAttempt())
+});
 
-export default connect(mapStateToProps)(Nav);
+export default connect(mapStateToProps, mapDispatchToProps)(Nav);

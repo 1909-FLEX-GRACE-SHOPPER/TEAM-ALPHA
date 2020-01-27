@@ -3,15 +3,10 @@ const {
   db,
   Products,
   Categories,
-  Sizes,
-  ShoeSizes,
-  Genders,
   Colors,
   Orders,
-  OrderStatuses,
   OrderItems,
   Users,
-  UserTypes,
   ProductListings
 } = require('./server/db/index');
 
@@ -171,77 +166,141 @@ const usersList = [
   {
     firstName: 'Elham',
     lastName: 'Amini',
-    billingAddress: '5 Hanover Square, New York, NY 10004',
-    shippingAddress: '5 Hanover Square, New York, NY 10004',
+    billingAddress1: '5 Hanover Square',
+    billingAddress2: 'unit 25',
+    billingCity: 'New York',
+    billingState: 'NY',
+    billingZip: '10004',
+    shippingAddress1: '5 Hanover Square',
+    shippingAddress2: 'unit 25',
+    shippingCity: 'New York',
+    shippingState: 'NY',
+    shippingZip: '10004',
     email: 'elhamfarvid@gmail.com',
     password: 'abcde',
-    userTypeId: 1
+    userType: 'admin'
   },
   {
     firstName: 'Johnson',
     lastName: 'Lin',
-    billingAddress: '5 Hanover Square, New York, NY 10004',
-    shippingAddress: '5 Hanover Square, New York, NY 10004',
+    billingAddress1: '5 Hanover Square',
+    billingAddress2: 'unit 25',
+    billingCity: 'New York',
+    billingState: 'NY',
+    billingZip: '10004',
+    shippingAddress1: '5 Hanover Square',
+    shippingAddress2: 'unit 25',
+    shippingCity: 'New York',
+    shippingState: 'NY',
+    shippingZip: '10004',
     email: 'johnsonlin1993@gmail.com',
     password: 'abcde',
-    userTypeId: 1
+    userType: 'admin'
   },
   {
     firstName: 'Svetlana',
     lastName: 'Rovinsky',
-    billingAddress: '5 Hanover Square, New York, NY 10004',
-    shippingAddress: '5 Hanover Square, New York, NY 10004',
+    billingAddress1: '5 Hanover Square',
+    billingAddress2: 'unit 25',
+    billingCity: 'New York',
+    billingState: 'NY',
+    billingZip: '10004',
+    shippingAddress1: '5 Hanover Square',
+    shippingAddress2: 'unit 25',
+    shippingCity: 'New York',
+    shippingState: 'NY',
+    shippingZip: '10004',
     email: 'svetlana.rovinsky@gmail.com',
     password: 'abcde',
-    userTypeId: 1
+    userType: 'admin'
   },
   {
     firstName: 'Jake',
     lastName: 'Hertz',
-    billingAddress: '5 Hanover Square, New York, NY 10004',
-    shippingAddress: '5 Hanover Square, New York, NY 10004',
+    billingAddress1: '5 Hanover Square',
+    billingAddress2: 'unit 25',
+    billingCity: 'New York',
+    billingState: 'NY',
+    billingZip: '10004',
+    shippingAddress1: '5 Hanover Square',
+    shippingAddress2: 'unit 25',
+    shippingCity: 'New York',
+    shippingState: 'NY',
+    shippingZip: '10004',
     email: 'hertzjake@gmail.com',
     password: 'abcde',
-    userTypeId: 1
+    userType: 'admin'
   },
   {
     firstName: 'Mark',
     lastName: 'Bae',
-    billingAddress: '5 Hanover Square, New York, NY 10004',
-    shippingAddress: '5 Hanover Square, New York, NY 10004',
+    billingAddress1: '5 Hanover Square',
+    billingAddress2: 'unit 25',
+    billingCity: 'New York',
+    billingState: 'NY',
+    billingZip: '10004',
+    shippingAddress1: '5 Hanover Square',
+    shippingAddress2: 'unit 25',
+    shippingCity: 'New York',
+    shippingState: 'NY',
+    shippingZip: '10004',
     email: 'mark@fullstackacademy.com',
     password: 'abcde',
-    userTypeId: 2
+    userType: 'pending'
   },
   {
     firstName: 'Eliot',
     lastName: 'Szwajkowski',
-    billingAddress: '5 Hanover Square, New York, NY 10004',
-    shippingAddress: '5 Hanover Square, New York, NY 10004',
+    billingAddress1: '5 Hanover Square',
+    billingAddress2: 'unit 25',
+    billingCity: 'New York',
+    billingState: 'NY',
+    billingZip: '10004',
+    shippingAddress1: '5 Hanover Square',
+    shippingAddress2: 'unit 25',
+    shippingCity: 'New York',
+    shippingState: 'NY',
+    shippingZip: '10004',
     email: 'eliot@fullstackacdemy.com',
     password: 'abcde',
-    userTypeId: 3
+    userType: 'regular'
   },
   {
     firstName: 'Russell',
     lastName: 'Moore',
-    billingAddress: '5 Hanover Square, New York, NY 10004',
-    shippingAddress: '5 Hanover Square, New York, NY 10004',
+    billingAddress1: '5 Hanover Square',
+    billingAddress2: 'unit 25',
+    billingCity: 'New York',
+    billingState: 'NY',
+    billingZip: '10004',
+    shippingAddress1: '5 Hanover Square',
+    shippingAddress2: 'unit 25',
+    shippingCity: 'New York',
+    shippingState: 'NY',
+    shippingZip: '10004',
     email: 'russell@fullstackacdemy.com',
     password: 'abcde',
-    userTypeId: 5
+    userType: 'oAuth'
   },
   {
     firstName: 'Ryan',
     lastName: 'Jasinski',
-    billingAddress: '5 Hanover Square, New York, NY 10004',
-    shippingAddress: '5 Hanover Square, New York, NY 10004',
+    billingAddress1: '5 Hanover Square',
+    billingAddress2: 'unit 25',
+    billingCity: 'New York',
+    billingState: 'NY',
+    billingZip: '10004',
+    shippingAddress1: '5 Hanover Square',
+    shippingAddress2: 'unit 25',
+    shippingCity: 'New York',
+    shippingState: 'NY',
+    shippingZip: '10004',
     email: 'ryan@fullstackacdemy.com',
     password: 'abcde',
-    userTypeId: 2
+    userType: 'pending'
   },
   {
-    userTypeId: 4
+    userType: 'guest'
   }
 ];
 
@@ -250,7 +309,7 @@ const productsList = [
     quantity: Math.floor(10 * Math.random()),
     price: 11.0,
     categoryId: 1,
-    genderId: 1,
+    gender: 'N',
     colorId: 1,
     productListingId: 1
   },
@@ -258,7 +317,7 @@ const productsList = [
     quantity: Math.floor(10 * Math.random()),
     price: 20.0,
     categoryId: 1,
-    genderId: 1,
+    gender: 'N',
     colorId: 2,
     productListingId: 1
   },
@@ -266,7 +325,7 @@ const productsList = [
     quantity: Math.floor(10 * Math.random()),
     price: 30.0,
     categoryId: 1,
-    genderId: 2,
+    gender: 'N',
     colorId: 2,
     productListingId: 1
   },
@@ -274,7 +333,7 @@ const productsList = [
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
     categoryId: 2,
-    genderId: 2,
+    gender: 'M',
     colorId: 2,
     productListingId: 4
   },
@@ -283,7 +342,7 @@ const productsList = [
     price: 1.0,
     categoryId: 3,
     sizeId: 4,
-    genderId: 1,
+    gender: 'F',
     colorId: 3,
     productListingId: 5
   },
@@ -291,8 +350,8 @@ const productsList = [
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
     categoryId: 4,
-    sizeId: 1,
-    genderId: 3,
+    size: 'XS',
+    gender: 'N',
     colorId: 4,
     productListingId: 6
   },
@@ -300,8 +359,8 @@ const productsList = [
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
     categoryId: 5,
-    sizeId: 2,
-    genderId: 1,
+    size: 'S',
+    gender: 'F',
     colorId: 5,
     productListingId: 7
   },
@@ -309,7 +368,7 @@ const productsList = [
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
     categoryId: 6,
-    genderId: 3,
+    gender: 'N',
     colorId: 7,
     productListingId: 8
   },
@@ -317,8 +376,8 @@ const productsList = [
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
     categoryId: 7,
-    sizeId: 1,
-    genderId: 3,
+    size: 'XS',
+    gender: 'N',
     colorId: 9,
     productListingId: 9
   },
@@ -326,7 +385,7 @@ const productsList = [
     quantity: Math.floor(10 * Math.random()),
     price: 1.0,
     categoryId: 8,
-    genderId: 3,
+    gender: 'N',
     colorId: 8,
     productListingId: 10
   }
@@ -336,13 +395,8 @@ const seed = async () => {
   try {
     await db.sync({ force: true });
     // reference tables
-    await OrderStatuses.bulkCreate(statuses);
     await Categories.bulkCreate(categoriesList);
     await Colors.bulkCreate(colorsList);
-    await Genders.bulkCreate(gendersList);
-    await Sizes.bulkCreate(sizesList);
-    await ShoeSizes.bulkCreate(shoeSizesList);
-    await UserTypes.bulkCreate(userTypesList);
     await ProductListings.bulkCreate(productListingsList);
 
     // users and products
@@ -360,25 +414,25 @@ const seed = async () => {
       {
         totalCost: 15.0,
         orderDate: Date(),
-        orderStatusId: 1,
+        status: 'open',
         userId: userIds[Math.floor(Math.random() * userIds.length)]
       },
       {
         totalCost: 14.27,
         orderDate: Date(),
-        orderStatusId: 2,
+        status: 'ordered',
         userId: userIds[Math.floor(Math.random() * userIds.length)]
       },
       {
         totalCost: 18.91,
         orderDate: Date(),
-        orderStatusId: 3,
+        status: 'shipped',
         userId: userIds[Math.floor(Math.random() * userIds.length)]
       },
       {
         totalCost: 201.0,
         orderDate: Date(),
-        orderStatusId: 4,
+        status: 'delivered',
         userId: userIds[Math.floor(Math.random() * userIds.length)]
       }
     ];
@@ -393,7 +447,6 @@ const seed = async () => {
     const orderItemToCreate = {
       productId,
       orderId,
-      quantity: 2,
       unitPrice: 1.0
     };
 
@@ -436,15 +489,15 @@ const seed = async () => {
 };
 
 module.exports = seed;
-if (require.main === module) {
-  seed()
-    .then(() => {
-      console.log(green('Seeding success!'));
-      db.close();
-    })
-    .catch(err => {
-      console.error(red('Oh noes! Something went wrong!'));
-      console.error(err);
-      db.close();
-    });
-}
+// if (require.main === module) {
+//   seed()
+//     .then(() => {
+//       console.log(green('Seeding success!'));
+//       db.close();
+//     })
+//     .catch(err => {
+//       console.error(red('Oh noes! Something went wrong!'));
+//       console.error(err);
+//       db.close();
+//     });
+// }

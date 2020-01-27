@@ -13,9 +13,7 @@ router.get('/', (req, res, next) => {
     include: [
       { model: ProductListings },
       { model: Colors },
-      { model: Genders },
-      { model: Categories },
-      { model: Sizes }
+      { model: Categories }
     ]
   })
     .then(products => res.send(products))
@@ -34,9 +32,7 @@ router.get('/:id', (req, res, next) => {
     include: [
       { model: ProductListings },
       { model: Colors },
-      { model: Genders },
-      { model: Categories },
-      { model: Sizes }
+      { model: Categories }
     ]
   })
     .then(found => {

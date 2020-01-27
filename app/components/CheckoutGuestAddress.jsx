@@ -12,6 +12,7 @@ class GuestAddressForm extends Component {
     this.state = {
       firstName: '',
       lastName: '',
+      email: '',
       shippingAddress1: '',
       shippingAddress2: '',
       shippingCity: '',
@@ -20,11 +21,27 @@ class GuestAddressForm extends Component {
     };
   }
 
-  // handleChange = ({ target: { value, name } }) => {
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    const { activeUser } = this.props;
+    if (this.state.firstName !== this.props.activeUser.firstName) {
+      this.setState({
+        firstName: activeUser.firstName,
+        lastName: activeUser.lastName,
+        email: activeUser.email,
+        shippingAddress1: activeUser.shippingAddress1,
+        shippingAddress2: activeUser.shippingAddress2,
+        shippingCity: activeUser.shippingCity,
+        shippingState: activeUser.shippingState,
+        shippingZip: activeUser.shippingZip
+      });
+    }
+  }
+
+  handleChange = ({ target: { value, name } }) => {
+    this.setState({
+      [name]: value
+    });
+  };
 
   // NOTE: I think we need to use a thunk here to POST the information input in the form for guests / new users. Pre-existing users should have the fields pre-populated with values stored in database. Let me know your thoughts.
 
@@ -42,8 +59,6 @@ class GuestAddressForm extends Component {
   // };
 
   render() {
-    const { activeUser } = this.props;
-
     return (
       <Fragment>
         {/* <CssBaseline /> */}
@@ -72,7 +87,7 @@ class GuestAddressForm extends Component {
                   id="email"
                   name="email"
                   label="Email Address"
-                  // value={} to be filled
+                  value={this.state.email}
                   onChange={this.handleChange}
                 />
               </Grid>
@@ -86,7 +101,7 @@ class GuestAddressForm extends Component {
                     id="firstName"
                     name="firstName"
                     label="First name"
-                    // value={} to be filled
+                    value={this.state.firstName}
                     onChange={this.handleChange}
                   />
                 </Grid>
@@ -99,7 +114,7 @@ class GuestAddressForm extends Component {
                     id="lastName"
                     name="lastName"
                     label="Last name"
-                    // value={} to be filled
+                    value={this.state.lastName}
                     onChange={this.handleChange}
                   />
                 </Grid>
@@ -116,7 +131,7 @@ class GuestAddressForm extends Component {
                   id="shippingAddress1"
                   name="shippingAddress1"
                   label="Address"
-                  // value={} to be filled
+                  value={this.state.shippingAddress1}
                   onChange={this.handleChange}
                 />
               </Grid>
@@ -125,10 +140,10 @@ class GuestAddressForm extends Component {
                   variant="outlined"
                   margin="normal"
                   fullWidth
-                  id="shippingAddress1"
+                  id="shippingAddress2"
                   name="shippingAddress2"
                   label="Apt. (optional)"
-                  // value={} to be filled
+                  value={this.state.shippingAddress2}
                   onChange={this.handleChange}
                 />
               </Grid>
@@ -144,7 +159,7 @@ class GuestAddressForm extends Component {
                   id="shippingCity"
                   name="shippingCity"
                   label="City"
-                  // value={} to be filled
+                  value={this.state.shippingCity}
                   onChange={this.handleChange}
                 />
               </Grid>
@@ -156,7 +171,7 @@ class GuestAddressForm extends Component {
                   id="shippingState"
                   name="shippingState"
                   label="State"
-                  // value={} to be filled
+                  value={this.state.shippingState}
                   onChange={this.handleChange}
                 />
               </Grid>
@@ -168,7 +183,7 @@ class GuestAddressForm extends Component {
                   id="shippingZip"
                   name="shippingZip"
                   label="Zip Code"
-                  // value={} to be filled
+                  value={this.state.shippingZip}
                   onChange={this.handleChange}
                 />
               </Grid>

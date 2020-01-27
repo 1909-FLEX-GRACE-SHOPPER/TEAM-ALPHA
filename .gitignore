@@ -17,3 +17,6 @@ npm-debug.log
 .DS_Store
 .vscode
 .idea
+.npmrc
+bundle/*.js
+bundle/*.map
