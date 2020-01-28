@@ -48,12 +48,15 @@ export const fetchOrders = () => {
       const activeOrder = orders.find(order => order.status === 'open');
       if (activeOrder) dispatch(setActiveOrder(activeOrder));
       else {
-        const newOrder = {
+        const newOrderForLoggedInUser = {
           totalCost: 0.0,
           userId: id,
           status: 'open'
         };
-        const postedOrder = (await axios.post('/api/orders', newOrder)).data;
+        const postedOrder = (
+          await axios.post('/api/orders', newOrderForLoggedInUser)
+        ).data;
+        console.log('posted order: ', postedOrder);
         dispatch(setActiveOrder(postedOrder));
       }
       return dispatch(setOrders(orders));

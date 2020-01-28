@@ -181,7 +181,8 @@ class GuestPayment extends Component {
 
   render() {
     const { activeUser, cart } = this.props;
-    console.log('activeUser:', activeUser);
+    // console.log('activeUser:', activeUser);
+    console.log('props on checkout pay', this.props);
     const { orderTotal } = cart;
     // change edit link to correct address when we figure it out
     return (
