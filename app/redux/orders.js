@@ -1,5 +1,6 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
+import { SIGN_OUT } from './authentication';
 
 // constants to be moved to a constants.js file
 const SET_ORDERS = Symbol('set_orders');
@@ -107,6 +108,12 @@ const ordersReducer = (state = initialState, action) => {
     case EDIT_ORDER:
       return {
         ...state,
+        activeOrder
+      };
+    case SIGN_OUT:
+      return {
+        ...state,
+        orderHistory,
         activeOrder
       };
     default:

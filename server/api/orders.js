@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   Orders.findByPk(req.params.id, {
-    include: [{ model: Products }]
+    include: [{ model: OrderItems }]
   })
 
     .then(found => {

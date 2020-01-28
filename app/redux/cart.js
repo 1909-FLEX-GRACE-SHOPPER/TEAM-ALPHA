@@ -1,5 +1,6 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
+import { SIGN_OUT } from './authentication';
 
 // constants to be moved to a constants.js file
 const SET_ORDERS = 'SET_ORDERS';
@@ -8,10 +9,10 @@ const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 const EDIT_QUANTITY = 'EDIT_QUANTITY';
 
 // action creators
-export const setActiveOrderProducts = orders => {
+export const setActiveOrderProducts = items => {
   return {
     type: SET_ORDERS,
-    orders
+    items
   };
 };
 
@@ -43,11 +44,14 @@ export const editQuantity = orderItem => {
 export const fetchOrder = activeOrder => {
   return async dispatch => {
     const order = (await axios.get(`/api/orders/${activeOrder.id}`)).data;
-    if (order.products.length)
-      localStorage.setItem('orderItems', JSON.stringify(order.products));
-    else if (order.products.length === 0)
-      localStorage.setItem('orderItems', JSON.stringify([]));
-    return dispatch(setActiveOrderProducts(order));
+
+    // ignoring local storage for now
+    // if (order.orderItems.length)
+    //   localStorage.setItem('orderItems', JSON.stringify(order.products));
+    // else if (order.orderItems.length === 0)
+    //   localStorage.setItem('orderItems', JSON.stringify([]));
+
+    return dispatch(setActiveOrderProducts(order.orderItems));
   };
 };
 
@@ -58,9 +62,9 @@ export const addNewItemToCart = orderItem => {
   return async (dispatch, getState) => {
     if (getState().authentication.isLoggedIn) {
       const order = getState().orders.activeOrder;
-      console.log(order);
+      // console.log(order);
       orderItem.orderId = order.id;
-      console.log('orderItem for logged in user from thunk', orderItem);
+      // console.log('orderItem for logged in user from thunk', orderItem);
       const addNewItem = (await axios.post(`/api/orderItems`, orderItem)).data;
       return dispatch(addToCart(addNewItem));
     } else {
@@ -127,7 +131,7 @@ const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         //Grabbing all prodcuts from active cart
-        items: action.orders.products
+        items: action.items
       };
     case ADD_TO_CART:
       return {
@@ -154,6 +158,8 @@ const cartReducer = (state = initialState, action) => {
       return state.items.filter(
         orderItem => orderItem.id !== action.orderItem.id
       );
+    case SIGN_OUT:
+      return initialState;
     default:
       return state;
   }
