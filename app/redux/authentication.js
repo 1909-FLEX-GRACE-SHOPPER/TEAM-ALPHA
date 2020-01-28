@@ -79,8 +79,27 @@ export const initialLogInAttempt = () => {
   return dispatch => {
     axios
       .get('/auth/me')
-      .then(res => {
-        return dispatch(signIn(res.data));
+      .then(async res => {
+        const user = res.data;
+        dispatch(signIn(user));
+        const orders = (await axios.get(`/api/users/${user.id}`)).data.orders;
+        const activeOrder = orders.find(order => order.status === 'open');
+        if (activeOrder) {
+          dispatch(setActiveOrder(activeOrder));
+          dispatch(fetchOrder(activeOrder));
+        } else {
+          const newOrderForLoggedInUser = {
+            totalCost: 0.0,
+            userId: user.id,
+            status: 'open'
+          };
+          const postedOrder = (
+            await axios.post('/api/orders', newOrderForLoggedInUser)
+          ).data;
+          dispatch(setActiveOrder(postedOrder));
+          dispatch(fetchOrder(postedOrder));
+        }
+        return dispatch(setOrders(orders));
       })
       .catch(e => {
         return dispatch(signOut());

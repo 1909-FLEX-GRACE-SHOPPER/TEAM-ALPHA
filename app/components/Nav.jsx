@@ -88,6 +88,9 @@ class Nav extends Component {
               Cart ({numItemsInCart})
             </IconButton>
           </Link>
+          <Link to="/checkout" style={{ textDecoration: 'none' }}>
+            TEST CHECKOUT
+          </Link>
         </Toolbar>
       </AppBar>
     );

@@ -21,9 +21,11 @@ class GuestAddressForm extends Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidMount() {
     const { activeUser } = this.props;
-    if (this.state.firstName !== this.props.activeUser.firstName) {
+    // console.log(activeUser);
+    // console.log(this.props.activeUser);
+    if (this.state.firstName !== activeUser.firstName) {
       this.setState({
         firstName: activeUser.firstName,
         lastName: activeUser.lastName,
@@ -36,6 +38,22 @@ class GuestAddressForm extends Component {
       });
     }
   }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   const { activeUser } = this.props;
+  //   if (this.state.firstName !== this.props.activeUser.firstName) {
+  //     this.setState({
+  //       firstName: activeUser.firstName,
+  //       lastName: activeUser.lastName,
+  //       email: activeUser.email,
+  //       shippingAddress1: activeUser.shippingAddress1,
+  //       shippingAddress2: activeUser.shippingAddress2,
+  //       shippingCity: activeUser.shippingCity,
+  //       shippingState: activeUser.shippingState,
+  //       shippingZip: activeUser.shippingZip
+  //     });
+  //   }
+  // }
 
   handleChange = ({ target: { value, name } }) => {
     this.setState({

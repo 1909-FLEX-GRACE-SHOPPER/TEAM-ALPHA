@@ -19,9 +19,9 @@ import { initialLogInAttempt } from '../redux/authentication';
 
 export default class Root extends Component {
   async componentDidMount() {
-    store.dispatch(fetchProducts());
-    store.dispatch(fetchOrders());
-    store.dispatch(initialLogInAttempt());
+    await store.dispatch(fetchProducts());
+    await store.dispatch(initialLogInAttempt());
+    // await store.dispatch(fetchOrders());
     // store.dispatch(fetchUsers());
   }
   render() {

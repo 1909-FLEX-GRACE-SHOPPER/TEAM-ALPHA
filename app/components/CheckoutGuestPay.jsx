@@ -142,6 +142,9 @@ class GuestPayment extends Component {
 
   onSubmit = ev => {
     ev.preventDefault();
+    // const { orders } = this.props;
+    // const { activeOrder } = orders;
+    console.log('props in pay page on submit, ', this.props);
     const { shippingIsBilling } = this.state;
     if (shippingIsBilling) {
       const {
@@ -158,7 +161,6 @@ class GuestPayment extends Component {
         billingState: shippingState,
         billingZip: shippingZip
       });
-      // complete order thunk
     }
     const {
       billingAddress1,
@@ -176,7 +178,6 @@ class GuestPayment extends Component {
     };
     this.props.editUser(edits);
     // complete order thunk
-    //
   };
 
   render() {
@@ -228,12 +229,11 @@ class GuestPayment extends Component {
                   <ArrowBackIcon /> Return to Customer Information
                 </Link>
               </Grid>
-              <Grid item>
+              <Grid item onClick={() => this.onSubmit(event)}>
                 <Checkout
                   name={`${activeUser.firstName} ${activeUser.lastName}`}
                   description="Enjoy your order!"
                   amount={orderTotal}
-                  onClick={() => this.onSubmit(event)}
                 />
               </Grid>
             </Grid>
@@ -247,10 +247,11 @@ class GuestPayment extends Component {
   }
 }
 
-const mapStateToProps = ({ activeUser, cart, authentication }) => ({
+const mapStateToProps = ({ activeUser, cart, authentication, orders }) => ({
   activeUser,
   cart,
-  authentication
+  authentication,
+  orders
 });
 
 const mapDispatchToProps = dispatch => {

@@ -7,6 +7,7 @@ const SET_ORDERS = 'SET_ORDERS';
 const ADD_TO_CART = 'ADD_TO_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 const EDIT_QUANTITY = 'EDIT_QUANTITY';
+const EMPTY_CART = Symbol('EMPTY_CART');
 
 // action creators
 export const setActiveOrderProducts = items => {
@@ -36,6 +37,12 @@ export const editQuantity = orderItem => {
   return {
     type: EDIT_QUANTITY,
     orderItem
+  };
+};
+
+export const emptyCart = () => {
+  return {
+    type: EMPTY_CART
   };
 };
 
@@ -158,6 +165,8 @@ const cartReducer = (state = initialState, action) => {
       return state.items.filter(
         orderItem => orderItem.id !== action.orderItem.id
       );
+    case EMPTY_CART:
+      return initialState;
     case SIGN_OUT:
       return initialState;
     default:
