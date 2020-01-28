@@ -23,7 +23,8 @@ router.get('/', (req, res, next) => {
     });
 });
 router.get('/:id', (req, res, next) => {
-  console.log('product id', req.params);
+  const id = parseInt(req.params.id);
+  // console.log('product id', req.params);
   Products.findOne({
     where: {
       id: req.params.id
@@ -35,6 +36,7 @@ router.get('/:id', (req, res, next) => {
     ]
   })
     .then(found => {
+      // console.log('found', found);
       if (!found) {
         return res.status(404).send('product not found');
       }

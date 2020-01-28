@@ -1,22 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { getProductThunk } from '../redux/singleProduct.js';
-import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Fade from '@material-ui/core/Fade';
-import IncrementCounter from './IncrementCounter.jsx';
+import ProductPageQuantityTracker from './ProductPageQuantityTracker.jsx';
+import createOrder from '../redux/orders';
+import updateOrder from '../redux/orders';
+import { withStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const styles = {
   root: {
-    height: '100vh'
+    //height: '100vh'
+    flexGrow: 1
   },
   paper: {
-    padding: theme.spacing(2),
     margin: 'auto'
   },
 
@@ -26,123 +25,83 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '100%',
     maxHeight: '100%'
   }
-}));
-
-const mapSizes = {
-  1: 'XS',
-  2: 'S',
-  3: 'M',
-  4: 'L',
-  5: 'XL',
-  6: 'XXL'
 };
-const mapCategories = {
-  1: 'skis',
-  2: 'boots',
-  3: 'pants',
-  4: 'jackets',
-  5: 'shirts',
-  6: 'poles',
-  7: 'gloves',
-  8: 'goggles'
-};
-const mapGenders = {
-  1: 'F',
-  2: 'M',
-  3: 'N'
-};
-// const productsWithTextFields = products.map(product => {
-//   const color = mapColors[product.colorId];
-//   const size = mapSizes[product.genderId];
-//   const category = mapCategories[product.categoryId];
-//   const gender = mapGenders[product.genderId];
-//   product.color = color;
-//   product.size = size;
-//   product.category = category;
-//   product.gender = gender;
-//   return product;
-// });
-const ProductPage = props => {
-  useEffect(() => {
-    const { id } = props.match.params;
-    props.getProduct(id);
-  }, []);
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+class ProductPage extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      cartItem: {},
+      quantityOfProduct: 0
+    };
+  }
 
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    this.props.getProduct(id);
+  }
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const classes = useStyles();
-  const product = props.product;
-  console.log(product);
-  return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <img className={classes.img} alt="complex" src={product.imageUrl} />
-          </Grid>
-          <Grid item xs={6} sm container>
-            <Grid item>
-              <Typography gutterBottom variant="h5">
-                {product.name}
-              </Typography>
-              <Button
-                aria-controls="fade-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                Color
-              </Button>
-              <Button
-                aria-controls="fade-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                Size
-              </Button>
-
-              <Menu
-                id="fade-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={open}
-                onClose={handleClose}
-                TransitionComponent={Fade}
-              >
-                <MenuItem onClick={handleClose}>
-                  {mapSizes[product.sizeId]}
-                </MenuItem>
-              </Menu>
-              <Typography variant="subtitle1">${product.price}</Typography>
-              <IncrementCounter />
-              <Button size="small" color="primary">
-                add to cart
-              </Button>
+  render() {
+    const product = this.props.product;
+    if (!product.productListing) {
+      return <div>Product not found...</div>;
+    } else {
+      return (
+        <div className={styles.root}>
+          <Paper className={styles.paper}>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <img
+                  className={styles.img}
+                  alt="complex"
+                  src={product.productListing.imageUrl}
+                />
+              </Grid>
+              <Grid item xs={6} sm container>
+                <Grid item>
+                  <Typography gutterBottom variant="h5">
+                    {product.productListing.name}
+                  </Typography>
+                  <Grid container direction="row">
+                    <Grid item xs={2}>
+                      <Paper className={styles.paper}>
+                        {' '}
+                        {product.color.color}{' '}
+                      </Paper>
+                      <Paper className={styles.paper}>
+                        {' '}
+                        {product.gender.gender}{' '}
+                      </Paper>
+                    </Grid>
+                  </Grid>
+                  <Grid>
+                    <Typography variant="subtitle1">
+                      ${product.price}
+                    </Typography>
+                    <ProductPageQuantityTracker
+                      totalNumber={product.quantity}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
-          </Grid>
-        </Grid>
-      </Paper>
-    </div>
-  );
-};
+          </Paper>
+        </div>
+      );
+    }
+  }
+}
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  cart: state.cart,
+  orders: state.orders
 });
 
 const mapDispatchToProps = dispatch => ({
-  getProduct: productId => dispatch(getProductThunk(productId))
+  getProduct: productId => dispatch(getProductThunk(productId)),
+  addToCart: (quantity, cartItem) => dispatch(createOrder(quantity, cartItem)),
+  editQuantity: (edits, orderItem) => dispatch(updateOrder(edits, order))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);
-// need to
-//add onClick to add to cart
-// link incrementor to cart
-// map through menu options
+const styledComponent = withStyles(styles)(ProductPage);
+export default connect(mapStateToProps, mapDispatchToProps)(styledComponent);

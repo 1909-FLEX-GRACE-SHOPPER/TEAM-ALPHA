@@ -91,6 +91,26 @@ export const updateQuantity = (edits, orderItem) => {
   };
 };
 
+//need to complete
+function addToCartLogic(someItem, cart) {
+  let itemExists = false;
+  const { items, orderTotal } = cart;
+  const newItems = items.map(item => {
+    const itemCopy = { ...item };
+    if (itemCopy.id === someItem.id) {
+      itemExists = true;
+      itemCopy.qty += someItem.qty;
+    }
+    return itemCopy;
+  });
+  if (!itemExists) {
+    newItems.push(someItem);
+  }
+  // increase order total
+
+  return { items: newItems, orderTotal };
+}
+// Would an array with items being objects be better organization for cart?
 const initialState = {
   items: [],
   //Adding the order total in the state so we can pass this back to the database

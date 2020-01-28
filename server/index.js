@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const morgan = require('morgan');
 const chalk = require('chalk');
 // these two are good for cookies
 // const cookieParser = require('cookie-parser');
@@ -12,6 +13,7 @@ const PORT = process.env.PORT || 3000;
 // we are going to need the Users for authentication
 // though we could modularize that as well
 const { db, Users } = require('./db/index');
+app.use(morgan('dev'));
 
 // body parsing
 app.use(express.json());
@@ -21,6 +23,7 @@ app.use((req, res, next) => {
   console.log(chalk.cyan(`${new Date().toString()}: ${req.path}`));
   next();
 });
+
 // authentication and cookies
 // app.use(cookieParser());
 app.use(
