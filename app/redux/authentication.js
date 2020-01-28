@@ -1,6 +1,7 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import { setActiveOrder, setOrders } from './orders';
+import { fetchOrder } from './cart';
 
 export const SIGN_IN = Symbol('sign in');
 export const SIGN_OUT = Symbol('sign out');
@@ -18,7 +19,9 @@ const signIn = data => {
 const signOut = () => {
   return {
     type: SIGN_OUT,
-    isLoggedIn: false
+    isLoggedIn: false,
+    orders: [],
+    order: {}
   };
 };
 
@@ -30,7 +33,6 @@ export const logInAttempt = logInInfo => {
     await axios
       .post('/auth/login', logInInfo)
       .then(res => {
-        // console.log('this is the response data', res.data);
         return dispatch(signIn(res.data));
       })
       .catch(e => {
@@ -38,12 +40,12 @@ export const logInAttempt = logInInfo => {
         return dispatch(signOut());
       });
     const user = getState().activeUser;
-    console.log(user.id);
-    // const { id } = user;
     const orders = (await axios.get(`/api/users/${user.id}`)).data.orders;
     const activeOrder = orders.find(order => order.status === 'open');
-    if (activeOrder) dispatch(setActiveOrder(activeOrder));
-    else {
+    if (activeOrder) {
+      dispatch(setActiveOrder(activeOrder));
+      dispatch(fetchOrder(activeOrder));
+    } else {
       const newOrderForLoggedInUser = {
         totalCost: 0.0,
         userId: user.id,
@@ -52,8 +54,8 @@ export const logInAttempt = logInInfo => {
       const postedOrder = (
         await axios.post('/api/orders', newOrderForLoggedInUser)
       ).data;
-      console.log('posted order: ', postedOrder);
       dispatch(setActiveOrder(postedOrder));
+      dispatch(fetchOrder(postedOrder));
     }
     return dispatch(setOrders(orders));
   };
