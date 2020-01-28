@@ -9,8 +9,13 @@ import {
   TableRow
 } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
+import { fetchOrder } from '../redux/cart';
 
 class CartTable extends Component {
+  componentDidMount() {
+    fetchOrder(this.props.orders.activeOrder.id);
+  }
+
   render() {
     return (
       <TableContainer component={Paper}>
@@ -32,19 +37,18 @@ class CartTable extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/*
-            Should we make quanitity field a input or dropdown?
-            Ignore for now until I can test if the reducer is working properly.
-            {cart.map(cartItem => (
+            {/* Should we make quanitity field a input or dropdown?
+            Ignore for now until I can test if the reducer is working properly. */}
+            {/* {cart.map(cartItem => (
               <TableRow key={cartItem.id}>
                 <TableCell>{cartItem.name}</TableCell>
                 <TableCell align="right">{cartItem.quantity}</TableCell>
                 <TableCell align="right">{cartItem.unitPrice}</TableCell>
                 <TableCell align="right">{cartItem.totalPrice}</TableCell>
               </TableRow>
-            ))}
-            */}
-            <TableRow className="TESTING">
+            ))} */}
+
+            {/* <TableRow className="TESTING">
               <TableCell>
                 <button>x</button>
               </TableCell>
@@ -55,7 +59,7 @@ class CartTable extends Component {
               <TableCell align="right">1</TableCell>
               <TableCell align="right">1</TableCell>
               <TableCell align="right">1</TableCell>
-            </TableRow>
+            </TableRow> */}
 
             <TableRow>
               <TableCell rowSpan={5} />
@@ -72,4 +76,12 @@ class CartTable extends Component {
   }
 }
 
-export default CartTable;
+const mapStateToProps = ({ orders, cart }) => ({ orders, cart });
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     editUser: edits => dispatch(modifyUser(edits))
+//   };
+// };
+
+export default connect(mapStateToProps, null)(CartTable);
