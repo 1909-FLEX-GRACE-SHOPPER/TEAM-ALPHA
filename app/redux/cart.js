@@ -55,9 +55,12 @@ export const fetchOrder = activeOrder => {
 //If the guest clicks on checkout and pays then POST items
 //Otherwise items should just be in localstorage
 export const addNewItemToCart = orderItem => {
-  console.log('orderItem', orderItem);
   return async (dispatch, getState) => {
     if (getState().authentication.isLoggedIn) {
+      const order = getState().orders.activeOrder;
+      console.log(order);
+      orderItem.orderId = order.id;
+      console.log('orderItem for logged in user from thunk', orderItem);
       const addNewItem = (await axios.post(`/api/orderItems`, orderItem)).data;
       return dispatch(addToCart(addNewItem));
     } else {

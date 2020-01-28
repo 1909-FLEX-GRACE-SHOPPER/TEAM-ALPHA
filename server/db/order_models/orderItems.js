@@ -13,6 +13,12 @@ const OrderItems = db.define('orderItems', {
   unitPrice: {
     type: DECIMAL,
     allowNull: false
+  },
+  orderId: {
+    type: UUID
+  },
+  productId: {
+    type: UUID
   }
 });
 

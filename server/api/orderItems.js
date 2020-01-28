@@ -28,6 +28,7 @@ router.post('/', (req, res, next) => {
   OrderItems.create(req.body)
     .then(newItem => res.status(201).send(newItem))
     .catch(e => {
+      console.log('error in posting order item', e.message);
       console.error(e);
       next(e);
     });

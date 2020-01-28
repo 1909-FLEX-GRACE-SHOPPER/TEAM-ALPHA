@@ -1,5 +1,6 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
+import { setActiveOrder, setOrders } from './orders';
 
 export const SIGN_IN = Symbol('sign in');
 export const SIGN_OUT = Symbol('sign out');
@@ -25,17 +26,36 @@ const signOut = () => {
 
 // thunks
 export const logInAttempt = logInInfo => {
-  return dispatch => {
-    axios
+  return async (dispatch, getState) => {
+    await axios
       .post('/auth/login', logInInfo)
       .then(res => {
-        console.log('this is the response data', res.data);
+        // console.log('this is the response data', res.data);
         return dispatch(signIn(res.data));
       })
       .catch(e => {
         console.error(e);
         return dispatch(signOut());
       });
+    const user = getState().activeUser;
+    console.log(user.id);
+    // const { id } = user;
+    const orders = (await axios.get(`/api/users/${user.id}`)).data.orders;
+    const activeOrder = orders.find(order => order.status === 'open');
+    if (activeOrder) dispatch(setActiveOrder(activeOrder));
+    else {
+      const newOrderForLoggedInUser = {
+        totalCost: 0.0,
+        userId: user.id,
+        status: 'open'
+      };
+      const postedOrder = (
+        await axios.post('/api/orders', newOrderForLoggedInUser)
+      ).data;
+      console.log('posted order: ', postedOrder);
+      dispatch(setActiveOrder(postedOrder));
+    }
+    return dispatch(setOrders(orders));
   };
 };
 

@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { addNewItemToCart } from '../redux/cart';
 import Grid from '@material-ui/core/Grid';
+import { getProductThunk } from '../redux/singleProduct';
 
 class ProductPageQuantityTracker extends React.Component {
   constructor(props) {
@@ -39,8 +40,8 @@ class ProductPageQuantityTracker extends React.Component {
     //price, productId, orderId
     // console.log('product', this.props.product.id, this.props.product.price);
     const productItemObject = {
-      id: this.props.product.id,
-      price: this.props.product.price
+      productId: this.props.product.id,
+      unitPrice: this.props.product.price
     };
     const { counter, totalNumber } = this.state;
     return (
