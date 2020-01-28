@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import addToCart from '../redux/cart';
+import { addNewItemToCart } from '../redux/cart';
 import Grid from '@material-ui/core/Grid';
 
 class ProductPageQuantityTracker extends React.Component {
@@ -28,10 +28,20 @@ class ProductPageQuantityTracker extends React.Component {
     this.setState(state => ({ counter: state.counter - 1 }));
   };
 
-  handleChange = (quantity, cartItem) => {
-    this.props.addToCart(quantity, cartItem);
+  handleSubmit = cartItem => {
+    console.log('cartItem', cartItem);
+    const quantity = this.state.counter;
+    for (let i = 0; i < quantity; i++) {
+      this.props.addToCart(cartItem);
+    }
   };
   render() {
+    //price, productId, orderId
+    // console.log('product', this.props.product.id, this.props.product.price);
+    const productItemObject = {
+      id: this.props.product.id,
+      price: this.props.product.price
+    };
     const { counter, totalNumber } = this.state;
     return (
       <Grid>
@@ -51,7 +61,7 @@ class ProductPageQuantityTracker extends React.Component {
         <Button
           size="small"
           color="primary"
-          onClick={ev => this.handleChange()}
+          onClick={ev => this.handleSubmit(productItemObject)}
         >
           add to cart
         </Button>
@@ -62,13 +72,11 @@ class ProductPageQuantityTracker extends React.Component {
 
 const mapStateToProps = state => ({
   product: state.product,
-  cart: state.cart,
-  orders: state.orders
+  cart: state.cart
 });
 const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getProductThunk(productId)),
-  addToCart: (quantity, cartItem) => dispatch(createOrder(quantity, cartItem)),
-  editQuantity: (edits, orderItem) => dispatch(updateOrder(edits, order))
+  addToCart: cartItem => dispatch(addNewItemToCart(cartItem))
 });
 export default connect(
   mapStateToProps,

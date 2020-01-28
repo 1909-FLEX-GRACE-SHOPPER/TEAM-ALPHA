@@ -24,6 +24,15 @@ router.get('/:id', (req, res, next) => {
     });
 });
 
+router.post('/', (req, res, next) => {
+  OrderItems.create(req.body)
+    .then(newItem => res.status(201).send(newItem))
+    .catch(e => {
+      console.error(e);
+      next(e);
+    });
+});
+
 router.delete('/:id', (req, res, next) => {
   OrderItems.destroy({
     where: {
