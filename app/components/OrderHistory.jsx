@@ -21,36 +21,43 @@ const useStyles = makeStyles({
     marginLeft: '26rem'
   }
 });
-const userOrders = [{ id: 1, date: 4, totalCost: 5 }];
+
 export const OrderHistory = props => {
-  //wee need below lines later after we add orders to the reducer and passing the id of the user
-  //   const userOrders = this.props.orders.filter(
-  //     order => order.id === this.porps.match.params.id
-  //   );
+  const userOrders = props.orders.orderHistory;
+  console.log('orderHistory', userOrders);
   const classes = useStyles();
+  if (!userOrders) return <h2>No order history!</h2>;
   return (
-    <TableContainer className={classes.tableContainer} component={Paper}>
-      <Table className={classes.table} aria-label="simple table" size="medium">
-        <TableHead>
-          <TableRow>
-            <TableCell>Order Number</TableCell>
-            <TableCell align="right">Order Date</TableCell>
-            <TableCell align="right">Order Total</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {userOrders.map(order => (
-            <TableRow key={order.id}>
-              <TableCell component="th" scope="row">
-                {order.id}
-              </TableCell>
-              <TableCell align="right">{order.date}</TableCell>
-              <TableCell align="right">{order.totalCost}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div>
+      {userOrders && (
+        <TableContainer className={classes.tableContainer} component={Paper}>
+          <Table
+            className={classes.table}
+            aria-label="simple table"
+            size="medium"
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell>Order Number</TableCell>
+                <TableCell align="right">Order Date</TableCell>
+                <TableCell align="right">Order Total</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {userOrders.map(order => (
+                <TableRow key={order.id}>
+                  <TableCell component="th" scope="row">
+                    {order.id}
+                  </TableCell>
+                  <TableCell align="right">{order.date}</TableCell>
+                  <TableCell align="right">{order.totalCost}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </div>
   );
 };
 
