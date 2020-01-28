@@ -12,30 +12,40 @@ import {
 } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import { updateOrder, submitOrder } from '../redux/orders';
 // user and order will remove later
-const user = {
-  id: '7f48a8c6-37b8-470c-b17a-645544a0af28',
-  firstName: 'elham',
-  lastName: 'amini',
-  email: 'elhamfarvid@gmail.com',
-  shippingAddress: '99 battrey place,apt 8M'
-};
+// const user = {
+//   id: '7f48a8c6-37b8-470c-b17a-645544a0af28',
+//   firstName: 'elham',
+//   lastName: 'amini',
+//   email: 'elhamfarvid@gmail.com',
+//   shippingAddress: '99 battrey place,apt 8M'
+// };
 
-const order = {
-  id: 777776665555555,
-  totalCost: 50
-};
+// const order = {
+//   id: 777776665555555,
+//   totalCost: 50
+// };
 class Success extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
+  componentDidUpdate(prevProps) {
     // this.props.getSingelUser(this.props.match.params.id);
+    if (this.props.orders.activeOrder.id !== prevProps.orders.activeOrder.id) {
+      console.log('this props', this.props);
+      console.log('prev props', prevProps);
+      const { orders, submitOrder } = this.props;
+      const { activeOrder } = orders;
+      console.log('activeOrder in cdu on success: ', activeOrder);
+      submitOrder(activeOrder);
+    }
   }
   render() {
     // const { user } = this.props.user;
-    const { orders } = this.props;
-    console.log('orders,', orders);
+    const { orders, activeUser } = this.props;
+    const { activeOrder } = orders;
+    // console.log('active order on render of success', activeOrder);
     // const order = orders
     //   .filter(order => order.userId === this.props.match.params.id)
     //   .filter(order => order.orderDate === Date());
@@ -62,7 +72,7 @@ class Success extends React.Component {
             We've recieved your order
           </Typography>
           <Typography variant="overline">
-            A copy of your reciept has been sent to: {user.email}
+            A copy of your reciept has been sent to: {activeUser.email}
           </Typography>
 
           <h1>...................................</h1>
@@ -75,7 +85,7 @@ class Success extends React.Component {
                     Delivery for
                   </Typography>
                   <Typography variant="subtitle1">
-                    {user.firstName} {user.lastName}
+                    {activeUser.firstName} {activeUser.lastName}
                   </Typography>
 
                   <Divider style={{ marginBottom: '2rem' }} />
@@ -85,16 +95,17 @@ class Success extends React.Component {
                       Address
                     </Typography>
                     <Typography variant="subtitle1">
-                      {user.shippingAddress}
+                      {activeUser.shippingAddress1}{' '}
+                      {activeUser.shippingAddress2}
                     </Typography>
                   </Grid>
                   <Divider style={{ marginBottom: '2rem' }} />
                   <Grid item xs>
                     <Typography gutterBottom variant="h6">
-                      Order total:{'  '} $ {order.totalCost}.00
+                      Order total:{'  '} $ {activeOrder.totalCost}.00
                     </Typography>
                     <Typography gutterBottom variant="h6">
-                      Order no#{order.id}
+                      Order no#{activeOrder.id}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -105,7 +116,8 @@ class Success extends React.Component {
                   Billing Address
                 </Typography>
                 <Typography variant="subtitle1">
-                  {user.shippingAddress}
+                  {activeUser.billingAddress1}
+                  {activeUser.billingAddress2}
                 </Typography>
               </Grid>
             </Grid>
@@ -115,12 +127,13 @@ class Success extends React.Component {
     );
   }
 }
-//will use below lines after we get user
-// const mapStateToProps = ({ orders,user }) => ({ orders,user });
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     getSingelUser: id => dispatch(fetchSingelUser(id))
-//   };
-// };
-// export default connect(mapStateToProps)(Success);
-export default Success;
+
+const mapStateToProps = ({ orders, activeUser }) => ({ orders, activeUser });
+
+const mapDispatchToProps = dispatch => {
+  return {
+    submitOrder: order => dispatch(submitOrder(order))
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Success);
+// export default Success;

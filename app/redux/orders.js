@@ -1,6 +1,7 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import { SIGN_OUT } from './authentication';
+import { emptyCart } from './cart';
 
 // constants to be moved to a constants.js file
 const SET_ORDERS = Symbol('set_orders');
@@ -42,26 +43,29 @@ export const editOrder = order => {
 
 export const fetchOrders = () => {
   return async (dispatch, getState) => {
-    if (getState().authentication.isLoggedIn) {
-      const user = getState().activeUser;
-      const { id } = user;
-      const orders = (await axios.get(`/api/users/${id}`)).data.orders;
-      const activeOrder = orders.find(order => order.status === 'open');
-      if (activeOrder) dispatch(setActiveOrder(activeOrder));
-      else {
-        const newOrderForLoggedInUser = {
-          totalCost: 0.0,
-          userId: id,
-          status: 'open'
-        };
-        const postedOrder = (
-          await axios.post('/api/orders', newOrderForLoggedInUser)
-        ).data;
-        console.log('posted order: ', postedOrder);
-        dispatch(setActiveOrder(postedOrder));
-      }
-      return dispatch(setOrders(orders));
-    }
+    console.log('fetching orders...');
+    // if (getState().authentication.isLoggedIn) {
+    //   const user = getState().activeUser;
+    //   const { id } = user;
+    //   console.log('user from state when fetching orders', user);
+    //   const orders = (await axios.get(`/api/users/${id}`)).data.orders;
+    //   const activeOrder = orders.find(order => order.status === 'open');
+    //   if (activeOrder) dispatch(setActiveOrder(activeOrder));
+    //   else {
+    //     const newOrderForLoggedInUser = {
+    //       totalCost: 0.0,
+    //       userId: id,
+    //       status: 'open'
+    //     };
+    //     const postedOrder = (
+    //       await axios.post('/api/orders', newOrderForLoggedInUser)
+    //     ).data;
+    //     // console.log('posted order: ', postedOrder);
+    //     dispatch(setActiveOrder(postedOrder));
+    //   }
+
+    // return dispatch(setOrders(orders));
+    // }
   };
 };
 
@@ -78,6 +82,22 @@ export const updateOrder = (edits, order) => {
     const editedOrder = (await axios.put(`/api/orders/${order.id}`, edits))
       .data;
     return dispatch(editOrder(editedOrder));
+  };
+};
+// 1) change order status
+// 2) empty the cart
+// 3) fetchOrders
+
+export const submitOrder = order => {
+  return async dispatch => {
+    const edits = {
+      status: 'ordered'
+    };
+    console.log('order in submitOrder thunk: ', order);
+    const submittedOrder = (await axios.put(`api/orders/${order.id}`, edits))
+      .data;
+    dispatch(emptyCart());
+    return dispatch(fetchOrders());
   };
 };
 
