@@ -40,9 +40,9 @@ Products.belongsTo(ProductListings);
 // user and order associations
 Users.hasMany(Orders);
 
-// creating orderItems
-Products.belongsToMany(Orders, { through: OrderItems });
-Orders.belongsToMany(Products, { through: OrderItems });
+// associations with orderitems
+Products.hasMany(OrderItems);
+Orders.hasMany(OrderItems);
 
 module.exports = {
   db,

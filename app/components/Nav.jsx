@@ -44,7 +44,7 @@ class Nav extends Component {
 
   render() {
     const { cart } = this.props;
-    const numItemsInCart = cart.length;
+    const numItemsInCart = cart.items.length;
     return (
       <AppBar position="static">
         <Toolbar

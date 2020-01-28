@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const { Orders, Products } = require('../db/index');
+const { Orders, Products, OrderItems } = require('../db/index');
 
 router.get('/', (req, res, next) => {
-  Orders.findAll({ include: [{ model: Products }] })
+  Orders.findAll({ include: [{ model: OrderItems }] })
     .then(orders => res.send(orders))
     .catch(e => {
       console.error(e);
