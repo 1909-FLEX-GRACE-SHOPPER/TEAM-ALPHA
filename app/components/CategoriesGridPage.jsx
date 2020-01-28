@@ -22,9 +22,19 @@ const CategoriesGridPage = props => {
   // useEffect(() => {
   //   props.getProducts(id);
   // }, []);
-
+let  result =[];
   if (products.length === 0) return <h3>No Products</h3>;
-  const result = getArrOfProdsOfACat(products, id);
+  const womenProducts = products.filter(product => product.gender === 'F');
+
+  const manProducts = products.filter(product => product.gender === 'M');
+  if (props.match.path === '/products/women') {
+     result = [...womenProducts];
+  } else if (props.match.path === '/products/men') {
+  result = [...manProducts];
+  } else {
+    result = [...getArrOfProdsOfACat(products, id)];
+  }
+
   console.log(result);
   return (
     <Grid container spacing={2} style={{ padding: 24 }}>

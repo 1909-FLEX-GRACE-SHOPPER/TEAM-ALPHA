@@ -32,6 +32,12 @@ export default class Root extends Component {
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/cart" component={CartTable} exact />
+            <Route
+              path="/products/women"
+              component={CategoriesGridPage}
+              exact
+            />
+            <Route path="/products/men" component={CategoriesGridPage} exact />
             <Route path="/products/:id" component={ProductPage} />
             <Route path="/categories/:id" component={CategoriesGridPage} />
             <Route path="/login" component={Login} />
