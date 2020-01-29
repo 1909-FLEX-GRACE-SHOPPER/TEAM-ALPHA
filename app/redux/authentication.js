@@ -1,7 +1,7 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import { setActiveOrder, setOrders } from './orders';
-import { fetchOrder } from './cart';
+import { fetchActiveOrder } from './cart';
 
 export const SIGN_IN = Symbol('sign in');
 export const SIGN_OUT = Symbol('sign out');
@@ -43,8 +43,8 @@ export const logInAttempt = logInInfo => {
     const orders = (await axios.get(`/api/users/${user.id}`)).data.orders;
     const activeOrder = orders.find(order => order.status === 'open');
     if (activeOrder) {
-      dispatch(setActiveOrder(activeOrder));
-      dispatch(fetchOrder(activeOrder));
+      dispatch(setActiveOrder(activeOrder.id));
+      dispatch(fetchActiveOrder(activeOrder.id));
     } else {
       const newOrderForLoggedInUser = {
         totalCost: 0.0,
@@ -55,7 +55,7 @@ export const logInAttempt = logInInfo => {
         await axios.post('/api/orders', newOrderForLoggedInUser)
       ).data;
       dispatch(setActiveOrder(postedOrder));
-      dispatch(fetchOrder(postedOrder));
+      dispatch(fetchActiveOrder(postedOrder));
     }
     return dispatch(setOrders(orders));
   };
@@ -84,9 +84,10 @@ export const initialLogInAttempt = () => {
         dispatch(signIn(user));
         const orders = (await axios.get(`/api/users/${user.id}`)).data.orders;
         const activeOrder = orders.find(order => order.status === 'open');
+        console.log('_________ACTIVE ORDER______', activeOrder);
         if (activeOrder) {
-          dispatch(setActiveOrder(activeOrder));
-          dispatch(fetchOrder(activeOrder));
+          dispatch(setActiveOrder(activeOrder.id));
+          dispatch(fetchActiveOrder(activeOrder.id));
         } else {
           const newOrderForLoggedInUser = {
             totalCost: 0.0,
@@ -96,8 +97,9 @@ export const initialLogInAttempt = () => {
           const postedOrder = (
             await axios.post('/api/orders', newOrderForLoggedInUser)
           ).data;
+          console.log('_________POSTED ORDER________', postedOrder);
           dispatch(setActiveOrder(postedOrder));
-          dispatch(fetchOrder(postedOrder));
+          dispatch(fetchActiveOrder(postedOrder));
         }
         return dispatch(setOrders(orders));
       })
