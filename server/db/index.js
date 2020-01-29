@@ -43,6 +43,7 @@ Users.hasMany(Orders);
 // associations with orderitems
 Products.hasMany(OrderItems);
 Orders.hasMany(OrderItems);
+OrderItems.belongsTo(Products);
 
 module.exports = {
   db,

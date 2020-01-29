@@ -10,7 +10,7 @@ import CategoriesGridPage from './CategoriesGridPage';
 import Login from './LogIn';
 import MyAccount from './MyAccount';
 import { fetchProducts } from '../redux/products';
-import { fetchOrders } from '../redux/orders';
+import { fetchActiveOrder } from '../redux/orders';
 import { fetchUsers } from '../redux/users';
 import CheckoutGuestAddress from './CheckoutGuestAddress';
 import CheckoutGuestPay from './CheckoutGuestPay';

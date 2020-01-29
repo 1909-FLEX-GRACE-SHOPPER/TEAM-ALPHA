@@ -28,8 +28,6 @@ export const OrderHistory = props => {
   const classes = useStyles();
   if (!userOrders) return <h2>No order history!</h2>;
   return (
-    <div>
-      {userOrders && (
         <TableContainer className={classes.tableContainer} component={Paper}>
           <Table
             className={classes.table}
@@ -56,8 +54,7 @@ export const OrderHistory = props => {
             </TableBody>
           </Table>
         </TableContainer>
-      )}
-    </div>
+    
   );
 };
 

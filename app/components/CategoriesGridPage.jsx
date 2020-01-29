@@ -14,16 +14,11 @@ const getArrOfProdsOfACat = (arrOfAllProd, id) => {
   });
   return cats;
 };
-//console.log(getArrOfProdsOfACat);
+
 const CategoriesGridPage = props => {
   const { products } = props;
   const id = parseInt(props.match.params.id, 10);
-
-  // useEffect(() => {
-  //   props.getProducts(id);
-  // }, []);
-let  result =[];
-  if (products.length === 0) return <h3>No Products</h3>;
+  let result =[];
   const womenProducts = products.filter(product => product.gender === 'F');
 
   const manProducts = products.filter(product => product.gender === 'M');
@@ -34,8 +29,8 @@ let  result =[];
   } else {
     result = [...getArrOfProdsOfACat(products, id)];
   }
-
-  console.log(result);
+  if (products.length === 0) return <h3>No Products</h3>;
+  
   return (
     <Grid container spacing={2} style={{ padding: 24 }}>
       {console.log('productTile', result)}
