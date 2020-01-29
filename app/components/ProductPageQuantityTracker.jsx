@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { addNewItemToCart } from '../redux/cart';
+import { addNewItemToCart, fetchActiveOrder } from '../redux/cart';
 import Grid from '@material-ui/core/Grid';
 import { getProductThunk } from '../redux/singleProduct';
 
@@ -18,11 +18,17 @@ class ProductPageQuantityTracker extends React.Component {
     // this.handleDecrement = this.handleDecrement.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({ counter: 1 });
+    console.log('COUNTER CURRENTLY SET AT', this.state.counter);
+  }
+
   handleIncrement = () => {
     console.log('this.state.totalNumber', this.state.totalNumber);
     if (this.state.counter < this.state.totalNumber) {
       this.setState(state => ({ counter: state.counter + 1 }));
     }
+    console.log('COUNTER INCREMENT', this.state.counter);
   };
 
   handleDecrement = () => {
@@ -35,6 +41,8 @@ class ProductPageQuantityTracker extends React.Component {
     for (let i = 0; i < quantity; i++) {
       this.props.addToCart(cartItem);
     }
+    console.log('SUBMIT PROPS CARTITEM', cartItem);
+    return this.props.updateCart(cartItem.orderId);
   };
   render() {
     //price, productId, orderId
@@ -77,7 +85,8 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getProductThunk(productId)),
-  addToCart: cartItem => dispatch(addNewItemToCart(cartItem))
+  addToCart: cartItem => dispatch(addNewItemToCart(cartItem)),
+  updateCart: activeOrderId => dispatch(fetchActiveOrder(activeOrderId))
 });
 export default connect(
   mapStateToProps,

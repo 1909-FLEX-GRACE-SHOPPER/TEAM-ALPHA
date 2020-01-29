@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { SIGN_OUT } from './authentication';
 
 // constants to be moved to a constants.js file
-const SET_ORDERS = 'SET_ORDERS';
+const SET_ORDER_TO_CART = 'SET_ORDER_TO_CART';
 const ADD_TO_CART = 'ADD_TO_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 const EDIT_QUANTITY = 'EDIT_QUANTITY';
@@ -12,7 +12,7 @@ const EMPTY_CART = Symbol('EMPTY_CART');
 // action creators
 export const setActiveOrderProducts = items => {
   return {
-    type: SET_ORDERS,
+    type: SET_ORDER_TO_CART,
     items
   };
 };
@@ -48,9 +48,9 @@ export const emptyCart = () => {
 
 // thunks
 
-export const fetchOrder = activeOrder => {
+export const fetchActiveOrder = activeOrderId => {
   return async dispatch => {
-    const order = (await axios.get(`/api/orders/${activeOrder.id}`)).data;
+    const order = (await axios.get(`/api/orders/${activeOrderId}`)).data;
 
     // ignoring local storage for now
     // if (order.orderItems.length)
@@ -71,7 +71,7 @@ export const addNewItemToCart = orderItem => {
       const order = getState().orders.activeOrder;
       // console.log(order);
       orderItem.orderId = order.id;
-      // console.log('orderItem for logged in user from thunk', orderItem);
+      console.log('orderItem for logged in user from thunk', orderItem);
       const addNewItem = (await axios.post(`/api/orderItems`, orderItem)).data;
       return dispatch(addToCart(addNewItem));
     } else {
@@ -106,25 +106,27 @@ export const updateQuantity = (edits, orderItem) => {
   };
 };
 
+// Not sure when this was added but it seems to be somones typescript?
 //need to complete
-function addToCartLogic(someItem, cart) {
-  let itemExists = false;
-  const { items, orderTotal } = cart;
-  const newItems = items.map(item => {
-    const itemCopy = { ...item };
-    if (itemCopy.id === someItem.id) {
-      itemExists = true;
-      itemCopy.qty += someItem.qty;
-    }
-    return itemCopy;
-  });
-  if (!itemExists) {
-    newItems.push(someItem);
-  }
-  // increase order total
+// function addToCartLogic(someItem, cart) {
+//   let itemExists = false;
+//   const { items, orderTotal } = cart;
+//   const newItems = items.map(item => {
+//     const itemCopy = { ...item };
+//     if (itemCopy.id === someItem.id) {
+//       itemExists = true;
+//       itemCopy.qty += someItem.qty;
+//     }
+//     return itemCopy;
+//   });
+//   if (!itemExists) {
+//     newItems.push(someItem);
+//   }
+//   // increase order total
 
-  return { items: newItems, orderTotal };
-}
+//   return { items: newItems, orderTotal };
+// }
+
 // Would an array with items being objects be better organization for cart?
 const initialState = {
   items: [],
@@ -134,33 +136,34 @@ const initialState = {
 
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_ORDERS:
+    case SET_ORDER_TO_CART:
       return {
         ...state,
         //Grabbing all prodcuts from active cart
         items: action.items
       };
+
+    //I dont think we actually need this (maybe we do?). Currently with the way the add to cart button works on the product page, it will POST a fixed object with the items price, productID, and active orderID into the the cart. Though this will pass the active orderID and the productId we dont actually get any assocaition to the productListings b/c this is a manual addition of an object with this reducer. Therefore I wont cant get the product info into the cart page. This is why I needed to add the fetchActiveOrder thunk into the add to cart button on the product page to fetch the updated activeorder. Also, orderTotal would not be needed here because once we log out and log back in the intialState will set it back to $0.
     case ADD_TO_CART:
       return {
         ...state,
-        items: [...state.items, action.orderItem],
-        orderTotal: state.orderTotal + action.orderItem.price
+        // Check comment above ^^^
+        // items: [...state.items, action.orderItem],
+        orderTotal: state.orderTotal + action.orderItem.unitPrice
+      };
 
-        // Will need to use the commented out formula for the rest of reducer if we are not going to calculate price before we add product to the items array
-        // (action.orderItem.price * action.orderItem.quanitity)
-      };
-    //Note: decided to make an "all in one" reducer for incrementing / decrementing rather than seperating them out. Let me know if you prefer to have it seperated?
-    case EDIT_QUANTITY:
-      return {
-        ...state,
-        items: state.items.map(orderItem => {
-          if (orderItem.id === action.orderItem.id) {
-            return action.orderItem;
-          }
-          return action.orderItem;
-        }),
-        orderTotal: state.orderTotal.reduce((total, item) => total + item.price)
-      };
+    // DONT NEED THIS ANYMORE EITHER SINCE WE WONT BE KEEP QUANTITY. BUT LEAVING IT HERE JUST INCASE.
+    // case EDIT_QUANTITY:
+    //   return {
+    //     ...state,
+    //     items: state.items.map(orderItem => {
+    //       if (orderItem.id === action.orderItem.id) {
+    //         return action.orderItem;
+    //       }
+    //       return action.orderItem;
+    //     }),
+    //     orderTotal: state.orderTotal.reduce((total, item) => total + item.price)
+    //   };
     case REMOVE_FROM_CART:
       return state.items.filter(
         orderItem => orderItem.id !== action.orderItem.id

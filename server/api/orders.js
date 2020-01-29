@@ -1,8 +1,20 @@
 const router = require('express').Router();
-const { Orders, Products, OrderItems } = require('../db/index');
+const {
+  Orders,
+  Products,
+  OrderItems,
+  ProductListings
+} = require('../db/index');
 
 router.get('/', (req, res, next) => {
-  Orders.findAll({ include: [{ model: OrderItems }] })
+  Orders.findAll({
+    include: [
+      {
+        model: OrderItems,
+        include: [{ model: Products, include: [{ model: ProductListings }] }]
+      }
+    ]
+  })
     .then(orders => res.send(orders))
     .catch(e => {
       console.error(e);
@@ -13,7 +25,12 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   Orders.findByPk(req.params.id, {
-    include: [{ model: OrderItems }]
+    include: [
+      {
+        model: OrderItems,
+        include: [{ model: Products, include: [{ model: ProductListings }] }]
+      }
+    ]
   })
 
     .then(found => {
