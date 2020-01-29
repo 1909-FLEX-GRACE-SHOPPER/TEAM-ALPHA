@@ -28,13 +28,10 @@ class UserProfile extends React.Component {
   constructor(props) {
     super(props);
   }
-  //after getting user.id we should comment them in
 
-  //   componentDidMount() {
-  //     this.props.getSingelUser(this.props.match.params.id);
-  //   }
   render() {
-    //   const {user}=props
+    const { activeUser } = this.props;
+    console.log(activeUser.orderHistory);
 
     return (
       <Card
@@ -46,12 +43,24 @@ class UserProfile extends React.Component {
       >
         <CardContent>
           <Typography variant="h6" component="h2">
-            {user.firstName} {user.lastName}
+            {activeUser.firstName} {activeUser.lastName}
           </Typography>
-          <Typography variant="h10" component="h4">
-            {user.shippingAddress}
+          <Typography variant="h6" component="h4">
+            Shipping address:
           </Typography>
-          <Typography color="textSecondary">{user.email}</Typography>
+          <Typography variant="6" component="h4">
+            {setUserAddress(activeUser)}
+          </Typography>
+          <Typography variant="h6" component="h4">
+            Billing address:
+          </Typography>
+          <Typography variant="6" component="h4">
+            {setBillingAddress(activeUser)}
+          </Typography>
+          <Typography variant="h6" component="h4">
+            Email address:
+          </Typography>
+          <Typography color="textSecondary">{activeUser.email}</Typography>
         </CardContent>
         <CardActions>
           <Button size="small">Edit</Button>
@@ -61,11 +70,6 @@ class UserProfile extends React.Component {
   }
 }
 
-// const mapStateToProps = ({ user } = { user });
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     getSingelUser: id => dispatch(fetchSingelUser(id))
-//   };
-// };
-// export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
-export default UserProfile;
+const mapStateToProps = ({ activeUser }) => ({ activeUser });
+export default connect(mapStateToProps)(UserProfile);
+// export default UserProfile;
