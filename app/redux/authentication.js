@@ -43,8 +43,8 @@ export const logInAttempt = logInInfo => {
     const orders = (await axios.get(`/api/users/${user.id}`)).data.orders;
     const activeOrder = orders.find(order => order.status === 'open');
     if (activeOrder) {
-      dispatch(setActiveOrder(activeOrder.id));
-      dispatch(fetchActiveOrder(activeOrder.id));
+      dispatch(setActiveOrder(activeOrder));
+      dispatch(fetchActiveOrder(activeOrder));
     } else {
       const newOrderForLoggedInUser = {
         totalCost: 0.0,
@@ -86,8 +86,8 @@ export const initialLogInAttempt = () => {
         const activeOrder = orders.find(order => order.status === 'open');
         console.log('_________ACTIVE ORDER______', activeOrder);
         if (activeOrder) {
-          dispatch(setActiveOrder(activeOrder.id));
-          dispatch(fetchActiveOrder(activeOrder.id));
+          dispatch(setActiveOrder(activeOrder));
+          dispatch(fetchActiveOrder(activeOrder));
         } else {
           const newOrderForLoggedInUser = {
             totalCost: 0.0,
