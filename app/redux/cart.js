@@ -48,9 +48,9 @@ export const emptyCart = () => {
 
 // thunks
 
-export const fetchActiveOrder = activeOrderId => {
+export const fetchActiveOrder = activeOrder => {
   return async dispatch => {
-    const order = (await axios.get(`/api/orders/${activeOrderId}`)).data;
+    const order = (await axios.get(`/api/orders/${activeOrder.id}`)).data;
 
     // ignoring local storage for now
     // if (order.orderItems.length)
@@ -165,13 +165,22 @@ const cartReducer = (state = initialState, action) => {
     //     orderTotal: state.orderTotal.reduce((total, item) => total + item.price)
     //   };
     case REMOVE_FROM_CART:
-      return state.items.filter(
-        orderItem => orderItem.id !== action.orderItem.id
-      );
+      return {
+        ...state,
+        items: state.items.filter(
+          orderItem => orderItem.id !== action.orderItem.id
+        )
+      };
     case EMPTY_CART:
-      return initialState;
+      return {
+        items: [],
+        orderTotal: 0
+      };
     case SIGN_OUT:
-      return initialState;
+      return {
+        items: [],
+        orderTotal: 0
+      };
     default:
       return state;
   }

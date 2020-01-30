@@ -41,8 +41,10 @@ class ProductPageQuantityTracker extends React.Component {
     for (let i = 0; i < quantity; i++) {
       this.props.addToCart(cartItem);
     }
-    console.log('SUBMIT PROPS CARTITEM', cartItem);
-    return this.props.updateCart(cartItem.orderId);
+    // console.log('SUBMIT PROPS CARTITEM', cartItem);
+    const { orders } = this.props;
+    const { activeOrder } = orders;
+    return this.props.updateCart(activeOrder);
   };
   render() {
     //price, productId, orderId
@@ -81,7 +83,8 @@ class ProductPageQuantityTracker extends React.Component {
 
 const mapStateToProps = state => ({
   product: state.product,
-  cart: state.cart
+  cart: state.cart,
+  orders: state.orders
 });
 const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getProductThunk(productId)),

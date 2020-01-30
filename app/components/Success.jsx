@@ -32,15 +32,17 @@ class Success extends React.Component {
   }
   componentDidUpdate(prevProps) {
     // this.props.getSingelUser(this.props.match.params.id);
-    if (this.props.orders.activeOrder.id !== prevProps.orders.activeOrder.id) {
-      console.log('this props', this.props);
-      console.log('prev props', prevProps);
-      const { orders, submitOrder } = this.props;
-      const { activeOrder } = orders;
-      console.log('activeOrder in cdu on success: ', activeOrder);
-      submitOrder(activeOrder);
-    }
+    // if (this.props.orders.activeOrder.id !== prevProps.orders.activeOrder.id) {
+    console.log('hello!!!!');
+    console.log('this props', this.props);
+    console.log('prev props', prevProps);
+    const { orders, submitOrder } = this.props;
+    const { activeOrder } = orders;
+    console.log('activeOrder in cdu on success: ', activeOrder);
+    submitOrder(activeOrder);
+    // }
   }
+
   render() {
     // const { user } = this.props.user;
     const { orders, activeUser } = this.props;
