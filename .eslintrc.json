@@ -1,0 +1,19 @@
+{
+  "plugins": ["prettier", "react", "babel"],
+  "extends": [
+      "fullstack",
+      "plugin:prettier/recommended",
+      "plugin:react/recommended",
+      "prettier",
+      "prettier/babel",
+      "prettier/react"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "prettier/prettier": "error"
+  }
+}
