@@ -1,7 +1,7 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import { setActiveOrder, setOrders } from './orders';
-import { fetchActiveOrder } from './cart';
+import { fetchActiveOrder, setGuestItemsToCart } from './cart';
 import { uuidv4 } from '../utils';
 
 export const SIGN_IN = Symbol('sign in');
@@ -121,6 +121,17 @@ export const initialLogInAttempt = () => {
         // now deal with cart items
         // want to put them in local storage
         // FOR LATER: if there are cart items in local storage, put them in the redux store
+        // might need to parse in the if
+        if (localStorage.getItem(localStorageKey)) {
+          const localStorageItems = JSON.parse(
+            localStorage.getItem(localStorageKey)
+          );
+          // now add to the redux store; might need to write a new thunk
+          let price = localStorageItems.reduce((acc, item) => {
+            acc += item.unitPrice;
+          }, 0);
+          return dispatch(setGuestItemsToCart(localStorageItems, price));
+        }
         const cartItems = [];
         localStorage.setItem(localStorageKey, JSON.stringify(cartItems));
       });

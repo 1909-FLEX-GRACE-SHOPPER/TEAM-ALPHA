@@ -55,8 +55,6 @@ class Checkout extends Component {
   };
 
   errorPayment = data => {
-    console.log('button props:', this.props);
-
     const {
       activeOrder,
       submitOrder,
@@ -75,29 +73,10 @@ class Checkout extends Component {
       return null;
     }
     // guest user
-    // else {
-    //   // post the guest user
-    //   activeUser.userTypes = 'guest';
-    //   const userId = uuidv4();
-    //   activeUser.id = userId;
-    //   // for now need to give the fake user a fake password
-    //   activeUser.password = 'guestPwd';
-    //   createUser(activeUser);
-    //   // Associate the order with the user and post the order
-    //   activeOrder.userId = userId;
-    //   activeOrder.status = 'ordered';
-    //   createOrder(activeOrder);
-    //   // associate the cart items with the order and post it
-    //   // (recall that order already has its own id)
-    //   const { items } = cart;
-    //   items.forEach(item => {
-    //     item.orderId = activeOrder.id;
-    //     // might have to delete some info (like the product)
-    //   });
-    //   postGuestItems(items);
-    // }
     else {
-      // post the guest user
+      // 1) post the guest user
+      // 2) then post order associated with user
+      // 3) then post order items associated with order
       activeUser.userTypes = 'guest';
       const userId = uuidv4();
       activeUser.id = userId;

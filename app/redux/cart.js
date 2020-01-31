@@ -9,6 +9,7 @@ const ADD_TO_CART = 'ADD_TO_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 const EDIT_QUANTITY = 'EDIT_QUANTITY';
 const EMPTY_CART = Symbol('EMPTY_CART');
+const SET_GUEST_ITEMS = Symbol('SET_GUEST_ITEMS');
 
 // action creators
 export const setActiveOrderProducts = items => {
@@ -44,6 +45,14 @@ export const editQuantity = orderItem => {
 export const emptyCart = () => {
   return {
     type: EMPTY_CART
+  };
+};
+
+export const guestItemandCost = (items, orderTotal) => {
+  return {
+    type: SET_GUEST_ITEMS,
+    items,
+    orderTotal
   };
 };
 
@@ -134,6 +143,12 @@ export const updateQuantity = (edits, orderItem) => {
   };
 };
 
+export const setGuestItemsToCart = (items, totalCost) => {
+  return dispatch => {
+    return dispatch(guestItemandCost(items, totalCost));
+  };
+};
+
 // Not sure when this was added but it seems to be somones typescript?
 //need to complete
 // function addToCartLogic(someItem, cart) {
@@ -210,6 +225,11 @@ const cartReducer = (state = initialState, action) => {
       return {
         items: [],
         orderTotal: 0
+      };
+    case SET_GUEST_ITEMS:
+      return {
+        items: action.items,
+        orderTotal: action.orderTotal
       };
     default:
       return state;
