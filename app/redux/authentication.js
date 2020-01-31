@@ -7,7 +7,7 @@ import { uuidv4 } from '../utils';
 export const SIGN_IN = Symbol('sign in');
 export const SIGN_OUT = Symbol('sign out');
 export const LOG_IN_ERROR = Symbol('log in error');
-export const localStorageKey = 'guestCartItems'; // is a symbol a key? if so, use it
+export const localStorageKey = 'guestCartItems'; // DO NOT MAKE THIS A SYMBOL
 
 // action creators
 const signIn = data => {
@@ -27,7 +27,7 @@ const signOut = () => {
   };
 };
 
-// deal with log in error later
+// STILL NEED TO DO LOG IN ERROR
 
 // thunks
 export const logInAttempt = logInInfo => {
@@ -106,9 +106,6 @@ export const initialLogInAttempt = () => {
         return dispatch(setOrders(orders));
       })
       .catch(e => {
-        // ensure isLoggedIn is false
-        // dispatch(signOut());
-
         // deal with order
         const guestOrderId = uuidv4();
         const newOrderForGuestUser = {
@@ -120,18 +117,20 @@ export const initialLogInAttempt = () => {
 
         // now deal with cart items
         // want to put them in local storage
-        // FOR LATER: if there are cart items in local storage, put them in the redux store
-        // might need to parse in the if
+
+        // check if there are existing items in local storage so we can merge if needed
         if (localStorage.getItem(localStorageKey)) {
           const localStorageItems = JSON.parse(
             localStorage.getItem(localStorageKey)
           );
-          // now add to the redux store; might need to write a new thunk
+          // add the items to the redux store
           let price = localStorageItems.reduce((acc, item) => {
             acc += item.unitPrice;
+            return acc;
           }, 0);
           return dispatch(setGuestItemsToCart(localStorageItems, price));
         }
+        // if there are no items in local storage
         const cartItems = [];
         localStorage.setItem(localStorageKey, JSON.stringify(cartItems));
       });

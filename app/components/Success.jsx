@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchSingelUser } from '../redux/singleUser';
 import {
   Container,
   Card,
@@ -12,73 +11,22 @@ import {
 } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import { updateOrder, submitOrder, createOrder } from '../redux/orders';
-import { createUser } from '../redux/users';
-import { uuidv4 } from '../utils';
-import { postItemsToCartForGuestUser } from '../redux/cart';
-// user and order will remove later
-// const user = {
-//   id: '7f48a8c6-37b8-470c-b17a-645544a0af28',
-//   firstName: 'elham',
-//   lastName: 'amini',
-//   email: 'elhamfarvid@gmail.com',
-//   shippingAddress: '99 battrey place,apt 8M'
-// };
 
-// const order = {
-//   id: 777776665555555,
-//   totalCost: 50
-// };
 class Success extends React.Component {
   constructor(props) {
     super(props);
   }
-  // componentDidUpdate(prevProps) {
-  //   // copy over and then comment out
-  //   // if (this.props.authentication.isLoggedIn === false) {
-  //   //   const {
-  //   //     activeUser,
-  //   //     createOrder,
-  //   //     createUser,
-  //   //     orders,
-  //   //     cart,
-  //   //     postGuestItems
-  //   //   } = this.props;
-  //   //   // post the guest user
-  //   //   activeUser.userTypes = 'guest';
-  //   //   const userId = uuidv4();
-  //   //   activeUser.id = userId;
-  //   //   createUser(activeUser);
-  //   //   // Associate the order with the user and post the order
-  //   //   const { activeOrder } = orders;
-  //   //   activeOrder.userId = userId;
-  //   //   createOrder(activeOrder);
-  //   //   // associate the cart items with the order and post it
-  //   //   // (recall that order already has its own id)
-  //   //   const { items } = cart;
-  //   //   items.forEach(item => {
-  //   //     item.orderId = activeOrder.id;
-  //   //     // might have to delete some info (like the product)
-  //   //   });
-  //   //   return postGuestItems(items);
-  //   // }
-  //   // this.props.getSingelUser(this.props.match.params.id);
-  //   // if (this.props.orders.activeOrder.id !== prevProps.orders.activeOrder.id) {
-  //   // console.log('hello!!!!');
-  //   // console.log('this props', this.props);
-  //   // console.log('prev props', prevProps);
-  //   // const { orders, submitOrder } = this.props;
-  //   // const { activeOrder } = orders;
-  //   // console.log('activeOrder in cdu on success: ', activeOrder);
-  //   // submitOrder(activeOrder);
-  //   // }
-  // }
 
   render() {
-    const { orders, activeUser } = this.props;
+    const { orders, activeUser, authentication } = this.props;
     const { activeOrder } = orders;
     const orderId = this.props.match.params.id;
-    // still need a way to get the total cost
+
+    // this is not ideal, but I think it will work
+    const totalCost = JSON.parse(localStorage.getItem(ORDER_COST));
+    const costToShow = authentication.isLoggedIn
+      ? activeOrder.totalCost
+      : totalCost;
 
     return (
       <Card
@@ -133,7 +81,7 @@ class Success extends React.Component {
                   <Divider style={{ marginBottom: '2rem' }} />
                   <Grid item xs>
                     <Typography gutterBottom variant="h6">
-                      Order total:{'  '} $ {activeOrder.totalCost}.00
+                      Order total:{'  '} $ {costToShow}.00
                     </Typography>
                     <Typography gutterBottom variant="h6">
                       Order no#{orderId}
@@ -166,13 +114,4 @@ const mapStateToProps = ({ orders, activeUser, authentication, cart }) => ({
   cart
 });
 
-const mapDispatchToProps = dispatch => {
-  return {
-    submitOrder: order => dispatch(submitOrder(order)),
-    createUser: user => createUser(user),
-    createOrder: order => createOrder(order),
-    postGuestItems: items => postItemsToCartForGuestUser(items)
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Success);
-// export default Success;
+export default connect(mapStateToProps)(Success);

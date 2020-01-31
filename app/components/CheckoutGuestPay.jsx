@@ -145,12 +145,8 @@ class GuestPayment extends Component {
 
   onSubmit = ev => {
     ev.preventDefault();
-    // const { orders } = this.props;
-    // const { activeOrder } = orders;
-    console.log('props in pay page on submit, ', this.props);
     const { shippingIsBilling } = this.state;
     if (shippingIsBilling) {
-      console.log('if you see this, shipping is Billing');
       const {
         shippingAddress1,
         shippingAddress2,
@@ -181,10 +177,7 @@ class GuestPayment extends Component {
       billingState,
       billingZip
     };
-    console.log(this.state);
-    console.log(edits);
     this.props.editUser(edits);
-    // complete order thunk
   };
 
   render() {
@@ -198,11 +191,8 @@ class GuestPayment extends Component {
       postGuestItems,
       authentication
     } = this.props;
-    // console.log('activeUser:', activeUser);
-    console.log('props on checkout pay', this.props);
     const { orderTotal } = cart;
     const { activeOrder } = orders;
-    // change edit link to correct address when we figure it out
     return (
       <Fragment>
         <CssBaseline />
