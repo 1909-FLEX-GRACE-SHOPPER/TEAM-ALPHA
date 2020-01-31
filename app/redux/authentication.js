@@ -2,10 +2,12 @@ import axios from 'axios';
 import thunk from 'redux-thunk';
 import { setActiveOrder, setOrders } from './orders';
 import { fetchActiveOrder } from './cart';
+import { uuidv4 } from '../utils';
 
 export const SIGN_IN = Symbol('sign in');
 export const SIGN_OUT = Symbol('sign out');
 export const LOG_IN_ERROR = Symbol('log in error');
+export const localStorageKey = 'guestCartItems'; // is a symbol a key? if so, use it
 
 // action creators
 const signIn = data => {
@@ -104,7 +106,23 @@ export const initialLogInAttempt = () => {
         return dispatch(setOrders(orders));
       })
       .catch(e => {
-        return dispatch(signOut());
+        // ensure isLoggedIn is false
+        // dispatch(signOut());
+
+        // deal with order
+        const guestOrderId = uuidv4();
+        const newOrderForGuestUser = {
+          id: guestOrderId,
+          totalCost: 0.0,
+          status: 'open'
+        };
+        dispatch(setActiveOrder(newOrderForGuestUser));
+
+        // now deal with cart items
+        // want to put them in local storage
+        // FOR LATER: if there are cart items in local storage, put them in the redux store
+        const cartItems = [];
+        localStorage.setItem(localStorageKey, JSON.stringify(cartItems));
       });
   };
 };

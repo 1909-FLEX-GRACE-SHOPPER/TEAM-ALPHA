@@ -58,6 +58,7 @@ class CartTable extends Component {
                       X
                     </button>
                   </TableCell>
+                  {console.log(cartItem)}
                   <TableCell>
                     <img src={cartItem.product.productListing.imageUrl} />
                   </TableCell>

@@ -28,10 +28,10 @@ export const fetchUsers = () => {
   };
 };
 
-export const createUser = () => {
+export const createUser = user => {
   return dispatch => {
     return axios
-      .post('/api/users')
+      .post('/api/users', user)
       .then(response => dispatch(addUser(response.data)))
       .catch(e => console.log('Error in thunk:', e));
   };

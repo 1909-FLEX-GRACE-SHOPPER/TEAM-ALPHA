@@ -12,7 +12,10 @@ import {
 } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import { updateOrder, submitOrder } from '../redux/orders';
+import { updateOrder, submitOrder, createOrder } from '../redux/orders';
+import { createUser } from '../redux/users';
+import { uuidv4 } from '../utils';
+import { postItemsToCartForGuestUser } from '../redux/cart';
 // user and order will remove later
 // const user = {
 //   id: '7f48a8c6-37b8-470c-b17a-645544a0af28',
@@ -31,11 +34,40 @@ class Success extends React.Component {
     super(props);
   }
   componentDidUpdate(prevProps) {
+    if (this.props.authentication.isLoggedIn === false) {
+      console.log('in if in success cdu', this.props);
+      const {
+        activeUser,
+        createOrder,
+        createUser,
+        orders,
+        cart,
+        postGuestItems
+      } = this.props;
+      // post the guest user
+      activeUser.userTypes = 'guest';
+      const userId = uuidv4();
+      activeUser.id = userId;
+      createUser(activeUser);
+      // Associate the order with the user and post the order
+      const { activeOrder } = orders;
+      activeOrder.userId = userId;
+      createOrder(activeOrder);
+      // associate the cart items with the order and post it
+      // (recall that order already has its own id)
+      const { items } = cart;
+      items.forEach(item => {
+        item.orderId = activeOrder.id;
+        // might have to delete some info (like the product)
+      });
+      return postGuestItems(items);
+    }
+
     // this.props.getSingelUser(this.props.match.params.id);
     // if (this.props.orders.activeOrder.id !== prevProps.orders.activeOrder.id) {
-    console.log('hello!!!!');
-    console.log('this props', this.props);
-    console.log('prev props', prevProps);
+    // console.log('hello!!!!');
+    // console.log('this props', this.props);
+    // console.log('prev props', prevProps);
     const { orders, submitOrder } = this.props;
     const { activeOrder } = orders;
     console.log('activeOrder in cdu on success: ', activeOrder);
@@ -130,11 +162,19 @@ class Success extends React.Component {
   }
 }
 
-const mapStateToProps = ({ orders, activeUser }) => ({ orders, activeUser });
+const mapStateToProps = ({ orders, activeUser, authentication, cart }) => ({
+  orders,
+  activeUser,
+  authentication,
+  cart
+});
 
 const mapDispatchToProps = dispatch => {
   return {
-    submitOrder: order => dispatch(submitOrder(order))
+    submitOrder: order => dispatch(submitOrder(order)),
+    createUser: user => createUser(user),
+    createOrder: order => createOrder(order),
+    postGuestItems: items => postItemsToCartForGuestUser(items)
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Success);

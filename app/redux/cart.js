@@ -1,6 +1,7 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
-import { SIGN_OUT } from './authentication';
+import { SIGN_OUT, localStorageKey } from './authentication';
+import { uuidv4 } from '../utils';
 
 // constants to be moved to a constants.js file
 const SET_ORDER_TO_CART = 'SET_ORDER_TO_CART';
@@ -49,16 +50,17 @@ export const emptyCart = () => {
 // thunks
 
 export const fetchActiveOrder = activeOrder => {
-  return async dispatch => {
-    const order = (await axios.get(`/api/orders/${activeOrder.id}`)).data;
+  return async (dispatch, getState) => {
+    if (getState().authentication.isLoggedIn) {
+      const order = (await axios.get(`/api/orders/${activeOrder.id}`)).data;
+      return dispatch(setActiveOrderProducts(order.orderItems));
+    }
 
     // ignoring local storage for now
     // if (order.orderItems.length)
     //   localStorage.setItem('orderItems', JSON.stringify(order.products));
     // else if (order.orderItems.length === 0)
     //   localStorage.setItem('orderItems', JSON.stringify([]));
-
-    return dispatch(setActiveOrderProducts(order.orderItems));
   };
 };
 
@@ -75,10 +77,32 @@ export const addNewItemToCart = orderItem => {
       const addNewItem = (await axios.post(`/api/orderItems`, orderItem)).data;
       return dispatch(addToCart(addNewItem));
     } else {
-      const localStorageItems = JSON.parse(localStorage.getItem('orderItems'));
+      // need to DRY this out later; just keeping seperate for now
+      const order = getState().orders.activeOrder;
+      orderItem.orderId = order.id;
+      orderItem.id = uuidv4();
+      // get the product to attach to the cartItem
+      const product = (await axios.get(`/api/products/${orderItem.productId}`))
+        .data;
+      orderItem.product = product;
+      console.log('logged our order item: ', orderItem);
+      const localStorageItems = JSON.parse(
+        localStorage.getItem(localStorageKey)
+      );
+      console.log('local storage items: ', localStorageItems);
       localStorageItems.push(orderItem);
-      localStorage.setItem('orderItems', JSON.stringify(localStorageItems));
+      localStorage.setItem(localStorageKey, JSON.stringify(localStorageItems));
+      return dispatch(addToCart(orderItem));
     }
+  };
+};
+
+export const postItemsToCartForGuestUser = items => {
+  return dispatch => {
+    items.forEach(async item => {
+      await axios.post(`api/orderItems`, item);
+    });
+    return dispatch(emptyCart());
   };
 };
 
@@ -148,7 +172,9 @@ const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         // Check comment above ^^^
-        // items: [...state.items, action.orderItem],
+        // I needed to uncomment the below out in order to make the cart
+        // update when a user is logged out
+        items: [...state.items, action.orderItem],
         orderTotal: state.orderTotal + action.orderItem.unitPrice
       };
 

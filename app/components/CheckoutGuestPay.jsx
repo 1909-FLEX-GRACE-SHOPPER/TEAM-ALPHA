@@ -147,6 +147,7 @@ class GuestPayment extends Component {
     console.log('props in pay page on submit, ', this.props);
     const { shippingIsBilling } = this.state;
     if (shippingIsBilling) {
+      console.log('if you see this, shipping is Billing');
       const {
         shippingAddress1,
         shippingAddress2,
@@ -154,13 +155,14 @@ class GuestPayment extends Component {
         shippingState,
         shippingZip
       } = this.props.activeUser;
-      this.setState({
+      const edits = {
         billingAddress1: shippingAddress1,
         billingAddress2: shippingAddress2,
         billingCity: shippingCity,
         billingState: shippingState,
         billingZip: shippingZip
-      });
+      };
+      return this.props.editUser(edits);
     }
     const {
       billingAddress1,
@@ -176,6 +178,8 @@ class GuestPayment extends Component {
       billingState,
       billingZip
     };
+    console.log(this.state);
+    console.log(edits);
     this.props.editUser(edits);
     // complete order thunk
   };

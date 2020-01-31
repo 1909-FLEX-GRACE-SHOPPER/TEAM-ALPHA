@@ -86,7 +86,17 @@ const editActiveUser = editedUser => {
 export const modifyUser = edits => {
   return async (dispatch, getState) => {
     const user = getState().activeUser;
-    const editedUser = (await axios.put(`/api/users/${user.id}`, edits)).data;
+    let editedUser = {};
+    if (getState().authentication.isLoggedIn) {
+      editedUser = (await axios.put(`/api/users/${user.id}`, edits)).data;
+    } else {
+      editedUser = {
+        ...user,
+        ...edits
+      };
+      console.log('edited guest user in Modify User thunk:', editedUser);
+    }
+
     return dispatch(editActiveUser(editedUser));
   };
 };

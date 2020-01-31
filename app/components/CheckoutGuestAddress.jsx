@@ -63,18 +63,20 @@ class GuestAddressForm extends Component {
 
   // NOTE: I think we need to use a thunk here to POST the information input in the form for guests / new users. Pre-existing users should have the fields pre-populated with values stored in database. Let me know your thoughts.
 
-  // onSubmit = ev => {
-  //   ev.preventDefault();
-  //   const {
-  //     firstName,
-  //     lastName,
-  //     shippingAddress1,
-  //     shippingAddress2,
-  //     shippingCity,
-  //     shippingState,
-  //     shippingZip
-  //   } = this.state
-  // };
+  onClick = ev => {
+    // ev.preventDefault();
+    const {
+      firstName,
+      lastName,
+      shippingAddress1,
+      shippingAddress2,
+      shippingCity,
+      shippingState,
+      shippingZip
+    } = this.state;
+    console.log('hi from guest checkout address on click', this.state);
+    this.props.editUser(this.state);
+  };
 
   render() {
     return (
@@ -227,7 +229,7 @@ class GuestAddressForm extends Component {
                     </div>
                   </Link>
                 </div>
-                <Link to="/checkout2">
+                <Link to="/checkout2" onClick={this.onClick}>
                   <Button color="primary">Next</Button>
                 </Link>
               </Grid>
