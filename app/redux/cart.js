@@ -100,8 +100,12 @@ export const addNewItemToCart = orderItem => {
 export const postItemsToCartForGuestUser = items => {
   return dispatch => {
     items.forEach(async item => {
-      await axios.post(`api/orderItems`, item);
+      const postedItem = (await axios.post(`api/orderItems`, item)).data;
+      console.log('a posted item: ', postedItem);
     });
+
+    localStorage.removeItem(localStorageKey);
+
     return dispatch(emptyCart());
   };
 };

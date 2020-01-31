@@ -73,7 +73,9 @@ export const fetchOrders = () => {
 export const createOrder = order => {
   return async dispatch => {
     const postedOrder = (await axios.post('/api/orders', order)).data;
-    return dispatch(newOrder(postedOrder));
+    console.log('the poster order from the createOrder thunk: ', postedOrder);
+    // return dispatch(newOrder(postedOrder));
+    return dispatch(fetchOrders());
   };
 };
 

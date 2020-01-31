@@ -33,56 +33,53 @@ class Success extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentDidUpdate(prevProps) {
-    if (this.props.authentication.isLoggedIn === false) {
-      console.log('in if in success cdu', this.props);
-      const {
-        activeUser,
-        createOrder,
-        createUser,
-        orders,
-        cart,
-        postGuestItems
-      } = this.props;
-      // post the guest user
-      activeUser.userTypes = 'guest';
-      const userId = uuidv4();
-      activeUser.id = userId;
-      createUser(activeUser);
-      // Associate the order with the user and post the order
-      const { activeOrder } = orders;
-      activeOrder.userId = userId;
-      createOrder(activeOrder);
-      // associate the cart items with the order and post it
-      // (recall that order already has its own id)
-      const { items } = cart;
-      items.forEach(item => {
-        item.orderId = activeOrder.id;
-        // might have to delete some info (like the product)
-      });
-      return postGuestItems(items);
-    }
-
-    // this.props.getSingelUser(this.props.match.params.id);
-    // if (this.props.orders.activeOrder.id !== prevProps.orders.activeOrder.id) {
-    // console.log('hello!!!!');
-    // console.log('this props', this.props);
-    // console.log('prev props', prevProps);
-    const { orders, submitOrder } = this.props;
-    const { activeOrder } = orders;
-    console.log('activeOrder in cdu on success: ', activeOrder);
-    submitOrder(activeOrder);
-    // }
-  }
+  // componentDidUpdate(prevProps) {
+  //   // copy over and then comment out
+  //   // if (this.props.authentication.isLoggedIn === false) {
+  //   //   const {
+  //   //     activeUser,
+  //   //     createOrder,
+  //   //     createUser,
+  //   //     orders,
+  //   //     cart,
+  //   //     postGuestItems
+  //   //   } = this.props;
+  //   //   // post the guest user
+  //   //   activeUser.userTypes = 'guest';
+  //   //   const userId = uuidv4();
+  //   //   activeUser.id = userId;
+  //   //   createUser(activeUser);
+  //   //   // Associate the order with the user and post the order
+  //   //   const { activeOrder } = orders;
+  //   //   activeOrder.userId = userId;
+  //   //   createOrder(activeOrder);
+  //   //   // associate the cart items with the order and post it
+  //   //   // (recall that order already has its own id)
+  //   //   const { items } = cart;
+  //   //   items.forEach(item => {
+  //   //     item.orderId = activeOrder.id;
+  //   //     // might have to delete some info (like the product)
+  //   //   });
+  //   //   return postGuestItems(items);
+  //   // }
+  //   // this.props.getSingelUser(this.props.match.params.id);
+  //   // if (this.props.orders.activeOrder.id !== prevProps.orders.activeOrder.id) {
+  //   // console.log('hello!!!!');
+  //   // console.log('this props', this.props);
+  //   // console.log('prev props', prevProps);
+  //   // const { orders, submitOrder } = this.props;
+  //   // const { activeOrder } = orders;
+  //   // console.log('activeOrder in cdu on success: ', activeOrder);
+  //   // submitOrder(activeOrder);
+  //   // }
+  // }
 
   render() {
-    // const { user } = this.props.user;
     const { orders, activeUser } = this.props;
     const { activeOrder } = orders;
-    // console.log('active order on render of success', activeOrder);
-    // const order = orders
-    //   .filter(order => order.userId === this.props.match.params.id)
-    //   .filter(order => order.orderDate === Date());
+    const orderId = this.props.match.params.id;
+    // still need a way to get the total cost
+
     return (
       <Card
         style={{
@@ -139,7 +136,7 @@ class Success extends React.Component {
                       Order total:{'  '} $ {activeOrder.totalCost}.00
                     </Typography>
                     <Typography gutterBottom variant="h6">
-                      Order no#{activeOrder.id}
+                      Order no#{orderId}
                     </Typography>
                   </Grid>
                 </Grid>

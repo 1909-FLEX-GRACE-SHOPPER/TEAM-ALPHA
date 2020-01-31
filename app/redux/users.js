@@ -32,7 +32,10 @@ export const createUser = user => {
   return dispatch => {
     return axios
       .post('/api/users', user)
-      .then(response => dispatch(addUser(response.data)))
+      .then(response => {
+        console.log('create user thunk response data: ', response.data);
+        dispatch(addUser(response.data));
+      })
       .catch(e => console.log('Error in thunk:', e));
   };
 };
