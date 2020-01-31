@@ -15,6 +15,9 @@ import {
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Checkout from './CheckoutButton';
 import { modifyUser } from '../redux/activeUser';
+import { submitOrder, createOrder } from '../redux/orders';
+import { createUser } from '../redux/users';
+import { postItemsToCartForGuestUser } from '../redux/cart';
 
 const flexStyling = {
   display: 'flex'
@@ -142,9 +145,6 @@ class GuestPayment extends Component {
 
   onSubmit = ev => {
     ev.preventDefault();
-    // const { orders } = this.props;
-    // const { activeOrder } = orders;
-    console.log('props in pay page on submit, ', this.props);
     const { shippingIsBilling } = this.state;
     if (shippingIsBilling) {
       const {
@@ -154,13 +154,14 @@ class GuestPayment extends Component {
         shippingState,
         shippingZip
       } = this.props.activeUser;
-      this.setState({
+      const edits = {
         billingAddress1: shippingAddress1,
         billingAddress2: shippingAddress2,
         billingCity: shippingCity,
         billingState: shippingState,
         billingZip: shippingZip
-      });
+      };
+      return this.props.editUser(edits);
     }
     const {
       billingAddress1,
@@ -177,15 +178,21 @@ class GuestPayment extends Component {
       billingZip
     };
     this.props.editUser(edits);
-    // complete order thunk
   };
 
   render() {
-    const { activeUser, cart } = this.props;
-    // console.log('activeUser:', activeUser);
-    console.log('props on checkout pay', this.props);
+    const {
+      activeUser,
+      cart,
+      orders,
+      submitOrder,
+      createOrder,
+      createUser,
+      postGuestItems,
+      authentication
+    } = this.props;
     const { orderTotal } = cart;
-    // change edit link to correct address when we figure it out
+    const { activeOrder } = orders;
     return (
       <Fragment>
         <CssBaseline />
@@ -234,6 +241,15 @@ class GuestPayment extends Component {
                   name={`${activeUser.firstName} ${activeUser.lastName}`}
                   description="Enjoy your order!"
                   amount={orderTotal}
+                  activeOrder={activeOrder}
+                  submitOrder={submitOrder}
+                  // below is for guest
+                  activeUser={activeUser}
+                  createOrder={createOrder}
+                  cart={cart}
+                  postGuestItems={postGuestItems}
+                  createUser={createUser}
+                  authentication={authentication}
                 />
               </Grid>
             </Grid>
@@ -256,7 +272,11 @@ const mapStateToProps = ({ activeUser, cart, authentication, orders }) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    editUser: edits => dispatch(modifyUser(edits))
+    editUser: edits => dispatch(modifyUser(edits)),
+    submitOrder: order => dispatch(submitOrder(order)),
+    createOrder: order => dispatch(createOrder(order)),
+    createUser: user => dispatch(createUser(user)),
+    postGuestItems: items => dispatch(postItemsToCartForGuestUser(items))
   };
 };
 

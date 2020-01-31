@@ -23,8 +23,6 @@ class GuestAddressForm extends Component {
 
   componentDidMount() {
     const { activeUser } = this.props;
-    // console.log(activeUser);
-    // console.log(this.props.activeUser);
     if (this.state.firstName !== activeUser.firstName) {
       this.setState({
         firstName: activeUser.firstName,
@@ -39,42 +37,24 @@ class GuestAddressForm extends Component {
     }
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { activeUser } = this.props;
-  //   if (this.state.firstName !== this.props.activeUser.firstName) {
-  //     this.setState({
-  //       firstName: activeUser.firstName,
-  //       lastName: activeUser.lastName,
-  //       email: activeUser.email,
-  //       shippingAddress1: activeUser.shippingAddress1,
-  //       shippingAddress2: activeUser.shippingAddress2,
-  //       shippingCity: activeUser.shippingCity,
-  //       shippingState: activeUser.shippingState,
-  //       shippingZip: activeUser.shippingZip
-  //     });
-  //   }
-  // }
-
   handleChange = ({ target: { value, name } }) => {
     this.setState({
       [name]: value
     });
   };
 
-  // NOTE: I think we need to use a thunk here to POST the information input in the form for guests / new users. Pre-existing users should have the fields pre-populated with values stored in database. Let me know your thoughts.
-
-  // onSubmit = ev => {
-  //   ev.preventDefault();
-  //   const {
-  //     firstName,
-  //     lastName,
-  //     shippingAddress1,
-  //     shippingAddress2,
-  //     shippingCity,
-  //     shippingState,
-  //     shippingZip
-  //   } = this.state
-  // };
+  onClick = ev => {
+    const {
+      firstName,
+      lastName,
+      shippingAddress1,
+      shippingAddress2,
+      shippingCity,
+      shippingState,
+      shippingZip
+    } = this.state;
+    this.props.editUser(this.state);
+  };
 
   render() {
     return (
@@ -227,7 +207,7 @@ class GuestAddressForm extends Component {
                     </div>
                   </Link>
                 </div>
-                <Link to="/checkout2">
+                <Link to="/checkout2" onClick={this.onClick}>
                   <Button color="primary">Next</Button>
                 </Link>
               </Grid>

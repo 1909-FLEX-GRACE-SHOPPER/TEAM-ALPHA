@@ -20,7 +20,6 @@ class CartTable extends Component {
     return orderTotal;
   }
 
-  //works but page breaks b/c in nav bar check for cart.items.length
   onClickDelete(itemId) {
     this.props.deleteItem(itemId);
   }
@@ -58,6 +57,7 @@ class CartTable extends Component {
                       X
                     </button>
                   </TableCell>
+                  {console.log(cartItem)}
                   <TableCell>
                     <img src={cartItem.product.productListing.imageUrl} />
                   </TableCell>
