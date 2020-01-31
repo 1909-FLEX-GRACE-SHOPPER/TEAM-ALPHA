@@ -12,6 +12,7 @@ import {
   Toolbar
 } from '@material-ui/core';
 import ProductGrid from './ProductGrid';
+import AllProductsGrid from './AllProductsGrid';
 
 const Home = () => {
   return (
@@ -24,12 +25,17 @@ const Home = () => {
       <img src="https://cdn.shopify.com/s/files/1/1123/9358/files/St-Paul-Minneapolis-Ski-Shop-Store.jpg?v=1569521134" />
       <AppBar position="static" style={{ backgroundColor: 'lightGrey' }}>
         <Toolbar>
-          <h3 style={{ paddingLeft: '32rem' }}>All Products</h3>
+          <h3 style={{ paddingLeft: '32rem' }}>All Catagories</h3>
         </Toolbar>
       </AppBar>
       <ProductGrid />
+      <AllProductsGrid />
     </Container>
   );
 };
 
 export default Home;
+
+{
+  /* if admin run allProducts */
+}
