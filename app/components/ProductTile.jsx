@@ -7,68 +7,80 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import AllProductsGrid from './AllProductsGrid.jsx';
+import { fetchProductsOfACat, fetchProducts } from '../redux/products.js';
 
-const ProductTile = props => {
-  const products = props.product;
-  const product = products.productListing;
-  console.log('products.color.color', products.color.color);
-  console.log('product');
-
-  const useStyles = makeStyles({
-    card: {
-      maxWidth: 300
-    },
-    media: {
-      height: 140
-    }
-  });
-  const classes = useStyles();
-
-  if (!product.name) {
-    return <div>Product not found...</div>;
-  } else {
-    return (
-      <div>
-        <Card className={classes.card}>
-          <Link to={`/products/${products.id}`}>
-            <ButtonBase className={classes.image}>
-              <img
-                className={classes.img}
-                alt="complex"
-                src={product.imageUrl}
-              />
-            </ButtonBase>
-          </Link>
-          <CardActions>
-            <Link
-              style={{ textDecoration: 'none' }}
-              size="small"
-              color="primary"
-              to={`/products/${products.id}`}
-            >
-              {product.name}
-            </Link>
-            <Typography variant="subtitle1" color="textSecondary" component="p">
-              {products.color.color}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              ${products.price}
-            </Typography>
-          </CardActions>
-        </Card>
-      </div>
-    );
+class ProductTile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeUserType: this.props.activeUser.userTypes,
+      products: this.props.products
+    };
   }
-};
+  componentDidMount() {
+    console.log('CDM');
+    let id = parseInt(this.props.match.params.id);
+    this.props.getProduct(id);
+    this.props.fetchProductsOfACat(id);
+    this.props.fetchProducts();
+  }
+  render() {
+    console.log('this.state', this.state);
+    console.log('this.props.match', this.props.match);
 
-// const mapStateToProps = state => ({
-//   product: state.product
-// });
+    if (!this.state.products) {
+      return <div>Product not found...</div>;
+    } else {
+      return (
+        <div>
+          <Card>
+            <Link to={`/products/${this.state.products.id}`}>
+              <ButtonBase>
+                <img
+                  alt="complex"
+                  src={this.state.products.productListing.imageUrl}
+                />
+              </ButtonBase>
+            </Link>
+            <CardActions>
+              <Link
+                style={{ textDecoration: 'none' }}
+                size="small"
+                color="primary"
+                to={`/products/${this.state.products.id}`}
+              >
+                {this.state.product.name}
+              </Link>
+              <Typography
+                variant="subtitle1"
+                color="textSecondary"
+                component="p"
+              >
+                {this.state.products.color.color}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                ${this.state.products.price}
+              </Typography>
+            </CardActions>
+          </Card>
+          {this.state.activeUserType === 'admin' ? <AllProductsGrid /> : ''}
+        </div>
+      );
+    }
+  }
+}
+
+const mapStateToProps = state => ({
+  product: state.product,
+  activeUser: state.activeUser,
+  products: state.products
+});
 
 const mapDispatchToProps = dispatch => ({
-  getProduct: productId => dispatch(getProductThunk(productId))
+  getProduct: productId => dispatch(getProductThunk(productId)),
+  fetchProductsOfACat: categoryId => dispatch(fetchProductsOfACat(categoryId)),
+  fetchProducts: () => dispatch(fetchProducts())
 });
-//const mapStateToProps = ({ product }) => ({ product });
 
-//export default connect(mapStateToProps)(ProductTile);
-export default connect(null, mapDispatchToProps)(ProductTile);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductTile);

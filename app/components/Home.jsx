@@ -29,7 +29,6 @@ const Home = () => {
         </Toolbar>
       </AppBar>
       <ProductGrid />
-      <AllProductsGrid />
     </Container>
   );
 };
