@@ -4,9 +4,9 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { MenuItem, FormHelperText } from '@material-ui/core';
+import { FormHelperText } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import createProduct from '../redux/products';
+import { createProduct } from '../redux/products';
 const sizes = ['one size', 'XS', 'S', 'M', 'L', 'XL'];
 const gender = ['F', 'M', 'N'];
 
@@ -37,7 +37,7 @@ class AddProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // productListingId: 11,
+      productListingId: 0,
       categoryId: 0,
       colorId: 0,
       gender: '',
@@ -47,7 +47,8 @@ class AddProduct extends React.Component {
       name: '',
       description: '',
       imageUrl: '',
-      error: false
+      error: false,
+      errorText: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -56,43 +57,15 @@ class AddProduct extends React.Component {
   handleChange({ target: { value, name } }) {
     this.setState({ [name]: value });
   }
-  // handleChangeNum({ target: { value, name } }) {
-  //   this.setState({ [name]: Math.floor(value) });
-  // }
 
   handleSubmit(event) {
-    const {
-      productListingId,
-      categoryId,
-      colorId,
-      gender,
-      size,
-      price,
-      quantity,
-      name,
-      description,
-      imageUrl
-    } = this.state;
     event.preventDefault();
-
-    if (
-      // productListingId === 0 ||
-      categoryId === 0 ||
-      colorId === 0 ||
-      gender === '' ||
-      size === '' ||
-      price === 0 ||
-      quantity === '' ||
-      name === '' ||
-      description === '' ||
-      imageUrl === ''
-    ) {
-      this.setState({ error: true });
-    }
   }
   handleClick() {
+    const products = this.props.products; // might want authentication info too
+    const productsListingId = products.map(product => product.productListingId);
+    const maxId = Math.max(...productsListingId);
     const {
-      // productListingId,
       categoryId,
       colorId,
       gender,
@@ -103,6 +76,41 @@ class AddProduct extends React.Component {
       description,
       imageUrl
     } = this.state;
+    if (price === '') {
+      this.state.error = true;
+      this.setState({ errorText: 'Price' });
+    }
+    if (categoryId === '') {
+      this.state.error = true;
+      this.setState({ errorText: 'Category Id' });
+    }
+    if (colorId === '') {
+      this.state.error = true;
+      this.setState({ errorText: 'Color Id' });
+    }
+    if (gender === '') {
+      this.state.error = true;
+      this.setState({ errorText: 'Gender' });
+    }
+    if (quantity === '') {
+      this.state.error = true;
+      this.setState({ errorText: 'Quantity' });
+    }
+    if (name === '') {
+      this.state.error = true;
+      this.setState({ errorText: 'Product Name' });
+    }
+    if (description === '') {
+      this.state.error = true;
+      this.setState({ errorText: 'Description' });
+    }
+    if (imageUrl === '') {
+      this.state.error = true;
+      this.setState({ errorText: 'Image URL' });
+    }
+    if (this.state.error === false) {
+      this.props.history.push('/');
+    }
 
     this.props.createProduct({
       gender,
@@ -110,32 +118,42 @@ class AddProduct extends React.Component {
       quantity,
       price,
       colorId,
-      categoryId
-      // productListingId
+      categoryId,
+      productListingId: maxId + 1
     });
-    // axios
-    //   .post('/api/productListings', { name, description, imageUrl })
-    //   .then(product => console.log('newProduct', product))
-    //   .catch(e => console.error(e));
+    axios
+      .post('/api/productListings', {
+        name,
+        description,
+        imageUrl,
+        id: maxId + 1
+      })
+      .then(product => console.log('newProduct', product))
+      .catch(e => console.error(e));
   }
 
   render() {
     const products = this.props.products; // might want authentication info too
-
+    const productsListingId = products.map(product => product.productListingId);
+    const maxId = Math.max(...productsListingId);
     return (
       <div
         style={{
           marginTop: '2rem',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center'
+          alignItems: 'center',
+          paddingBottom: '5rem',
+          borderBottom: 'solid 2px darkGrey'
         }}
       >
-        <Typography component="h1" variant="h5">
-          ADD NEW PRODUCT
-        </Typography>
-        <form noValidate onSubmit={this.handleSubmit}>
+        <form onSubmit={ev => this.handleSubmit(ev)}>
           <Grid container spacing={2} style={{ marginLeft: '8rem' }}>
+            <Grid item xs={12} style={{ marginLeft: '25rem' }}>
+              <Typography component="h1" variant="h5">
+                ADD NEW PRODUCT
+              </Typography>
+            </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
                 id="product-name"
@@ -203,11 +221,12 @@ class AddProduct extends React.Component {
                 variant="outlined"
               />
             </Grid>
-            {/* <Grid item xs={12} sm={4}>
+
+            <Grid item xs={12} sm={4}>
               <TextField
                 id="product-quantity"
-                label="Product category"
-                name="category"
+                label="Product Category Id"
+                name="categoryId"
                 onChange={ev =>
                   this.setState({
                     [ev.target.name]: parseInt(ev.target.value)
@@ -219,107 +238,41 @@ class AddProduct extends React.Component {
             <Grid item xs={12} sm={4}>
               <TextField
                 id="product-quantity"
-                label="Product color"
-                name="color"
-                onChange={this.handleChangeNum}
+                label="Product Color Id"
+                name="colorId"
+                onChange={ev =>
+                  this.setState({
+                    [ev.target.name]: parseInt(ev.target.value)
+                  })
+                }
                 variant="outlined"
               />
-            </Grid> */}
-            {/* <Grid item xs={12} sm={4}>
-              <TextField
-                id="standard-select-size"
-                select
-                label="Size"
-                name="size"
-                onChange={this.handleChange}
-                helperText="Please select the size"
-              >
-                {sizes.map(option => (
-                  <MenuItem
-                    key={option}
-                    value={option}
-                    onChange={this.handleChange}
-                  >
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                id="select-gender"
-                select
-                label="Gender"
-                name="gender"
-                onChange={this.handleChange}
-                helperText="Please select the gender"
-              >
-                {gender.map(option => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                id="select-category"
-                select
-                name="categoryId"
-                label="Category"
-                onChange={ev =>
-                  this.setState({
-                    [ev.target.name]: 1 + categories.indexOf(ev.target.value)
-                  })
-                }
-                helperText="Please select the Category"
-              >
-                {categories.map(option => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                id="select-color"
-                select
-                name="colorId"
-                label="Color"
-                onChange={ev =>
-                  this.setState({
-                    [ev.target.name]: 1 + +colorsList.indexOf(ev.target.value)
-                  })
-                }
-                helperText="Please select the Color"
-              >
-                {colorsList.map(option => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid> */}
-            <Grid item xs={12}>
+
+            <Grid item xs={12} style={{ marginLeft: '28.5rem' }}>
               <Button
                 variant="contained"
                 color="primary"
+                style={{ marginTop: '2rem' }}
                 onClick={this.handleClick}
               >
                 Add product
               </Button>
-              {this.state.error ? (
-                <FormHelperText
-                  id="component-error-text"
-                  style={{ textColor: 'red' }}
-                >
-                  Fill out required fields
-                </FormHelperText>
-              ) : null}
             </Grid>
           </Grid>
         </form>
+        {this.state.error === true ? (
+          <FormHelperText
+            id="component-error-text"
+            style={{
+              fontSize: '1.5rem',
+              color: 'red',
+              marginLeft: '3rem'
+            }}
+          >
+            {this.state.errorText} is required!
+          </FormHelperText>
+        ) : null}
       </div>
     );
   }
