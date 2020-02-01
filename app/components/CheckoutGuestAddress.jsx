@@ -166,6 +166,7 @@ class GuestAddressForm extends Component {
                   variant="outlined"
                   margin="normal"
                   fullWidth
+                  required
                   id="shippingState"
                   name="shippingState"
                   label="State"
@@ -178,6 +179,7 @@ class GuestAddressForm extends Component {
                   variant="outlined"
                   margin="normal"
                   fullWidth
+                  required
                   id="shippingZip"
                   name="shippingZip"
                   label="Zip Code"

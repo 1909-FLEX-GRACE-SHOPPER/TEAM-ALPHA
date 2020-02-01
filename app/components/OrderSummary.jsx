@@ -33,6 +33,11 @@ class OrderSummary extends Component {
   render() {
     const { promoCode } = this.state;
     const { cart } = this.props;
+    console.log('props.cart', cart);
+
+    const orderTax = parseInt(cart.orderTotal) * 0.088725;
+    const orderTotal = parseInt(cart.orderTotal) + orderTax;
+
     return (
       <Container component="div" maxWidth="xs">
         <div
@@ -51,17 +56,19 @@ class OrderSummary extends Component {
             <Typography variant="h6">Summary</Typography>
             <div style={lineItemStyle}>
               <Typography variant="subtitle1">Subtotal:</Typography>
-              <Typography variant="subtitle1">{cart.orderTotal}</Typography>
+              <Typography variant="subtitle1">${cart.orderTotal}</Typography>
             </div>
             <div style={lineItemStyle}>
               <Typography variant="subtitle1">Shipping:</Typography>
               {/* Need to replace this when adding shipping options */}
-              <Typography variant="subtitle1">$0.00</Typography>
+              <Typography variant="subtitle1">FREE</Typography>
             </div>
             <div style={lineItemStyle}>
               <Typography variant="subtitle1">Estimated Taxes:</Typography>
               {/* Should we just do a fixed NYC tax for now? */}
-              <Typography variant="subtitle1">$0.00</Typography>
+              <Typography variant="subtitle1">
+                ${orderTax.toFixed(2)}
+              </Typography>
             </div>
             <TextField
               name="promoCode"
@@ -80,7 +87,9 @@ class OrderSummary extends Component {
             </Button>
             <div style={lineItemStyle}>
               <Typography variant="subtitle1">Total:</Typography>
-              <Typography variant="subtitle1">$0.00</Typography>
+              <Typography variant="subtitle1">
+                ${orderTotal.toFixed(2)}
+              </Typography>
             </div>
           </form>
         </div>

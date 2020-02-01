@@ -110,7 +110,7 @@ const Users = db.define('users', {
       notEmpty: true
     }
   },
-  userTypes: {
+  userType: {
     type: ENUM,
     values: ['admin', 'pending', 'regular', 'guest', 'oAuth'],
     allowNull: false,

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../database');
 
-const { UUID, UUIDV4, INTEGER, DECIMAL } = Sequelize;
+const { UUID, UUIDV4, DECIMAL } = Sequelize;
 
 const OrderItems = db.define('orderItems', {
   id: {
