@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { MenuItem, FormHelperText } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import  createProduct  from '../redux/products';
+import createProduct from '../redux/products';
 const sizes = ['one size', 'XS', 'S', 'M', 'L', 'XL'];
 const gender = ['F', 'M', 'N'];
 
@@ -37,7 +37,7 @@ class AddProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productListingId: 11,
+      // productListingId: 11,
       categoryId: 0,
       colorId: 0,
       gender: '',
@@ -76,7 +76,7 @@ class AddProduct extends React.Component {
     event.preventDefault();
 
     if (
-      productListingId === 0 ||
+      // productListingId === 0 ||
       categoryId === 0 ||
       colorId === 0 ||
       gender === '' ||
@@ -92,7 +92,7 @@ class AddProduct extends React.Component {
   }
   handleClick() {
     const {
-      productListingId,
+      // productListingId,
       categoryId,
       colorId,
       gender,
@@ -110,8 +110,8 @@ class AddProduct extends React.Component {
       quantity,
       price,
       colorId,
-      categoryId,
-      productListingId
+      categoryId
+      // productListingId
     });
     // axios
     //   .post('/api/productListings', { name, description, imageUrl })
