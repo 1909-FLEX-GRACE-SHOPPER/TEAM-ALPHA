@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { MenuItem, FormHelperText } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import createProduct from '../redux/products';
+import { createProduct } from '../redux/products';
 const sizes = ['one size', 'XS', 'S', 'M', 'L', 'XL'];
 const gender = ['F', 'M', 'N'];
 
@@ -203,7 +203,7 @@ class AddProduct extends React.Component {
                 variant="outlined"
               />
             </Grid>
-            {/* <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 id="product-quantity"
                 label="Product category"
@@ -224,7 +224,7 @@ class AddProduct extends React.Component {
                 onChange={this.handleChangeNum}
                 variant="outlined"
               />
-            </Grid> */}
+            </Grid>
             {/* <Grid item xs={12} sm={4}>
               <TextField
                 id="standard-select-size"
