@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchSingelUser } from '../redux/singleUser';
 import {
   Container,
   Card,
@@ -12,45 +11,23 @@ import {
 } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import { updateOrder, submitOrder } from '../redux/orders';
-// user and order will remove later
-// const user = {
-//   id: '7f48a8c6-37b8-470c-b17a-645544a0af28',
-//   firstName: 'elham',
-//   lastName: 'amini',
-//   email: 'elhamfarvid@gmail.com',
-//   shippingAddress: '99 battrey place,apt 8M'
-// };
 
-// const order = {
-//   id: 777776665555555,
-//   totalCost: 50
-// };
 class Success extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentDidUpdate(prevProps) {
-    // this.props.getSingelUser(this.props.match.params.id);
-    // if (this.props.orders.activeOrder.id !== prevProps.orders.activeOrder.id) {
-    console.log('hello!!!!');
-    console.log('this props', this.props);
-    console.log('prev props', prevProps);
-    const { orders, submitOrder } = this.props;
-    const { activeOrder } = orders;
-    console.log('activeOrder in cdu on success: ', activeOrder);
-    submitOrder(activeOrder);
-    // }
-  }
 
   render() {
-    // const { user } = this.props.user;
-    const { orders, activeUser } = this.props;
+    const { orders, activeUser, authentication } = this.props;
     const { activeOrder } = orders;
-    // console.log('active order on render of success', activeOrder);
-    // const order = orders
-    //   .filter(order => order.userId === this.props.match.params.id)
-    //   .filter(order => order.orderDate === Date());
+    const orderId = this.props.match.params.id;
+
+    // this is not ideal, but I think it will work
+    const totalCost = JSON.parse(localStorage.getItem(ORDER_COST));
+    const costToShow = authentication.isLoggedIn
+      ? activeOrder.totalCost
+      : totalCost;
+
     return (
       <Card
         style={{
@@ -104,10 +81,10 @@ class Success extends React.Component {
                   <Divider style={{ marginBottom: '2rem' }} />
                   <Grid item xs>
                     <Typography gutterBottom variant="h6">
-                      Order total:{'  '} $ {activeOrder.totalCost}.00
+                      Order total:{'  '} $ {costToShow}.00
                     </Typography>
                     <Typography gutterBottom variant="h6">
-                      Order no#{activeOrder.id}
+                      Order no#{orderId}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -130,12 +107,11 @@ class Success extends React.Component {
   }
 }
 
-const mapStateToProps = ({ orders, activeUser }) => ({ orders, activeUser });
+const mapStateToProps = ({ orders, activeUser, authentication, cart }) => ({
+  orders,
+  activeUser,
+  authentication,
+  cart
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    submitOrder: order => dispatch(submitOrder(order))
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Success);
-// export default Success;
+export default connect(mapStateToProps)(Success);

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
-import { SIGN_OUT } from './authentication';
+import { SIGN_OUT, localStorageKey } from './authentication';
+import { uuidv4 } from '../utils';
 
 // constants to be moved to a constants.js file
 const SET_ORDER_TO_CART = 'SET_ORDER_TO_CART';
@@ -8,6 +9,7 @@ const ADD_TO_CART = 'ADD_TO_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 const EDIT_QUANTITY = 'EDIT_QUANTITY';
 const EMPTY_CART = Symbol('EMPTY_CART');
+const SET_GUEST_ITEMS = Symbol('SET_GUEST_ITEMS');
 
 // action creators
 export const setActiveOrderProducts = items => {
@@ -32,7 +34,6 @@ export const removeFromCart = orderItem => {
   };
 };
 
-//NOTE: orderItem here should be an object with the product, quantity, and price
 export const editQuantity = orderItem => {
   return {
     type: EDIT_QUANTITY,
@@ -46,39 +47,77 @@ export const emptyCart = () => {
   };
 };
 
-// thunks
-
-export const fetchActiveOrder = activeOrder => {
-  return async dispatch => {
-    const order = (await axios.get(`/api/orders/${activeOrder.id}`)).data;
-
-    // ignoring local storage for now
-    // if (order.orderItems.length)
-    //   localStorage.setItem('orderItems', JSON.stringify(order.products));
-    // else if (order.orderItems.length === 0)
-    //   localStorage.setItem('orderItems', JSON.stringify([]));
-
-    return dispatch(setActiveOrderProducts(order.orderItems));
+export const guestItemandCost = (items, orderTotal) => {
+  return {
+    type: SET_GUEST_ITEMS,
+    items,
+    orderTotal
   };
 };
 
-//Should only POST to cart if the user is a logged in user
-//If the guest clicks on checkout and pays then POST items
-//Otherwise items should just be in localstorage
-export const addNewItemToCart = orderItem => {
+// thunks
+
+export const fetchActiveOrder = activeOrder => {
   return async (dispatch, getState) => {
     if (getState().authentication.isLoggedIn) {
+      const order = (await axios.get(`/api/orders/${activeOrder.id}`)).data;
+      let { orderItems } = order;
+      // here we are checking if there are items in local storage for merging
+      // if so, we merge them and remove them from local storage
+      if (localStorage.getItem(localStorageKey)) {
+        const localStorageItems = JSON.parse(
+          localStorage.getItem(localStorageKey)
+        );
+        orderItems = orderItems.concat(localStorageItems);
+        localStorage.removeItem(localStorageKey);
+      }
+      return dispatch(setActiveOrderProducts(orderItems));
+    }
+  };
+};
+// note: I am using orderItem and cartItem interchangeably
+export const addNewItemToCart = orderItem => {
+  return async (dispatch, getState) => {
+    // for logged in users we post their orderItems right away
+    if (getState().authentication.isLoggedIn) {
       const order = getState().orders.activeOrder;
-      // console.log(order);
       orderItem.orderId = order.id;
-      console.log('orderItem for logged in user from thunk', orderItem);
       const addNewItem = (await axios.post(`/api/orderItems`, orderItem)).data;
       return dispatch(addToCart(addNewItem));
     } else {
-      const localStorageItems = JSON.parse(localStorage.getItem('orderItems'));
+      // need to DRY this out later; just keeping seperate for now
+
+      // for guest users we store orderItems in localStorage
+      const order = getState().orders.activeOrder;
+      orderItem.orderId = order.id;
+      orderItem.id = uuidv4();
+      // get the product to attach to the orderItems
+      const product = (await axios.get(`/api/products/${orderItem.productId}`))
+        .data;
+      orderItem.product = product;
+      // get the local storage items
+      const localStorageItems = JSON.parse(
+        localStorage.getItem(localStorageKey)
+      );
+      // push to them
       localStorageItems.push(orderItem);
-      localStorage.setItem('orderItems', JSON.stringify(localStorageItems));
+      // put them back into local storage and add our new item to the redux store
+      localStorage.setItem(localStorageKey, JSON.stringify(localStorageItems));
+      return dispatch(addToCart(orderItem));
     }
+  };
+};
+
+export const postItemsToCartForGuestUser = items => {
+  return dispatch => {
+    items.forEach(async item => {
+      const postedItem = (await axios.post(`api/orderItems`, item)).data;
+      console.log('a posted item: ', postedItem);
+    });
+
+    localStorage.removeItem(localStorageKey);
+
+    return dispatch(emptyCart());
   };
 };
 
@@ -88,12 +127,8 @@ export const removeItem = orderItem => {
       await axios.delete(`/api/orderItems/${orderItem.id}`);
       return dispatch(removeFromCart(orderItem));
     }
-    //Will need to do this part to remove order items from localStorage
-    // else {
-    //   const localStorageItems = JSON.parse(localStorage.getItem('orderItems'));
-    //   localStorageItems.push(orderItem);
-    //   localStorage.setItem('orderItems', JSON.stringify(localStorageItems));
-    // }
+    // need to be able to remove from local storage and redux store if not signed out
+    // I can get to this later if needed - JH
   };
 };
 
@@ -106,28 +141,12 @@ export const updateQuantity = (edits, orderItem) => {
   };
 };
 
-// Not sure when this was added but it seems to be somones typescript?
-//need to complete
-// function addToCartLogic(someItem, cart) {
-//   let itemExists = false;
-//   const { items, orderTotal } = cart;
-//   const newItems = items.map(item => {
-//     const itemCopy = { ...item };
-//     if (itemCopy.id === someItem.id) {
-//       itemExists = true;
-//       itemCopy.qty += someItem.qty;
-//     }
-//     return itemCopy;
-//   });
-//   if (!itemExists) {
-//     newItems.push(someItem);
-//   }
-//   // increase order total
+export const setGuestItemsToCart = (items, totalCost) => {
+  return dispatch => {
+    return dispatch(guestItemandCost(items, totalCost));
+  };
+};
 
-//   return { items: newItems, orderTotal };
-// }
-
-// Would an array with items being objects be better organization for cart?
 const initialState = {
   items: [],
   //Adding the order total in the state so we can pass this back to the database
@@ -143,12 +162,15 @@ const cartReducer = (state = initialState, action) => {
         items: action.items
       };
 
+    // I think we actually do need this (see below) - JH
     //I dont think we actually need this (maybe we do?). Currently with the way the add to cart button works on the product page, it will POST a fixed object with the items price, productID, and active orderID into the the cart. Though this will pass the active orderID and the productId we dont actually get any assocaition to the productListings b/c this is a manual addition of an object with this reducer. Therefore I wont cant get the product info into the cart page. This is why I needed to add the fetchActiveOrder thunk into the add to cart button on the product page to fetch the updated activeorder. Also, orderTotal would not be needed here because once we log out and log back in the intialState will set it back to $0.
     case ADD_TO_CART:
       return {
         ...state,
         // Check comment above ^^^
-        // items: [...state.items, action.orderItem],
+        // I needed to uncomment the below out in order to make the cart -JH
+        // update when a user is logged out
+        items: [...state.items, action.orderItem],
         orderTotal: state.orderTotal + action.orderItem.unitPrice
       };
 
@@ -180,6 +202,11 @@ const cartReducer = (state = initialState, action) => {
       return {
         items: [],
         orderTotal: 0
+      };
+    case SET_GUEST_ITEMS:
+      return {
+        items: action.items,
+        orderTotal: action.orderTotal
       };
     default:
       return state;

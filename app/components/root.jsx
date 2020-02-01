@@ -44,7 +44,7 @@ export default class Root extends Component {
             <Route path="/myaccount" component={MyAccount} />
             <Route path="/checkout" component={CheckoutGuestAddress} exact />
             <Route path="/checkout2" component={CheckoutGuestPay} exact />
-            <Route path="/success" component={Success} exact />
+            <Route path="/success/:id" component={Success} exact />
           </Switch>
           <Footer />
         </main>

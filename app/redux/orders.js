@@ -8,6 +8,7 @@ const SET_ORDERS = Symbol('set_orders');
 const SET_ACTIVE_ORDER = Symbol('set_active_order');
 const ADD_ORDER = Symbol('add_order');
 const EDIT_ORDER = Symbol('edit_order');
+export const ORDER_COST = 'ORDER_COST'; // DO NOT MAKE THIS A SYMBOL
 
 // action creators
 
@@ -41,6 +42,7 @@ export const editOrder = order => {
 
 // thunks
 
+// we need to deal with this and order history
 export const fetchOrders = () => {
   return async (dispatch, getState) => {
     console.log('fetching orders...');
@@ -69,11 +71,14 @@ export const fetchOrders = () => {
   };
 };
 
-// would use this when a user makes an account for the first time with items in their cart
+// this is for when a user makes an account for the first time with items in their cart
+// it is also for when guest users check out
 export const createOrder = order => {
   return async dispatch => {
     const postedOrder = (await axios.post('/api/orders', order)).data;
-    return dispatch(newOrder(postedOrder));
+    localStorage.setItem(ORDER_COST, JSON.stringify(order.totalCost));
+    // return dispatch(newOrder(postedOrder));
+    return dispatch(fetchOrders());
   };
 };
 
@@ -93,7 +98,6 @@ export const submitOrder = order => {
     const edits = {
       status: 'ordered'
     };
-    console.log('order in submitOrder thunk: ', order);
     const submittedOrder = (await axios.put(`api/orders/${order.id}`, edits))
       .data;
     dispatch(emptyCart());
