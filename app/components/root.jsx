@@ -16,6 +16,7 @@ import CheckoutGuestAddress from './CheckoutGuestAddress';
 import CheckoutGuestPay from './CheckoutGuestPay';
 import Success from './Success';
 import { initialLogInAttempt } from '../redux/authentication';
+import { AddProduct } from './AddProduct';
 
 export default class Root extends Component {
   async componentDidMount() {
@@ -45,6 +46,7 @@ export default class Root extends Component {
             <Route path="/checkout" component={CheckoutGuestAddress} exact />
             <Route path="/checkout2" component={CheckoutGuestPay} exact />
             <Route path="/success/:id" component={Success} exact />
+
           </Switch>
           <Footer />
         </main>
