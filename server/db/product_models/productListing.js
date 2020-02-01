@@ -24,11 +24,11 @@ const ProductListings = db.define('productListings', {
   },
   imageUrl: {
     type: TEXT,
-    defaultValue: 'to come'
-    //NOTE: commented this out temp just to test seed templates. This forces us to insert URLS.
-    // validate: {
-    //     isUrl: true,
-    // },
+    defaultValue:
+      'https://ayc.ddl.mybluehost.me/wp-content/uploads/2018/04/coming-soon.png',
+    validate: {
+      isUrl: true
+    }
   }
 });
 

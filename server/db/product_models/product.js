@@ -45,7 +45,7 @@ const Products = db.define('products', {
     type: INTEGER,
     allowNull: false,
     validate: {
-      notEmpty: true,
+      sInt: true,
       min: 0
     }
   },
@@ -53,7 +53,7 @@ const Products = db.define('products', {
     type: DECIMAL(10, 2),
     allowNull: false,
     validate: {
-      notEmpty: true,
+      isDecimal: true,
       min: 0.0
     }
   }

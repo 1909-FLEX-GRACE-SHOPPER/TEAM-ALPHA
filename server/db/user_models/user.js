@@ -14,40 +14,84 @@ const Users = db.define('users', {
     primaryKey: true
   },
   firstName: {
-    type: STRING
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   lastName: {
-    type: STRING
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   billingAddress1: {
-    type: STRING
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   billingAddress2: {
     type: STRING
   },
   billingCity: {
-    type: STRING
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   billingState: {
-    type: STRING
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   billingZip: {
-    type: INTEGER
+    type: INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+      isNumeric: true,
+      len: 5
+    }
   },
   shippingAddress1: {
-    type: STRING
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   shippingAddress2: {
     type: STRING
   },
   shippingCity: {
-    type: STRING
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   shippingState: {
-    type: STRING
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   shippingZip: {
-    type: INTEGER
+    type: INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+      isNumeric: true,
+      len: 5
+    }
   },
   email: {
     type: STRING,
@@ -70,7 +114,7 @@ const Users = db.define('users', {
     type: ENUM,
     values: ['admin', 'pending', 'regular', 'guest', 'oAuth'],
     allowNull: false,
-    defaultValue: 'guest',
+    defaultValue: 'regular',
     validate: {
       notEmpty: true
     }
