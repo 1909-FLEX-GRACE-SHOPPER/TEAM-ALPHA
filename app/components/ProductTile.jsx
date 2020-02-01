@@ -4,22 +4,15 @@ import { getProductThunk } from '../redux/singleProduct.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
 const ProductTile = props => {
-  // useEffect(() => {
-  //   const { id } = props.match.params;
-  //   props.getProduct(id);
-  // }, []);
-
   const products = props.product;
   const product = products.productListing;
+  console.log('products.color.color', products.color.color);
+  console.log('product');
 
   const useStyles = makeStyles({
     card: {
@@ -55,6 +48,9 @@ const ProductTile = props => {
             >
               {product.name}
             </Link>
+            <Typography variant="subtitle1" color="textSecondary" component="p">
+              {products.color.color}
+            </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
               ${products.price}
             </Typography>
