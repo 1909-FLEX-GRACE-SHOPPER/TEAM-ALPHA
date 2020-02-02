@@ -10,6 +10,7 @@ import createOrder from '../redux/orders';
 import updateOrder from '../redux/orders';
 import { withStyles } from '@material-ui/core/styles';
 import EditProductForm from './EditProductForm';
+import AllProductsGrid from './AllProductsGrid';
 
 const styles = {
   root: {
@@ -34,7 +35,8 @@ class ProductPage extends React.Component {
     this.state = {
       cartItem: {},
       quantityOfProduct: 0,
-      isEditing: false
+      isEditing: false,
+      viewAll: false
     };
     this.toggleEditing = this.toggleEditing.bind(this);
   }
@@ -116,6 +118,17 @@ class ProductPage extends React.Component {
           ) : (
             ''
           )}
+          {this.props.activeUser.userTypes === 'guest' ? (
+            <Button
+              size="small"
+              onClick={() => this.setState({ viewAll: !this.state.viewAll })}
+            >
+              viewAllProducts
+            </Button>
+          ) : (
+            ''
+          )}
+          {this.state.viewAll ? <AllProductsGrid /> : ''}
         </div>
       );
     }

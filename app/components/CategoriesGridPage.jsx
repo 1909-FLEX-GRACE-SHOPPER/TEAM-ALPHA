@@ -19,6 +19,7 @@ const CategoriesGridPage = props => {
   const { products } = props;
   const id = parseInt(props.match.params.id, 10);
 
+
   let result = [];
   if (products.length === 0) return <h3>No Products</h3>;
   const womenProducts = products.filter(product => product.gender === 'F');
