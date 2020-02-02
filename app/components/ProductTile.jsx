@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getProductThunk } from '../redux/singleProduct.js';
-
 import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -64,7 +63,7 @@ class ProductTile extends React.Component {
                 ${products.price}
               </Typography>
             </CardActions>
-            {this.props.activeUser.userTypes === 'guest' ? (
+            {/* {this.props.activeUser.userTypes === 'guest' ? (
               <Button
                 size="small"
                 onClick={() => this.setState({ isEdit: !this.state.isEdit })}
@@ -82,6 +81,7 @@ class ProductTile extends React.Component {
             ) : (
               ''
             )}
+          </Card> */}
           </Card>
         </div>
       );

@@ -9,6 +9,7 @@ import ProductPageQuantityTracker from './ProductPageQuantityTracker.jsx';
 import createOrder from '../redux/orders';
 import updateOrder from '../redux/orders';
 import { withStyles } from '@material-ui/core/styles';
+import EditProductForm from './EditProductForm';
 
 const styles = {
   root: {
@@ -32,13 +33,24 @@ class ProductPage extends React.Component {
     super();
     this.state = {
       cartItem: {},
-      quantityOfProduct: 0
+      quantityOfProduct: 0,
+      isEditing: false
     };
+    this.toggleEditing = this.toggleEditing.bind(this);
   }
 
+  toggleEditing() {
+    this.setState({ isEditing: !this.state.isEditing });
+    console.log(this.state.isEditing);
+  }
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.getProduct(id);
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.isEditing !== prevState.isEditing) {
+      this.props.getProduct(this.props.match.params.id);
+    }
   }
 
   render() {
@@ -86,6 +98,24 @@ class ProductPage extends React.Component {
               </Grid>
             </Grid>
           </Paper>
+          {this.props.activeUser.userTypes === 'guest' ? (
+            <Button
+              size="small"
+              onClick={() => this.setState({ isEdit: !this.state.isEdit })}
+            >
+              edit
+            </Button>
+          ) : (
+            ''
+          )}
+          {this.state.isEdit ? (
+            <EditProductForm
+              products={product}
+              toggleEdit={this.toggleEditing}
+            />
+          ) : (
+            ''
+          )}
         </div>
       );
     }
@@ -94,7 +124,8 @@ class ProductPage extends React.Component {
 const mapStateToProps = state => ({
   product: state.product,
   cart: state.cart,
-  orders: state.orders
+  orders: state.orders,
+  activeUser: state.activeUser
 });
 
 const mapDispatchToProps = dispatch => ({
