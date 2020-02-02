@@ -93,21 +93,7 @@ const userTypesList = [
 const productListingsList = [
   {
     id: 1,
-    name: 'Skis-1',
-    description: `a great product - ${Math.random()}`,
-    imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$'
-  },
-  {
-    id: 2,
-    name: 'Skis-2',
-    description: `a great product - ${Math.random()}`,
-    imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$'
-  },
-  {
-    id: 3,
-    name: 'Skis-3',
+    name: 'Ski-500X ',
     description: `a great product - ${Math.random()}`,
     imageUrl:
       'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$'
@@ -307,7 +293,7 @@ const usersList = [
 const productsList = [
   {
     quantity: Math.floor(10 * Math.random()),
-    price: 11.0,
+    price: 999.0,
     categoryId: 1,
     gender: 'N',
     colorId: 1,
@@ -315,7 +301,7 @@ const productsList = [
   },
   {
     quantity: Math.floor(10 * Math.random()),
-    price: 20.0,
+    price: 800.0,
     categoryId: 1,
     gender: 'N',
     colorId: 2,
@@ -323,10 +309,10 @@ const productsList = [
   },
   {
     quantity: Math.floor(10 * Math.random()),
-    price: 30.0,
+    price: 650.0,
     categoryId: 1,
     gender: 'N',
-    colorId: 2,
+    colorId: 3,
     productListingId: 1
   },
   {
