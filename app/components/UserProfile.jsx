@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Button,
   CardContent,
@@ -63,7 +64,9 @@ class UserProfile extends React.Component {
           <Typography color="textSecondary">{activeUser.email}</Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Edit</Button>
+          <Link to="/editprofile">
+            <Button size="small">Edit</Button>
+          </Link>
         </CardActions>
       </Card>
     );
