@@ -96,6 +96,8 @@ export const updateOrder = (edits, order) => {
 export const submitOrder = order => {
   return async dispatch => {
     const edits = {
+      //Added this otherwise in the submit order thunk we are not going to populate anything from the order obj.
+      ...order,
       status: 'ordered'
     };
     const submittedOrder = (await axios.put(`api/orders/${order.id}`, edits))

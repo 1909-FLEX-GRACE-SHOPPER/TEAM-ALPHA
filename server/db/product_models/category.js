@@ -17,14 +17,14 @@ const Categories = db.define(
     category: {
       type: ENUM,
       values: [
-        'skis', // 1
-        'boots', // 2
-        'pants', // 3
-        'jackets', // 4
-        'shirts', // 5
-        'poles', // 6
-        'gloves', // 7
-        'goggles' // 8
+        'skis',
+        'boots',
+        'pants',
+        'jackets',
+        'shirts',
+        'poles',
+        'gloves',
+        'goggles'
       ],
       allowNull: false,
       validate: {

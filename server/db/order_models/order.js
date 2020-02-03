@@ -17,12 +17,7 @@ const Orders = db.define('orders', {
   },
   status: {
     type: ENUM,
-    values: [
-      'open', // 1
-      'ordered', // 2
-      'shipped', // 3
-      'delivered' // 4
-    ],
+    values: ['open', 'ordered', 'shipped', 'delivered'],
     allowNull: false,
     validate: {
       notEmpty: true

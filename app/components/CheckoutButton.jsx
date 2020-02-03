@@ -42,7 +42,7 @@ class Checkout extends Component {
       // 1) post the guest user
       // 2) then post order associated with user
       // 3) then post order items associated with order
-      activeUser.userTypes = 'guest';
+      activeUser.userType = 'guest';
       const userId = uuidv4();
       activeUser.id = userId;
       activeUser.password = 'guestPwd';

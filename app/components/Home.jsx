@@ -29,7 +29,8 @@ const Home = () => {
         </Toolbar>
       </AppBar>
       <ProductGrid />
-      <AllProductsGrid />
+      {/* Need to move this to its own seperate page. Holding off just incase someone is working on it */}
+      {/* <AllProductsGrid /> */}
     </Container>
   );
 };
