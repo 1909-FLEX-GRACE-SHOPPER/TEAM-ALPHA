@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import StripeCheckout from 'react-stripe-checkout';
 
-import STRIPE_PUBLISHABLE from '../constants/stripe';
-import PAYMENT_SERVER_URL from '../constants/server';
+import STRIPE_PUBLISHABLE from '../../StripeConstants/frontend/stripe';
+import PAYMENT_SERVER_URL from '../../StripeConstants/frontend/server';
 import { uuidv4 } from '../utils';
 
 const CURRENCY = 'USD';
@@ -16,7 +16,7 @@ class Checkout extends Component {
   successPayment = data => {
     alert('Payment Successful');
     // better way to do this for sure
-    window.location.href = 'success';
+    // window.location.href = 'success';
   };
 
   errorPayment = data => {
