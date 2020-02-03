@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { ProductListings } = require('../db/index');
+const { Products, ProductListings } = require('../db/index');
+
 router.post('/', (req, res, next) => {
   ProductListings.create(req.body)
     .then(newProduct => res.status(201).send(newProduct))
@@ -9,29 +10,78 @@ router.post('/', (req, res, next) => {
     });
 });
 
-router.put('/:id', (req, res, next) => {
-  console.log('req.params.id inside productListings API', req.params.id);
-  console.log('req.body', req.body);
-  const updatedItems = {};
-  const bodyKeys = Object.keys(req.body);
-  bodyKeys.forEach(key => {
-    if (req.body[key]) {
-      updatedItems[key] = req.body[key];
+router.put('/editproduct', (req, res, next) => {
+  const productId = req.body.productId;
+  const productListingId = req.body.productListingId;
+  console.log('ids', productListingId, productId);
+  const productKeys = {
+    gender: true,
+    size: true,
+    quantity: true,
+    price: true,
+    colorId: true
+  };
+  const productListingKeys = {
+    name: true,
+    description: true,
+    imageUrl: true
+  };
+  const updatedProdListings = {};
+  const updatedProduct = {};
+
+  const { edits } = req.body;
+  const editKeys = Object.keys(edits);
+  editKeys.forEach(key => {
+    if (edits[key]) {
+      if (productListingKeys[key]) {
+        updatedProdListings[key] = edits[key];
+      }
+      if (productKeys[key]) {
+        updatedProduct[key] = edits[key];
+      }
     }
   });
-  console.log('updatedItems', updatedItems);
-  // add values to updatedItems from req.body if they are not empty
-  ProductListings.findByPk(req.params.id)
-    .then(updatedProduct => {
-      if (updatedProduct) {
-        updatedProduct.update(updatedItems);
-        return res.status(202).send(updatedProduct);
+  console.log('updated items', updatedProduct, updatedProdListings);
+
+  const prodPromises = [];
+  // Work on this
+  if (Object.keys(updatedProduct).length) {
+    prodPromises.push(
+      Products.update(updatedProduct, {
+        where: { id: productId },
+        returning: true
+      })
+    );
+  } else {
+    prodPromises.push(Promise.resolve(null));
+  }
+  if (Object.keys(updatedProdListings).length) {
+    prodPromises.push(
+      ProductListings.update(updatedProdListings, {
+        where: { id: productListingId },
+        returning: true
+      })
+    );
+  } else {
+    prodPromises.push(Promise.resolve(null));
+  }
+
+  Promise.all(prodPromises)
+    .then(([prod, prodListing]) => {
+      console.log('**** edit products');
+      if (Array.isArray(prod)) {
+        prod = prod[1][0];
       }
-      res.status(404);
+      if (Array.isArray(prodListing)) {
+        prodListing = prodListing[1][0];
+      }
+      res.status(201).send({ product: prod, prodListing: prodListing });
     })
     .catch(e => {
-      console.error(e);
+      console.error('edit product error');
       next(e);
     });
 });
+
 module.exports = router;
+//res.status(201).send([prod, prodListing]

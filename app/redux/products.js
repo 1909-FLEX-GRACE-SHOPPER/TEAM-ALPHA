@@ -66,13 +66,26 @@ export const removeProduct = product => {
   };
 };
 
-export const updateProduct = (product, edits) => {
-  console.log('updateProduct thunk edits:', edits, 'product:', product);
+export const updateProductThunk = (productId, productListingId, edits) => {
+  // console.log('updateProduct thunk edits:', edits);
+
   return async dispatch => {
+    // const editedProduct = (await axios.put(`/api/products/${productId}`, edits))
+    //   .data;
+    // const editedProductListing = (
+    //   await axios.put(`/api/productListings/${productListingId}`, edits)
+    // ).data;
     const editedProduct = (
-      await axios.put(`/api/products/${product.id}`, edits)
+      await axios.put(`/api/productListings/editproduct`, {
+        productId,
+        productListingId,
+        edits
+      })
     ).data;
-    return dispatch(editProduct(editedProduct));
+    const { product, productListing } = editedProduct;
+    dispatch(editProduct(product));
+    // edit product listing
+    // dispatch(editProductListing(productListing))
   };
 };
 

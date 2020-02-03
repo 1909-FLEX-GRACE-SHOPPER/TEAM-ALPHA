@@ -35,25 +35,25 @@ class ProductPage extends React.Component {
     this.state = {
       cartItem: {},
       quantityOfProduct: 0,
-      isEditing: false,
+      isEdit: false,
       viewAll: false
     };
     this.toggleEditing = this.toggleEditing.bind(this);
   }
 
   toggleEditing() {
-    this.setState({ isEditing: !this.state.isEditing });
-    console.log(this.state.isEditing);
+    this.setState({ isEdit: !this.state.isEdit });
   }
   componentDidMount() {
+    console.log('product page mounting');
     const { id } = this.props.match.params;
     this.props.getProduct(id);
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.isEditing !== prevState.isEditing) {
-      this.props.getProduct(this.props.match.params.id);
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.state.isEdit !== prevState.isEdit) {
+  //     this.props.getProduct(this.props.match.params.id);
+  //   }
+  // }
 
   render() {
     const product = this.props.product;

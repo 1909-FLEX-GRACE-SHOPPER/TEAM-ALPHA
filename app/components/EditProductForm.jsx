@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateProduct } from '../redux/products.js';
+import { updateProductThunk } from '../redux/products.js';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -38,7 +38,7 @@ class EditProductForm extends React.Component {
       productListingId: 0,
       categoryId: 0,
       colorId: 0,
-      gender: 'N',
+      gender: '',
       name: '',
       description: '',
       imageUrl: ''
@@ -53,45 +53,46 @@ class EditProductForm extends React.Component {
   handleSubmit(ev) {
     //console.log('this.props.products.id', this.props.products.id);
     ev.preventDefault();
-
-    this.props.editProduct(this.props.products, { ...this.state });
+    const productId = this.props.products.id;
+    const productListingId = this.props.products.productListing.id;
+    this.props.updateProduct(productId, productListingId, { ...this.state });
     this.props.toggleEdit();
   }
   handleClick() {
-    const products = this.props.products;
-    console.log('products inside handleclick', products);
-    const productsListingId = products.productListingId;
-    const maxId = Math.max(...productsListingId);
-    const {
-      categoryId,
-      colorId,
-      gender,
-      size,
-      price,
-      quantity,
-      name,
-      description,
-      imageUrl
-    } = this.state;
-    this.props.updateProduct(products, {
-      gender,
-      size,
-      quantity,
-      price,
-      colorId,
-      categoryId,
-      productListingId: maxId + 1
-    });
-    axios
-      .put(`/api/productListings/${productsListingId}`, {
-        name,
-        description,
-        imageUrl,
-        id: maxId + 1
-      })
-      .then(product => console.log('editedProduct', product))
-      .catch(e => console.error(e));
-    this.props.toggleEdit();
+    // const products = this.props.products;
+    // console.log('products inside handleclick', products);
+    // const productsListingId = products.productListingId;
+    // const maxId = Math.max(...productsListingId);
+    // const {
+    //   categoryId,
+    //   colorId,
+    //   gender,
+    //   size,
+    //   price,
+    //   quantity,
+    //   name,
+    //   description,
+    //   imageUrl
+    // } = this.state;
+    // this.props.updateProduct(products, {
+    //   gender,
+    //   size,
+    //   quantity,
+    //   price,
+    //   colorId,
+    //   categoryId,
+    //   productListingId: maxId + 1
+    // });
+    // axios
+    //   .put(`/api/productListings/${productsListingId}`, {
+    //     name,
+    //     description,
+    //     imageUrl,
+    //     id: maxId + 1
+    //   })
+    //   .then(product => console.log('editedProduct', product))
+    //   .catch(e => console.error(e));
+    // this.props.toggleEdit();
   }
 
   render() {
@@ -189,7 +190,7 @@ class EditProductForm extends React.Component {
             variant="contained"
             color="primary"
             style={{ marginTop: '2rem' }}
-            onClick={this.handleClick}
+            onClick={this.handleSubmit}
           >
             Submit Edit
           </Button>
@@ -200,8 +201,8 @@ class EditProductForm extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateProduct: (product, edits, productListingId) =>
-    dispatch(updateProduct(product, edits))
+  updateProduct: (productId, productListingId, edits) =>
+    dispatch(updateProductThunk(productId, productListingId, edits))
 });
 
 export default connect(null, mapDispatchToProps)(EditProductForm);
