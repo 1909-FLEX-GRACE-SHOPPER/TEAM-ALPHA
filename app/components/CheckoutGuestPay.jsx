@@ -143,6 +143,13 @@ class GuestPayment extends Component {
     }
   };
 
+  //Added this because if user clicks on different billing switch they cannot edit
+  handleChange = ({ target: { value, name } }) => {
+    this.setState({
+      [name]: value
+    });
+  };
+
   onSubmit = ev => {
     ev.preventDefault();
     const { shippingIsBilling } = this.state;
@@ -193,6 +200,14 @@ class GuestPayment extends Component {
     } = this.props;
     const { orderTotal } = cart;
     const { activeOrder } = orders;
+
+    // Found a way to hack in the totalCost for the order. Probably not the best way to do it.
+    const updatedActiveOrderTotal = {
+      ...activeOrder,
+      totalCost: orderTotal
+    };
+    console.log('DID ORDER TOTAL UPDATE?????!?!', updatedActiveOrderTotal);
+
     return (
       <Fragment>
         <CssBaseline />
@@ -241,7 +256,7 @@ class GuestPayment extends Component {
                   name={`${activeUser.firstName} ${activeUser.lastName}`}
                   description="Enjoy your order!"
                   amount={orderTotal}
-                  activeOrder={activeOrder}
+                  activeOrder={updatedActiveOrderTotal}
                   submitOrder={submitOrder}
                   // below is for guest
                   activeUser={activeUser}

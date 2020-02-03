@@ -68,7 +68,16 @@ export const fetchActiveOrder = activeOrder => {
         const localStorageItems = JSON.parse(
           localStorage.getItem(localStorageKey)
         );
-        orderItems = orderItems.concat(localStorageItems);
+        ////////////////////ADDED THIS///////////////
+        // NOT DRY
+        // this is taking the object / "dictionary" of items and converts it to a array so it can be concatinated into the active user cart
+        let arrOfItems = [];
+        const localStorageItemsKeys = Object.keys(localStorageItems);
+        localStorageItemsKeys.forEach(key => {
+          arrOfItems.push(localStorageItems[key]);
+        });
+        ////////////////////////////////////////////
+        orderItems = orderItems.concat(arrOfItems);
         localStorage.removeItem(localStorageKey);
       }
       return dispatch(setActiveOrderProducts(orderItems));
@@ -100,7 +109,9 @@ export const addNewItemToCart = orderItem => {
         localStorage.getItem(localStorageKey)
       );
       // push to them
-      localStorageItems.push(orderItem);
+      // localStorageItems.push(orderItem);
+      const localStorageItemKey = uuidv4();
+      localStorageItems[localStorageItemKey] = orderItem;
       // put them back into local storage and add our new item to the redux store
       localStorage.setItem(localStorageKey, JSON.stringify(localStorageItems));
       return dispatch(addToCart(orderItem));
@@ -129,6 +140,19 @@ export const removeItem = orderItem => {
     }
     // need to be able to remove from local storage and redux store if not signed out
     // I can get to this later if needed - JH
+
+    // Not yet working - JL
+    else {
+      const localStorageItems = JSON.parse(
+        localStorage.getItem(localStorageKey)
+      );
+
+      // delete the key value pair out of the object.
+      delete localStorageItems[orderItem.id];
+
+      // add this back to localstorage
+      localStorage.setItem(localStorageKey, JSON.stringify(localStorageItems));
+    }
   };
 };
 
