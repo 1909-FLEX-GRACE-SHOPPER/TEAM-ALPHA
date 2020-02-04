@@ -1,5 +1,4 @@
 import axios from 'axios';
-import thunk from 'redux-thunk';
 //action types
 const SET_ALLUSERS = 'SET_ALLUSERS';
 const ADD_USER = 'ADD_USER';
@@ -44,6 +43,7 @@ export const removeUser = id => {
     return axios
       .delete(`/api/users${id}`)
       .then(response => {
+        console.log(response);
         return axios
           .get('/api/users')
           .then(responses => dispatch(fetchUsers(responses.data)));
@@ -56,6 +56,7 @@ export const updateUser = (userId, user) => {
     return axios
       .put(`/api/users/${userId}`, user)
       .then(response => {
+        console.log(response);
         return axios
           .get('/api/users/')
           .then(response => dispatch(fetchUsers(response.data)));

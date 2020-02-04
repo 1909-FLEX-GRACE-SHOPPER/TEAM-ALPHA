@@ -1,5 +1,4 @@
 import axios from 'axios';
-import thunk from 'redux-thunk';
 
 // constants to be moved to a constants.js file
 const SET_PRODUCTS = Symbol('set_products');

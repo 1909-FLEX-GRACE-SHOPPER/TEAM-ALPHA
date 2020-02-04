@@ -1,8 +1,6 @@
 import axios from 'axios';
-import thunk from 'redux-thunk';
 import { SIGN_IN } from './authentication';
-
-const SET_USER = Symbol('set_user');
+// const SET_USER = Symbol('set_user');
 const EDIT_USER = Symbol('edit_user');
 
 // inital state
@@ -24,12 +22,13 @@ const initialState = {
 };
 
 // action creators
-const setActiveUser = activeUser => {
-  return {
-    type: SET_USER,
-    activeUser
-  };
-};
+//I have to comment it out bc eslint doesnt like it,bc we didnt use it
+// const setActiveUser = activeUser => {
+//   return {
+//     type: SET_USER,
+//     activeUser
+//   };
+// };
 
 const editActiveUser = editedUser => {
   return {

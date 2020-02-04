@@ -1,9 +1,7 @@
 import axios from 'axios';
-import thunk from 'redux-thunk';
 import { setActiveOrder, setOrders } from './orders';
 import { fetchActiveOrder, setGuestItemsToCart } from './cart';
 import { uuidv4 } from '../utils';
-
 export const SIGN_IN = Symbol('sign in');
 export const SIGN_OUT = Symbol('sign out');
 export const LOG_IN_ERROR = Symbol('log in error');
@@ -107,6 +105,7 @@ export const initialLogInAttempt = () => {
       })
       .catch(e => {
         // deal with order
+        console.error(e);
         const guestOrderId = uuidv4();
         const newOrderForGuestUser = {
           id: guestOrderId,

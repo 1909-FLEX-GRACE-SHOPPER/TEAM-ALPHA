@@ -9,7 +9,8 @@
     "prettier/react"
   ],
   "parserOptions": {
-    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaVersion": 2020,
     "ecmaFeatures": {
       "jsx": true
     }
@@ -19,6 +20,7 @@
   },
   "env": {
     "browser": true,
+    "es6": true,
     "amd": true,
     "node": true
   }
