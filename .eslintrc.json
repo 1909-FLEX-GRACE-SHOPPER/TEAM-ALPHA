@@ -1,19 +1,25 @@
 {
   "plugins": ["prettier", "react", "babel"],
   "extends": [
-      "fullstack",
-      "plugin:prettier/recommended",
-      "plugin:react/recommended",
-      "prettier",
-      "prettier/babel",
-      "prettier/react"
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "prettier",
+    "prettier/babel",
+    "prettier/react"
   ],
   "parserOptions": {
+    "ecmaVersion": 6,
     "ecmaFeatures": {
       "jsx": true
     }
   },
   "rules": {
     "prettier/prettier": "error"
+  },
+  "env": {
+    "browser": true,
+    "amd": true,
+    "node": true
   }
 }

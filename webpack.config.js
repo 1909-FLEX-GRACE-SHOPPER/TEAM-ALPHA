@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-const { resolve } = require('path')
+const { resolve } = require('path');
 
 module.exports = {
   entry: ['babel-polyfill', './app/main'],
@@ -23,11 +23,8 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ]
+        use: ['style-loader', 'css-loader']
       }
     ]
   }
-}
+};
