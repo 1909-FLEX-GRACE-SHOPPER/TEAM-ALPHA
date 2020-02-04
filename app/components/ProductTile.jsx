@@ -32,7 +32,7 @@ class ProductTile extends React.Component {
       this.props.activeUser.userTypes
     );
 
-    if (!product.name) {
+    if (!this.props.product) {
       return <div>Product not found...</div>;
     } else {
       return (
@@ -63,25 +63,6 @@ class ProductTile extends React.Component {
                 ${products.price}
               </Typography>
             </CardActions>
-            {/* {this.props.activeUser.userTypes === 'guest' ? (
-              <Button
-                size="small"
-                onClick={() => this.setState({ isEdit: !this.state.isEdit })}
-              >
-                edit
-              </Button>
-            ) : (
-              ''
-            )}
-            {this.state.isEdit ? (
-              <EditProductForm
-                products={products}
-                toggleEdit={this.toggleEditing}
-              />
-            ) : (
-              ''
-            )}
-          </Card> */}
           </Card>
         </div>
       );

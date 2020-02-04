@@ -10,7 +10,13 @@ router.post('/', (req, res, next) => {
     });
 });
 
+router.put('/editproduct2', (req, res, next) => {
+  // update productlisting
+  // find product including prod listing, update, then return updated product
+});
 router.put('/editproduct', (req, res, next) => {
+  // update productlisting
+  // find product including prod listing, update, then return updated product
   const productId = req.body.productId;
   const productListingId = req.body.productListingId;
   console.log('ids', productListingId, productId);
@@ -75,7 +81,7 @@ router.put('/editproduct', (req, res, next) => {
       if (Array.isArray(prodListing)) {
         prodListing = prodListing[1][0];
       }
-      res.status(201).send({ product: prod, prodListing: prodListing });
+      res.status(201).send({ product: prod, productListing: prodListing });
     })
     .catch(e => {
       console.error('edit product error');

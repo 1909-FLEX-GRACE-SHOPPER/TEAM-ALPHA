@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProductThunk } from '../redux/singleProduct.js';
 import Grid from '@material-ui/core/Grid';
@@ -42,18 +43,14 @@ class ProductPage extends React.Component {
   }
 
   toggleEditing() {
+    console.log('isEdit', this.state.isEdit);
     this.setState({ isEdit: !this.state.isEdit });
+    console.log('isEdit', this.state.isEdit);
   }
   componentDidMount() {
-    console.log('product page mounting');
     const { id } = this.props.match.params;
     this.props.getProduct(id);
   }
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.state.isEdit !== prevState.isEdit) {
-  //     this.props.getProduct(this.props.match.params.id);
-  //   }
-  // }
 
   render() {
     const product = this.props.product;
@@ -101,34 +98,21 @@ class ProductPage extends React.Component {
             </Grid>
           </Paper>
           {this.props.activeUser.userTypes === 'guest' ? (
-            <Button
-              size="small"
-              onClick={() => this.setState({ isEdit: !this.state.isEdit })}
-            >
-              edit
-            </Button>
-          ) : (
-            ''
-          )}
-          {this.state.isEdit ? (
-            <EditProductForm
-              products={product}
-              toggleEdit={this.toggleEditing}
-            />
+            <Link to="/editProductForm">
+              <Button toggleEditing={this.toggleEditing} size="small">
+                Edit Product
+              </Button>
+            </Link>
           ) : (
             ''
           )}
           {this.props.activeUser.userTypes === 'guest' ? (
-            <Button
-              size="small"
-              onClick={() => this.setState({ viewAll: !this.state.viewAll })}
-            >
-              viewAllProducts
-            </Button>
+            <Link to="/seeAllProducts">
+              <Button size="small">See All Products</Button>
+            </Link>
           ) : (
             ''
           )}
-          {this.state.viewAll ? <AllProductsGrid /> : ''}
         </div>
       );
     }

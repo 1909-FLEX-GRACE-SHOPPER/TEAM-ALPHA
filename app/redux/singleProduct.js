@@ -1,6 +1,6 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
-
+import { EDIT_PRODUCT } from './products';
 const initialState = {};
 
 const GOT_PRODUCT = 'GOT_PRODUCT';
@@ -32,6 +32,8 @@ const productReducer = (state = initialState, action) => {
   switch (action.type) {
     case GOT_PRODUCT:
       return action.payload;
+    case EDIT_PRODUCT:
+      return action.product;
     default:
       return state;
   }

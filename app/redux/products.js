@@ -1,11 +1,11 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
-
+import productListingReducer, { editProductListing } from './productListing';
 // constants to be moved to a constants.js file
 const SET_PRODUCTS = Symbol('set_products');
 const ADD_PRODUCT = Symbol('add_product');
 const DELETE_PRODUCT = Symbol('delete_product');
-const EDIT_PRODUCT = Symbol('edit_product');
+export const EDIT_PRODUCT = Symbol('edit_product');
 
 // action creators
 
@@ -31,6 +31,7 @@ export const deleteProduct = product => {
 };
 
 export const editProduct = product => {
+  console.log('edit product creator');
   return {
     type: EDIT_PRODUCT,
     product
@@ -69,12 +70,7 @@ export const removeProduct = product => {
 export const updateProductThunk = (productId, productListingId, edits) => {
   // console.log('updateProduct thunk edits:', edits);
 
-  return async dispatch => {
-    // const editedProduct = (await axios.put(`/api/products/${productId}`, edits))
-    //   .data;
-    // const editedProductListing = (
-    //   await axios.put(`/api/productListings/${productListingId}`, edits)
-    // ).data;
+  return async (dispatch, getState) => {
     const editedProduct = (
       await axios.put(`/api/productListings/editproduct`, {
         productId,
@@ -82,10 +78,24 @@ export const updateProductThunk = (productId, productListingId, edits) => {
         edits
       })
     ).data;
+    const prevePL = getState().productListing;
+    const prevProds = getState().products;
     const { product, productListing } = editedProduct;
-    dispatch(editProduct(product));
-    // edit product listing
-    // dispatch(editProductListing(productListing))
+
+    if (product) {
+      if (!productListing) {
+        product.productListing = prevProds;
+      } else {
+        product.productListing = productListing;
+      }
+      dispatch(editProduct(product));
+    }
+
+    console.log('dispatched product');
+    if (productListing) {
+      console.log('dispatching product listing');
+      dispatch(editProductListing(productListing));
+    }
   };
 };
 
