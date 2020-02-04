@@ -1,6 +1,6 @@
 const chalk = require('chalk');
 const Sequelize = require('sequelize');
-const dbName = 'AlphaSkiShop';
+const dbName = 'alpha_ski_shop';
 
 console.log(chalk.yellowBright(`opening database connection to ${dbName}`));
 
