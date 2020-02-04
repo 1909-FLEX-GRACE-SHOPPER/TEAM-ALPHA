@@ -34,7 +34,18 @@ class GuestPayment extends Component {
       billingAddress2: '',
       billingCity: '',
       billingState: '',
-      billingZip: ''
+      billingZip: '',
+
+      ////
+
+      address1Helper: '',
+      address1Err: false,
+      cityHelper: '',
+      cityErr: false,
+      stateHelper: '',
+      stateErr: false,
+      zipHelper: '',
+      zipErr: false
     };
   }
 
@@ -83,6 +94,8 @@ class GuestPayment extends Component {
               id="billingAddress1"
               name="billingAddress1"
               label="Address Line 1"
+              error={this.state.address1Err}
+              helperText={this.state.address1Helper}
               value={this.state.billingAddress1}
               onChange={this.handleChange}
             />
@@ -108,6 +121,8 @@ class GuestPayment extends Component {
               id="billingCity"
               name="billingCity"
               label="City"
+              error={this.state.cityErr}
+              helperText={this.state.cityHelper}
               value={this.state.billingCity}
               onChange={this.handleChange}
             />
@@ -121,6 +136,8 @@ class GuestPayment extends Component {
               id="billingState"
               name="billingState"
               label="State"
+              error={this.state.stateErr}
+              helperText={this.state.stateHelper}
               value={this.state.billingState}
               onChange={this.handleChange}
             />
@@ -134,6 +151,8 @@ class GuestPayment extends Component {
               id="billingZip"
               name="billingZip"
               label="Zip"
+              error={this.state.zipErr}
+              helperText={this.state.zipHelper}
               value={this.state.billingZip}
               onChange={this.handleChange}
             />
@@ -144,10 +163,47 @@ class GuestPayment extends Component {
   };
 
   //Added this because if user clicks on different billing switch they cannot edit
+  // eslint-disable-next-line complexity
   handleChange = ({ target: { value, name } }) => {
     this.setState({
       [name]: value
     });
+    if (name === 'billingAddress1') {
+      if (value.length > 0)
+        this.setState({ address1Helper: '', address1Err: false });
+      else
+        this.setState({
+          address1Helper: 'Address cannot be empty',
+          address1Err: true
+        });
+    }
+    if (name === 'billingCity') {
+      if (value.length > 0) this.setState({ cityHelper: '', cityErr: false });
+      else
+        this.setState({
+          cityHelper: 'City cannot be empty',
+          cityErr: true
+        });
+    }
+    if (name === 'billingState') {
+      if (value.length > 0) this.setState({ stateHelper: '', stateErr: false });
+      else
+        this.setState({
+          stateHelper: 'State cannot be empty',
+          stateErr: true
+        });
+    }
+    if (name === 'billingZip') {
+      if (isNaN(Number(this.state.billingZip))) {
+        this.setState({ zipHelper: 'Zip code must be numeric', zipErr: true });
+      } else if (value.length > 0 && !isNaN(Number(this.state.billingZip)))
+        this.setState({ zipHelper: '', zipErr: false });
+      else
+        this.setState({
+          zipHelper: 'Zip code cannot be empty',
+          zipErr: true
+        });
+    }
   };
 
   onSubmit = ev => {
@@ -265,6 +321,11 @@ class GuestPayment extends Component {
                   postGuestItems={postGuestItems}
                   createUser={createUser}
                   authentication={authentication}
+                  billingAddress={this.state.billingAddress1}
+                  billingCity={this.state.billingCity}
+                  billingState={this.state.billingState}
+                  billingZip={this.state.billingZip}
+                  shipBillStatus={this.state.shippingIsBilling}
                 />
               </Grid>
             </Grid>
