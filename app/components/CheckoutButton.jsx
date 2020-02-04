@@ -76,7 +76,16 @@ class Checkout extends Component {
   };
 
   render() {
-    const { name, description, amount } = this.props;
+    const {
+      name,
+      description,
+      amount,
+      billingAddress,
+      billingCity,
+      billingState,
+      billingZip,
+      shipBillStatus
+    } = this.props;
     const { onToken } = this;
 
     return (
@@ -87,6 +96,13 @@ class Checkout extends Component {
         token={onToken(amount, description)}
         currency={CURRENCY}
         stripeKey={STRIPE_PUBLISHABLE}
+        disabled={
+          shipBillStatus === true
+            ? false
+            : !billingAddress || !billingCity || !billingState || !billingZip
+            ? true
+            : false
+        }
       />
     );
   }
