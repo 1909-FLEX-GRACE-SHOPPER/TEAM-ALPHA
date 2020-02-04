@@ -42,6 +42,27 @@ class Nav extends Component {
     );
   };
 
+  adminOptions = () => {
+    const { authentication, activeUser } = this.props;
+    const { isLoggedIn } = authentication;
+    if (isLoggedIn && activeUser.userType === 'admin') {
+      return (
+        <ButtonGroup
+          variant="text"
+          color="inhereit"
+          aria-label="admin nav button group"
+        >
+          <Link to="/addproduct" style={{ textDecoration: 'none' }}>
+            <Button>Add a Product</Button>
+          </Link>
+          <Link to="/editprofile" style={{ textDecoration: 'none' }}>
+            <Button>Edit a Profile</Button>
+          </Link>
+        </ButtonGroup>
+      );
+    }
+  };
+
   render() {
     const { cart } = this.props;
     const numItemsInCart = cart.items.length;
@@ -88,18 +109,17 @@ class Nav extends Component {
               Cart ({numItemsInCart})
             </IconButton>
           </Link>
-          <Link to="/checkout" style={{ textDecoration: 'none' }}>
-            TEST CHECKOUT
-          </Link>
+          {this.adminOptions()}
         </Toolbar>
       </AppBar>
     );
   }
 }
 
-const mapStateToProps = ({ cart, authentication }) => ({
+const mapStateToProps = ({ cart, authentication, activeUser }) => ({
   cart,
-  authentication
+  authentication,
+  activeUser
 });
 
 const mapDispatchToProps = dispatch => ({
