@@ -12,7 +12,7 @@
     "lint:fix": "./node_modules/.bin/eslint ./ --ignore-path .gitignore --fix",
     "start:dev": "npm run start:server-dev & npm run start:client-dev",
     "test": "NODE_ENV='test' mocha ./test --recursive",
-    "test-ci": "NODE_ENV='test' mocha ./test --recursive  --require @babel/register",
+    "test-ci": "NODE_ENV='test' mocha ./test --recursive",
     "testLint": "./node_modules/.bin/eslint' ./test --fix",
     "seed": "node newSeed.js"
   },
