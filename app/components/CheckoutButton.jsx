@@ -10,16 +10,8 @@ const CURRENCY = 'USD';
 
 const fromUsdToCent = amount => amount * 100;
 
-// note: we will change all the logic in error payment to be in successPayment
-// once I set up the Stripe backend - JH
 class Checkout extends Component {
   successPayment = data => {
-    alert('Payment Successful');
-    // better way to do this for sure
-    // window.location.href = 'success';
-  };
-
-  errorPayment = data => {
     const {
       activeOrder,
       submitOrder,
@@ -62,7 +54,13 @@ class Checkout extends Component {
     }
   };
 
-  // might want to make this a thunk to move the axios call out of here
+  errorPayment = data => {
+    // eslint-disable-next-line no-alert
+    alert(
+      'Payment Failed. Try rentering your information or checking your payment information'
+    );
+  };
+
   onToken = (amount, description) => token => {
     axios
       .post(PAYMENT_SERVER_URL, {
