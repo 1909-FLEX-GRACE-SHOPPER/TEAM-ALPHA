@@ -6,6 +6,14 @@ import { FormHelperText } from '@material-ui/core';
 import { Button, TextField, Grid, Typography } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { modifyUser } from '../redux/activeUser';
+const validateInputs=({firstName,lastName,email,shippingAddress1,shippingCity,shippingState,shippingZip,billingAddress1,billingCity,billingState,billingZip,password,error})=>{
+  
+
+}
+validateInputs(this.state,this.setState)
+
+
+
 class EditUserProfile extends Component {
   constructor(props) {
     super(props);
