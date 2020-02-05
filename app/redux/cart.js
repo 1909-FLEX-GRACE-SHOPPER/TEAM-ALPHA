@@ -1,5 +1,4 @@
 import axios from 'axios';
-import thunk from 'redux-thunk';
 import { SIGN_OUT, localStorageKey } from './authentication';
 import { uuidv4 } from '../utils';
 

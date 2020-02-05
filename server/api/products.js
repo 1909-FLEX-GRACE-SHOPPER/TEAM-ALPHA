@@ -3,8 +3,6 @@ const {
   Products,
   ProductListings,
   Colors,
-  Genders,
-  Sizes,
   Categories
 } = require('../db/index');
 
@@ -23,7 +21,7 @@ router.get('/', (req, res, next) => {
     });
 });
 router.get('/:id', (req, res, next) => {
-  const id = parseInt(req.params.id);
+  // const id = parseInt(req.params.id);
   // console.log('product id', req.params);
   Products.findOne({
     where: {
@@ -81,7 +79,9 @@ router.delete('/:id', (req, res, next) => {
       id: req.params.id
     }
   })
-    .then(numDeleteRows => res.status(204).send('delete successful!'))
+    .then(numDeleteRows =>
+      res.status(204).send(`${numDeleteRows} row deleted!`)
+    )
     .catch(e => {
       console.log('Error in Delete Router');
       next(e);

@@ -69,7 +69,9 @@ router.delete('/:id', (req, res, next) => {
       id: req.params.id
     }
   })
-    .then(numDeleteRows => res.status(204).send('Delete successful!'))
+    .then(numDeleteRows =>
+      res.status(204).send(`${numDeleteRows} row deleted!`)
+    )
     .catch(e => {
       console.log('Error in Delete router!');
       next(e);

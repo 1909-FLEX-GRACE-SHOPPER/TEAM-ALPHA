@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Orders, Products } = require('../db/index');
+const { Products } = require('../db/index');
 
 //route to get all products in specific category
 router.get('/:id', (req, res, next) => {
