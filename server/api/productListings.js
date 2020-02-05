@@ -1,5 +1,10 @@
 const router = require('express').Router();
-const { Products, ProductListings } = require('../db/index');
+const {
+  Products,
+  ProductListings,
+  Colors,
+  Categories
+} = require('../db/index');
 
 router.post('/', (req, res, next) => {
   ProductListings.create(req.body)
@@ -10,13 +15,87 @@ router.post('/', (req, res, next) => {
     });
 });
 
-router.put('/editproduct2', (req, res, next) => {
-  // update productlisting
+router.put('/editproduct', (req, res, next) => {
+  const productListingId = req.body.productListingId;
+  const productId = req.body.productId;
+  const { edits } = req.body;
+
+  const productListingKeys = {
+    name: true,
+    description: true,
+    imageUrl: true
+  };
+
+  const productKeys = {
+    gender: true,
+    size: true,
+    quantity: true,
+    price: true,
+    colorId: true
+  };
+
+  const updatedProdListings = {};
+  const updatedProduct = {};
+
+  const editKeys = Object.keys(edits);
+  editKeys.forEach(key => {
+    if (edits[key]) {
+      if (productListingKeys[key]) {
+        updatedProdListings[key] = edits[key];
+      }
+      if (productKeys[key]) {
+        updatedProduct[key] = edits[key];
+      }
+    }
+
+    // update productlisting
+  });
+  ProductListings.findByPk(productListingId)
+    .then(foundProductListingsToUpdate => {
+      if (foundProductListingsToUpdate) {
+        foundProductListingsToUpdate.update(updatedProdListings, {
+          where: { id: productListingId },
+          returning: true
+        });
+      }
+    })
+    .then(() => {
+      return Products.findByPk(productId, {
+        //include: [{ model: ProductListings }]
+      });
+    })
+    .then(foundProductToUpdate => {
+      return foundProductToUpdate.update(updatedProduct);
+      /* {
+        //where: { id: productId },
+        include: [ProductListings],
+        //returning: true,
+        //raw: true
+      });
+      */
+    })
+    .then(updatedProduct => {
+      return Products.findByPk(productId, {
+        include: [ProductListings, Colors, Categories]
+      });
+      // console.log(
+      //   '************updated product',
+      //   updatedProduct.productListings
+      // );
+    })
+    .then(updatedProd => {
+      console.log('************updated product', updatedProd);
+      res.status(201).send(updatedProd);
+    })
+    .catch(e => {
+      console.error(e);
+      next(e);
+    });
+
   // find product including prod listing, update, then return updated product
 });
-router.put('/editproduct', (req, res, next) => {
-  // update productlisting
-  // find product including prod listing, update, then return updated product
+
+router.put('/editproductOLD', (req, res, next) => {
   const productId = req.body.productId;
   const productListingId = req.body.productListingId;
   console.log('ids', productListingId, productId);
@@ -90,4 +169,3 @@ router.put('/editproduct', (req, res, next) => {
 });
 
 module.exports = router;
-//res.status(201).send([prod, prodListing]

@@ -38,7 +38,7 @@ app.use(
 
 // session logging
 app.use((req, res, next) => {
-  console.log('session', req.session);
+  //console.log('session', req.session);
   next();
 });
 

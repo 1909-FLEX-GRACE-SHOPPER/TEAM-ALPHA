@@ -80,22 +80,28 @@ export const updateProductThunk = (productId, productListingId, edits) => {
     ).data;
     const prevePL = getState().productListing;
     const prevProds = getState().products;
-    const { product, productListing } = editedProduct;
+    //const { product, productListing, } = editedProduct;
+    const { foundProductToUpdate } = editedProduct;
+    console.log('editedProduct in updateProductThunk', editedProduct);
+    console.log(
+      'editedProduct.productListing in updateProductThunk',
+      editedProduct.productListing
+    );
+    dispatch(editProduct(editedProduct));
+    // if (product) {
+    //   if (!productListing) {
+    //     product.productListing = prevProds;
+    //   } else {
+    //     product.productListing = productListing;
+    //   }
+    //   dispatch(editProduct(product));
+    // }
 
-    if (product) {
-      if (!productListing) {
-        product.productListing = prevProds;
-      } else {
-        product.productListing = productListing;
-      }
-      dispatch(editProduct(product));
-    }
-
-    console.log('dispatched product');
-    if (productListing) {
-      console.log('dispatching product listing');
-      dispatch(editProductListing(productListing));
-    }
+    // console.log('dispatched product');
+    // if (productListing) {
+    //   console.log('dispatching product listing');
+    //   dispatch(editProductListing(productListing));
+    // }
   };
 };
 
