@@ -81,7 +81,7 @@ export const addNewItemToCart = orderItem => {
     if (getState().authentication.isLoggedIn) {
       const order = getState().orders.activeOrder;
       orderItem.orderId = order.id;
-      const addNewItem = (await axios.post(`/api/orderItems`, orderItem)).data;
+      await axios.post(`/api/orderItems`, orderItem);
       return dispatch(addToCart(orderItem));
     } else {
       // need to DRY this out later; just keeping seperate for now
