@@ -124,6 +124,24 @@ class GuestAddressForm extends Component {
     }
   };
 
+  generateTextFields = (id, label, err, helper) => {
+    return (
+      <TextField
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        onChange={this.handleChange}
+        id={id}
+        name={id}
+        label={label}
+        error={this.state[err] || null}
+        helperText={this.state[helper] || null}
+        value={this.state[id]}
+      />
+    );
+  };
+
   toCheckout2() {
     this.props.history.push('/checkout2');
   }
@@ -152,6 +170,7 @@ class GuestAddressForm extends Component {
       shippingState,
       shippingZip
     } = this.state;
+    const { generateTextFields } = this;
 
     return (
       <Fragment>
@@ -192,6 +211,12 @@ class GuestAddressForm extends Component {
               </Grid>
               <Grid container item>
                 <Grid item xs={6}>
+                  {/* {generateTextFields(
+                    'firstName',
+                    'First Name',
+                    'firstNameErr',
+                    'firstNameHelper'
+                  )} */}
                   <TextField
                     variant="outlined"
                     margin="normal"
