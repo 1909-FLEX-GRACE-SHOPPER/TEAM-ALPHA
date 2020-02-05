@@ -123,38 +123,14 @@ export const initialLogInAttempt = () => {
             localStorage.getItem(localStorageKey)
           );
           // add the items to the redux store
-
-          // OG CODE
-          // let price = localStorageItems.reduce((acc, item) => {
-          //   acc += item.unitPrice;
-          //   return acc;
-          // }, 0);
-
-          // not 100% sure what ^^ is going to be doing. Just convereted this
-          ////////////////////ADDED THIS///////////////
-          // NOT DRY
-          let arrOfItems = [];
-          let price = 0;
-          const localStorageItemsKeys = Object.keys(localStorageItems);
-          console.log('SETACTIVEORDER IN AUTH', localStorageItemsKeys);
-          localStorageItemsKeys.forEach(key => {
-            arrOfItems.push(localStorageItems[key]);
-            price += localStorageItems[key].unitPrice;
-          });
-
-          return dispatch(setGuestItemsToCart(arrOfItems, price));
-          ////////////////////ADDED THIS///////////////
-
-          // OG CODE
-          // return dispatch(setGuestItemsToCart(localStorageItems, price));
+          let price = localStorageItems.reduce((acc, item) => {
+            acc += item.unitPrice;
+            return acc;
+          }, 0);
+          return dispatch(setGuestItemsToCart(localStorageItems, price));
         }
         // if there are no items in local storage
-        ////////////////////ADDED THIS///////////////
-        const cartItems = {};
-        ////////////////////ADDED THIS///////////////
-
-        // OG CODE
-        // const cartItems = [];
+        const cartItems = [];
         localStorage.setItem(localStorageKey, JSON.stringify(cartItems));
       });
   };

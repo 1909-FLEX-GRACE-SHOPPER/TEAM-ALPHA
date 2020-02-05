@@ -125,6 +125,16 @@ class GuestAddressForm extends Component {
   };
 
   toCheckout2() {
+    const {
+      firstName,
+      lastName,
+      shippingAddress1,
+      shippingAddress2,
+      shippingCity,
+      shippingState,
+      shippingZip
+    } = this.state;
+    this.props.editUser(this.state);
     this.props.history.push('/checkout2');
   }
 
