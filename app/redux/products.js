@@ -1,5 +1,4 @@
 import axios from 'axios';
-import productListingReducer, { editProductListing } from './productListing';
 
 // constants to be moved to a constants.js file
 const SET_PRODUCTS = Symbol('set_products');
@@ -78,10 +77,7 @@ export const updateProductThunk = (productId, productListingId, edits) => {
         edits
       })
     ).data;
-    const prevePL = getState().productListing;
-    const prevProds = getState().products;
     //const { product, productListing, } = editedProduct;
-    const { foundProductToUpdate } = editedProduct;
     console.log('editedProduct in updateProductThunk', editedProduct);
     console.log(
       'editedProduct.productListing in updateProductThunk',
