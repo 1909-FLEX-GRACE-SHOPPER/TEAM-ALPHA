@@ -45,7 +45,9 @@ const productListingReducer = (state = initialState, action) => {
     case GOT_PRODUCTLISTING:
       return action.payload;
     case EDIT_PRODUCTLISTING:
-      if (state.id === action.payload.id) return action.payload;
+      if (state.id === action.payload.id) {
+        return action.payload;
+      }
     default:
       return state;
   }
