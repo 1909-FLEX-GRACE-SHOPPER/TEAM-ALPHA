@@ -1,5 +1,4 @@
 import axios from 'axios';
-import thunk from 'redux-thunk';
 import { EDIT_PRODUCT } from './products';
 
 const initialState = {};
