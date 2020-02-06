@@ -74,7 +74,7 @@ router.put('/editproduct', (req, res, next) => {
       });
       */
     })
-    .then(updatedProduct => {
+    .then(() => {
       return Products.findByPk(productId, {
         include: [ProductListings, Colors, Categories]
       });
