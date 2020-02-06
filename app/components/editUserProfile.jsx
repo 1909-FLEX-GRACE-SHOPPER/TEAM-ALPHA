@@ -6,13 +6,66 @@ import { FormHelperText } from '@material-ui/core';
 import { Button, TextField, Grid, Typography } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { modifyUser } from '../redux/activeUser';
-const validateInputs=({firstName,lastName,email,shippingAddress1,shippingCity,shippingState,shippingZip,billingAddress1,billingCity,billingState,billingZip,password,error})=>{
-  
-
+function validateInputs(state) {
+  const {
+    firstName,
+    lastName,
+    email,
+    shippingAddress1,
+    shippingAddress2,
+    shippingCity,
+    shippingState,
+    shippingZip,
+    billingAddress1,
+    billingAddress2,
+    billingCity,
+    billingState,
+    billingZip
+  } = state;
+  if (firstName === '') {
+    this.setState({ errorText: 'First Name', error: true });
+  }
+  if (lastName === '') {
+    this.setState({ errorText: 'Last Name', error: true });
+  }
+  if (email === '') {
+    this.setState({ errorText: 'Email', error: true });
+  }
+  if (shippingAddress1 === '') {
+    this.setState({ errorText: 'Shipping address', error: true });
+  }
+  if (shippingCity === '') {
+    this.setState({ errorText: 'Shipping city', error: true });
+  }
+  if (shippingState === '') {
+    this.setState({ errorText: 'Shipping state', error: true });
+  }
+  if (shippingZip === '') {
+    this.setState({ errorText: 'Shipping zip code', error: true });
+  }
+  if (billingAddress1 === '') {
+    this.setState({ errorText: 'Billing address', error: true });
+  }
+  if (billingCity === '') {
+    this.setState({ errorText: 'Billing city', error: true });
+  }
+  if (billingState === '') {
+    this.setState({ errorText: 'Billing state', error: true });
+  }
+  if (billingZip === '') {
+    this.setState({ errorText: 'Billing zip code', error: true });
+  }
+  if (password === '') {
+    this.setState({ errorText: 'Password', error: true });
+  }
+  this.setState({ wasSubmitted: true }, () => {
+    if (this.state.wasSubmitted && this.state.error === false) {
+      this.props.history.push('/myaccount');
+    } else {
+      this.setState({ wasSubmitted: false });
+    }
+  });
 }
-validateInputs(this.state,this.setState)
-
-
 
 class EditUserProfile extends Component {
   constructor(props) {
@@ -33,8 +86,10 @@ class EditUserProfile extends Component {
       billingZip: '',
       password: '',
       error: false,
-      errorText: ''
+      errorText: '',
+      wasSubmitted: false
     };
+    this.validateInputs = validateInputs.bind(this);
   }
 
   componentDidMount() {
@@ -65,76 +120,11 @@ class EditUserProfile extends Component {
 
   onClickHandler = () => {
     this.props.editUser(this.state);
-    const {
-      firstName,
-      lastName,
-      email,
-      shippingAddress1,
-      shippingAddress2,
-      shippingCity,
-      shippingState,
-      shippingZip,
-      billingAddress1,
-      billingAddress2,
-      billingCity,
-      billingState,
-      billingZip
-    } = this.state;
-    if (firstName === '') {
-      this.state.error = true;
-      this.setState({ errorText: 'First Name' });
-    }
-    if (lastName === '') {
-      this.state.error = true;
-      this.setState({ errorText: 'Last Name' });
-    }
-    if (email === '') {
-      this.state.error = true;
-      this.setState({ errorText: 'Email' });
-    }
-    if (shippingAddress1 === '') {
-      this.state.error = true;
-      this.setState({ errorText: 'Shipping address' });
-    }
-    if (shippingCity === '') {
-      this.state.error = true;
-      this.setState({ errorText: 'Shipping city' });
-    }
-    if (shippingState === '') {
-      this.state.error = true;
-      this.setState({ errorText: 'Shipping state' });
-    }
-    if (shippingZip === '') {
-      this.state.error = true;
-      this.setState({ errorText: 'Shipping zip code' });
-    }
-    if (billingAddress1 === '') {
-      this.state.error = true;
-      this.setState({ errorText: 'Billing address' });
-    }
-    if (billingCity === '') {
-      this.state.error = true;
-      this.setState({ errorText: 'Billing city' });
-    }
-    if (billingState === '') {
-      this.state.error = true;
-      this.setState({ errorText: 'Billing state' });
-    }
-    if (billingZip === '') {
-      this.state.error = true;
-      this.setState({ errorText: 'Billing zip code' });
-    }
-    if (password === '') {
-      this.state.error = true;
-      this.setState({ errorText: 'Password' });
-    }
-
-    if (this.state.error === false) {
-      this.props.history.push('/myaccount');
-    }
+    this.validateInputs(this.state);
   };
 
   render() {
+    console.log('errrr', this.state.error);
     return (
       <form
         onSubmit={ev => ev.preventDefault()}
