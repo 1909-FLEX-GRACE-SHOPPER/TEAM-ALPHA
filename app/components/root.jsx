@@ -16,6 +16,11 @@ import CheckoutGuestAddress from './CheckoutGuestAddress';
 import CheckoutGuestPay from './CheckoutGuestPay';
 import Success from './Success';
 import { initialLogInAttempt } from '../redux/authentication';
+import AddProduct from './AddProduct';
+import EditUserProfile from './editUserProfile';
+import AllProductsGrid from './AllProductsGrid';
+import EditProductForm from './EditProductForm';
+import NotFound from './NotFound';
 
 export default class Root extends Component {
   async componentDidMount() {
@@ -44,7 +49,12 @@ export default class Root extends Component {
             <Route path="/myaccount" component={MyAccount} />
             <Route path="/checkout" component={CheckoutGuestAddress} exact />
             <Route path="/checkout2" component={CheckoutGuestPay} exact />
-            <Route path="/success" component={Success} exact />
+            <Route path="/success/:id" component={Success} exact />
+            <Route path="/addproduct" component={AddProduct} exact />
+            <Route path="/editprofile" component={EditUserProfile} exact />
+            <Route path="/seeAllProducts" component={AllProductsGrid} />
+            <Route path="/editProductForm" component={EditProductForm} />
+            <Route component={NotFound} />
           </Switch>
           <Footer />
         </main>
