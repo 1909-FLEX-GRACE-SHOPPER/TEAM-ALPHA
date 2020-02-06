@@ -70,6 +70,7 @@ export const updateProductThunk = (productId, productListingId, edits) => {
   // console.log('updateProduct thunk edits:', edits);
 
   return async dispatch => {
+    // adding comment here to re-commit so travis will run again. It currently has an error with no actual error and wont let us rerun.
     const editedProduct = (
       await axios.put(`/api/productListings/editproduct`, {
         productId,
