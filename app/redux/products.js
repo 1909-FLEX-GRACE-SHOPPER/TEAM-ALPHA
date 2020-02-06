@@ -69,7 +69,7 @@ export const removeProduct = product => {
 export const updateProductThunk = (productId, productListingId, edits) => {
   // console.log('updateProduct thunk edits:', edits);
 
-  return async (dispatch) => {
+  return async dispatch => {
     const editedProduct = (
       await axios.put(`/api/productListings/editproduct`, {
         productId,
