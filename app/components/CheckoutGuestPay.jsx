@@ -34,11 +34,22 @@ class GuestPayment extends Component {
       billingAddress2: '',
       billingCity: '',
       billingState: '',
-      billingZip: ''
+      billingZip: '',
+
+      ////
+
+      address1Helper: '',
+      address1Err: false,
+      cityHelper: '',
+      cityErr: false,
+      stateHelper: '',
+      stateErr: false,
+      zipHelper: '',
+      zipErr: false
     };
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     const { activeUser } = this.props;
     if (
       this.props.authentication.isLoggedIn &&
@@ -62,8 +73,27 @@ class GuestPayment extends Component {
     });
   };
 
+  generateTextFields = (id, label, err, helper) => {
+    return (
+      <TextField
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        onChange={this.handleChange}
+        id={id}
+        name={id}
+        label={label}
+        error={this.state[err] || null}
+        helperText={this.state[helper] || null}
+        value={this.state[id]}
+      />
+    );
+  };
+
   billingFields = () => {
     const { shippingIsBilling } = this.state;
+    const { generateTextFields } = this;
     if (shippingIsBilling) {
       return null;
     } else {
@@ -75,71 +105,76 @@ class GuestPayment extends Component {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="billingAddress1"
-              name="billingAddress1"
-              label="Address Line 1"
-              value={this.state.billingAddress1}
-              onChange={this.handleChange}
-            />
+            {generateTextFields(
+              'billingAddress1',
+              'Address Line 1',
+              'address1Err',
+              'address1Helper'
+            )}
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="billingAddress2"
-              name="billingAddress2"
-              label="Address Line 2"
-              value={this.state.billingAddress2}
-              onChange={this.handleChange}
-            />
+            {generateTextFields('billingAddress2', 'Address Line 2')}
           </Grid>
           <Grid item xs={12} sm={4}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="billingCity"
-              name="billingCity"
-              label="City"
-              value={this.state.billingCity}
-              onChange={this.handleChange}
-            />
+            {generateTextFields('billingCity', 'City', 'cityErr', 'cityHelper')}
           </Grid>
           <Grid item xs={12} sm={4}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="billingState"
-              name="billingState"
-              label="State"
-              value={this.state.billingState}
-              onChange={this.handleChange}
-            />
+            {generateTextFields(
+              'billingState',
+              'State',
+              'stateErr',
+              'stateHelper'
+            )}
           </Grid>
           <Grid item xs={12} sm={4}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="billingZip"
-              name="billingZip"
-              label="Zip"
-              value={this.state.billingZip}
-              onChange={this.handleChange}
-            />
+            {generateTextFields('billingZip', 'Zip', 'ZipErr', 'zipHelper')}
           </Grid>
         </Grid>
       );
+    }
+  };
+
+  //Added this because if user clicks on different billing switch they cannot edit
+  // eslint-disable-next-line complexity
+  handleChange = ({ target: { value, name } }) => {
+    this.setState({
+      [name]: value
+    });
+    if (name === 'billingAddress1') {
+      if (value.length > 0)
+        this.setState({ address1Helper: '', address1Err: false });
+      else
+        this.setState({
+          address1Helper: 'Address cannot be empty',
+          address1Err: true
+        });
+    }
+    if (name === 'billingCity') {
+      if (value.length > 0) this.setState({ cityHelper: '', cityErr: false });
+      else
+        this.setState({
+          cityHelper: 'City cannot be empty',
+          cityErr: true
+        });
+    }
+    if (name === 'billingState') {
+      if (value.length > 0) this.setState({ stateHelper: '', stateErr: false });
+      else
+        this.setState({
+          stateHelper: 'State cannot be empty',
+          stateErr: true
+        });
+    }
+    if (name === 'billingZip') {
+      if (isNaN(Number(this.state.billingZip))) {
+        this.setState({ zipHelper: 'Zip code must be numeric', zipErr: true });
+      } else if (value.length > 0 && !isNaN(Number(this.state.billingZip)))
+        this.setState({ zipHelper: '', zipErr: false });
+      else
+        this.setState({
+          zipHelper: 'Zip code cannot be empty',
+          zipErr: true
+        });
     }
   };
 
@@ -193,6 +228,14 @@ class GuestPayment extends Component {
     } = this.props;
     const { orderTotal } = cart;
     const { activeOrder } = orders;
+
+    // Found a way to hack in the totalCost for the order. Probably not the best way to do it.
+    const updatedActiveOrderTotal = {
+      ...activeOrder,
+      totalCost: orderTotal
+    };
+    console.log('DID ORDER TOTAL UPDATE?????!?!', updatedActiveOrderTotal);
+
     return (
       <Fragment>
         <CssBaseline />
@@ -241,7 +284,7 @@ class GuestPayment extends Component {
                   name={`${activeUser.firstName} ${activeUser.lastName}`}
                   description="Enjoy your order!"
                   amount={orderTotal}
-                  activeOrder={activeOrder}
+                  activeOrder={updatedActiveOrderTotal}
                   submitOrder={submitOrder}
                   // below is for guest
                   activeUser={activeUser}
@@ -250,6 +293,11 @@ class GuestPayment extends Component {
                   postGuestItems={postGuestItems}
                   createUser={createUser}
                   authentication={authentication}
+                  billingAddress={this.state.billingAddress1}
+                  billingCity={this.state.billingCity}
+                  billingState={this.state.billingState}
+                  billingZip={this.state.billingZip}
+                  shipBillStatus={this.state.shippingIsBilling}
                 />
               </Grid>
             </Grid>

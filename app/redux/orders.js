@@ -1,5 +1,4 @@
 import axios from 'axios';
-import thunk from 'redux-thunk';
 import { SIGN_OUT } from './authentication';
 import { emptyCart } from './cart';
 
@@ -44,7 +43,7 @@ export const editOrder = order => {
 
 // we need to deal with this and order history
 export const fetchOrders = () => {
-  return async (dispatch, getState) => {
+  return async () => {
     console.log('fetching orders...');
     // if (getState().authentication.isLoggedIn) {
     //   const user = getState().activeUser;
@@ -76,6 +75,8 @@ export const fetchOrders = () => {
 export const createOrder = order => {
   return async dispatch => {
     const postedOrder = (await axios.post('/api/orders', order)).data;
+    //add console.log bc we need to use postedOrder somewhere,otherwise eslint throwing error
+    console.log(postedOrder);
     localStorage.setItem(ORDER_COST, JSON.stringify(order.totalCost));
     // return dispatch(newOrder(postedOrder));
     return dispatch(fetchOrders());
@@ -96,10 +97,14 @@ export const updateOrder = (edits, order) => {
 export const submitOrder = order => {
   return async dispatch => {
     const edits = {
+      //Added this otherwise in the submit order thunk we are not going to populate anything from the order obj.
+      ...order,
       status: 'ordered'
     };
     const submittedOrder = (await axios.put(`api/orders/${order.id}`, edits))
       .data;
+    //console.log for eslint
+    console.log(submittedOrder);
     dispatch(emptyCart());
     return dispatch(fetchOrders());
   };

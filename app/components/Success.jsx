@@ -23,7 +23,7 @@ class Success extends React.Component {
     const orderId = this.props.match.params.id;
 
     // this is not ideal, but I think it will work
-    const totalCost = JSON.parse(localStorage.getItem(ORDER_COST));
+    const totalCost = JSON.parse(localStorage.getItem('ORDER_COST'));
     const costToShow = authentication.isLoggedIn
       ? activeOrder.totalCost
       : totalCost;

@@ -2,24 +2,16 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import StripeCheckout from 'react-stripe-checkout';
 
-import STRIPE_PUBLISHABLE from '../constants/stripe';
-import PAYMENT_SERVER_URL from '../constants/server';
+import STRIPE_PUBLISHABLE from '../../StripeConstants/frontend/stripe';
+import PAYMENT_SERVER_URL from '../../StripeConstants/frontend/server';
 import { uuidv4 } from '../utils';
 
 const CURRENCY = 'USD';
 
 const fromUsdToCent = amount => amount * 100;
 
-// note: we will change all the logic in error payment to be in successPayment
-// once I set up the Stripe backend - JH
 class Checkout extends Component {
   successPayment = data => {
-    alert('Payment Successful');
-    // better way to do this for sure
-    window.location.href = 'success';
-  };
-
-  errorPayment = data => {
     const {
       activeOrder,
       submitOrder,
@@ -42,7 +34,7 @@ class Checkout extends Component {
       // 1) post the guest user
       // 2) then post order associated with user
       // 3) then post order items associated with order
-      activeUser.userTypes = 'guest';
+      activeUser.userType = 'guest';
       const userId = uuidv4();
       activeUser.id = userId;
       activeUser.password = 'guestPwd';
@@ -62,7 +54,13 @@ class Checkout extends Component {
     }
   };
 
-  // might want to make this a thunk to move the axios call out of here
+  errorPayment = data => {
+    // eslint-disable-next-line no-alert
+    alert(
+      'Payment Failed. Try rentering your information or checking your payment information'
+    );
+  };
+
   onToken = (amount, description) => token => {
     axios
       .post(PAYMENT_SERVER_URL, {
@@ -76,7 +74,16 @@ class Checkout extends Component {
   };
 
   render() {
-    const { name, description, amount } = this.props;
+    const {
+      name,
+      description,
+      amount,
+      billingAddress,
+      billingCity,
+      billingState,
+      billingZip,
+      shipBillStatus
+    } = this.props;
     const { onToken } = this;
 
     return (
@@ -87,6 +94,13 @@ class Checkout extends Component {
         token={onToken(amount, description)}
         currency={CURRENCY}
         stripeKey={STRIPE_PUBLISHABLE}
+        disabled={
+          shipBillStatus === true
+            ? false
+            : !billingAddress || !billingCity || !billingState || !billingZip
+            ? true
+            : false
+        }
       />
     );
   }

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import thunk from 'redux-thunk';
 // action types
 const GET_SINGEL_USER = 'GET_SINGEL_USER';
 

@@ -17,11 +17,15 @@ class CartTable extends Component {
   sumOrderTotal() {
     let orderTotal = 0;
     this.props.cart.items.map(item => (orderTotal += parseInt(item.unitPrice)));
-    return orderTotal;
+    return orderTotal.toFixed(2);
   }
 
   onClickDelete(itemId) {
     this.props.deleteItem(itemId);
+  }
+
+  toCheckOut() {
+    this.props.history.push('/checkout');
   }
 
   render() {
@@ -51,7 +55,7 @@ class CartTable extends Component {
                   <TableCell>
                     <button
                       type="button"
-                      id={cartItem.id}
+                      // id={cartItem.id}
                       onClick={() => this.onClickDelete(cartItem)}
                     >
                       X
@@ -82,18 +86,13 @@ class CartTable extends Component {
             variant="contained"
             type="submit"
             fullWidth
-            onClick={() => this.handleClick()}
+            onClick={() => this.toCheckOut()}
           >
-            <Link to="/checkout">Proceed To Checkout</Link>
+            {/* <Link to="/checkout">Proceed To Checkout</Link> */}
+            Checkout
           </Button>
         ) : (
-          <Button
-            variant="contained"
-            type="submit"
-            fullWidth
-            onClick={() => this.handleClick()}
-            disabled
-          >
+          <Button variant="contained" type="submit" fullWidth disabled>
             Checkout
           </Button>
         )}

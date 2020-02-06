@@ -1,5 +1,4 @@
 import axios from 'axios';
-import thunk from 'redux-thunk';
 import { SIGN_OUT, localStorageKey } from './authentication';
 import { uuidv4 } from '../utils';
 
@@ -71,7 +70,7 @@ export const fetchActiveOrder = activeOrder => {
         orderItems = orderItems.concat(localStorageItems);
         localStorage.removeItem(localStorageKey);
       }
-      return dispatch(setActiveOrderProducts(orderItems));
+      return dispatch(setActiveOrderProducts(orderItems)); //FIXED
     }
   };
 };
@@ -82,8 +81,8 @@ export const addNewItemToCart = orderItem => {
     if (getState().authentication.isLoggedIn) {
       const order = getState().orders.activeOrder;
       orderItem.orderId = order.id;
-      const addNewItem = (await axios.post(`/api/orderItems`, orderItem)).data;
-      return dispatch(addToCart(addNewItem));
+      await axios.post(`/api/orderItems`, orderItem);
+      return dispatch(addToCart(orderItem));
     } else {
       // need to DRY this out later; just keeping seperate for now
 
@@ -129,6 +128,20 @@ export const removeItem = orderItem => {
     }
     // need to be able to remove from local storage and redux store if not signed out
     // I can get to this later if needed - JH
+    else {
+      const localStorageItems = JSON.parse(
+        localStorage.getItem(localStorageKey)
+      );
+
+      // delete the first matched productid.
+      const idx = localStorageItems.findIndex(
+        itemObj => itemObj.productId === orderItem.productId
+      );
+      localStorageItems.splice(idx, 1);
+      // add this back to localstorage
+      localStorage.setItem(localStorageKey, JSON.stringify(localStorageItems));
+      return dispatch(removeFromCart(orderItem));
+    }
   };
 };
 
@@ -171,7 +184,9 @@ const cartReducer = (state = initialState, action) => {
         // I needed to uncomment the below out in order to make the cart -JH
         // update when a user is logged out
         items: [...state.items, action.orderItem],
-        orderTotal: state.orderTotal + action.orderItem.unitPrice
+        orderTotal: (
+          parseInt(state.orderTotal) + parseInt(action.orderItem.unitPrice)
+        ).toFixed(2)
       };
 
     // DONT NEED THIS ANYMORE EITHER SINCE WE WONT BE KEEP QUANTITY. BUT LEAVING IT HERE JUST INCASE.
@@ -191,7 +206,10 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         items: state.items.filter(
           orderItem => orderItem.id !== action.orderItem.id
-        )
+        ),
+        orderTotal: (
+          parseInt(state.orderTotal) - parseInt(action.orderItem.unitPrice)
+        ).toFixed(2)
       };
     case EMPTY_CART:
       return {

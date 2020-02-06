@@ -1,6 +1,7 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import productListingReducer, { editProductListing } from './productListing';
+
 // constants to be moved to a constants.js file
 const SET_PRODUCTS = Symbol('set_products');
 const ADD_PRODUCT = Symbol('add_product');
