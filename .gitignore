@@ -21,5 +21,6 @@ StripeConstants
 .vscode
 .idea
 .npmrc
+.env
 bundle/*.js
 bundle/*.map
