@@ -48,6 +48,7 @@ const productListingReducer = (state = initialState, action) => {
       if (state.id === action.payload.id) {
         return action.payload;
       }
+      else return state;
     default:
       return state;
   }
