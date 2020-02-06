@@ -1,10 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import OrderSummary from './OrderSummary';
 import { FormHelperText } from '@material-ui/core';
 import { Button, TextField, Grid, Typography } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { modifyUser } from '../redux/activeUser';
 function validateInputs(state) {
   const {
@@ -12,12 +9,10 @@ function validateInputs(state) {
     lastName,
     email,
     shippingAddress1,
-    shippingAddress2,
     shippingCity,
     shippingState,
     shippingZip,
     billingAddress1,
-    billingAddress2,
     billingCity,
     billingState,
     billingZip
