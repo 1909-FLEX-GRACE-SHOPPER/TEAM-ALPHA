@@ -23,16 +23,16 @@ import Grid from '@material-ui/core/Grid';
 const getAllProd = products => {
   let allProdArr = [];
   for (let i = 0; i < products.length; i++) {
-    if (products[i].quantity === 1) {
+    if (products[i].quantity !== 0) {
       allProdArr.push(products[i]);
-    } else {
-      let numToPush = products[i].quantity;
-      for (let i = 0; i < numToPush; i++) {
-        allProdArr.push(products[i]);
-      }
+      // } else {
+      //   let numToPush = products[i].quantity;
+      //   for (let i = 0; i < numToPush; i++) {
+      //     allProdArr.push(products[i]);
+      //   }
+      // }
     }
   }
-
   return allProdArr;
 };
 
@@ -57,4 +57,3 @@ const AllProductsGrid = props => {
 const mapStateToProps = ({ products }) => ({ products }); // might want authentication too
 
 export default connect(mapStateToProps, null)(AllProductsGrid);
-//map key not unique
