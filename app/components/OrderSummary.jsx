@@ -30,13 +30,19 @@ class OrderSummary extends Component {
   //   })
   // }
 
+  sumOrderTotal() {
+    let orderTotal = 0;
+    this.props.cart.items.map(item => (orderTotal += parseInt(item.unitPrice)));
+    return orderTotal;
+  }
+
   render() {
     const { promoCode } = this.state;
     const { cart } = this.props;
     console.log('props.cart', cart);
 
-    const orderTax = parseInt(cart.orderTotal) * 0.088725;
-    const orderTotal = parseInt(cart.orderTotal) + orderTax;
+    const orderTax = parseInt(this.sumOrderTotal()) * 0.088725;
+    const orderTotal = parseInt(this.sumOrderTotal()) + orderTax;
 
     return (
       <Container component="div" maxWidth="xs">
@@ -56,7 +62,9 @@ class OrderSummary extends Component {
             <Typography variant="h6">Summary</Typography>
             <div style={lineItemStyle}>
               <Typography variant="subtitle1">Subtotal:</Typography>
-              <Typography variant="subtitle1">${cart.orderTotal}</Typography>
+              <Typography variant="subtitle1">
+                ${this.sumOrderTotal().toFixed(2)}
+              </Typography>
             </div>
             <div style={lineItemStyle}>
               <Typography variant="subtitle1">Shipping:</Typography>
