@@ -124,6 +124,25 @@ class GuestAddressForm extends Component {
     }
   };
 
+  generateTextFields = (id, label, err, helper, inputProps) => {
+    return (
+      <TextField
+        inputProps={inputProps || ''}
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        onChange={this.handleChange}
+        id={id}
+        name={id}
+        label={label}
+        error={this.state[err] || null}
+        helperText={this.state[helper] || null}
+        value={this.state[id]}
+      />
+    );
+  };
+
   toCheckout2() {
     const {
       firstName,
@@ -158,10 +177,13 @@ class GuestAddressForm extends Component {
       lastName,
       email,
       shippingAddress1,
+      shippingAddress2,
       shippingCity,
       shippingState,
       shippingZip
     } = this.state;
+    const { generateTextFields } = this;
+    // console.log('updated');
 
     return (
       <Fragment>
@@ -202,114 +224,63 @@ class GuestAddressForm extends Component {
               </Grid>
               <Grid container item>
                 <Grid item xs={6}>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="firstName"
-                    name="firstName"
-                    label="First name"
-                    error={this.state.firstNameErr}
-                    helperText={this.state.firstNameHelper}
-                    value={this.state.firstName}
-                    onChange={this.handleChange}
-                  />
+                  {generateTextFields(
+                    'firstName',
+                    'First Name',
+                    'firstNameErr',
+                    'firstNameHelper'
+                  )}
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="lastName"
-                    name="lastName"
-                    label="Last name"
-                    error={this.state.lastNameErr}
-                    helperText={this.state.lastNameHelper}
-                    value={this.state.lastName}
-                    onChange={this.handleChange}
-                  />
+                  {generateTextFields(
+                    'lastName',
+                    'Last Name',
+                    'lastNameErr',
+                    'lastNameHelper'
+                  )}
                 </Grid>
               </Grid>
             </Grid>
 
             <Grid container item>
               <Grid item xs={9}>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="shippingAddress1"
-                  name="shippingAddress1"
-                  label="Address"
-                  error={this.state.address1Err}
-                  helperText={this.state.address1Helper}
-                  value={this.state.shippingAddress1}
-                  onChange={this.handleChange}
-                />
+                {generateTextFields(
+                  'shippingAddress1',
+                  'Address',
+                  'address1Err',
+                  'address1Helper'
+                )}
               </Grid>
               <Grid item xs={3}>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="shippingAddress2"
-                  name="shippingAddress2"
-                  label="Apt. (optional)"
-                  value={this.state.shippingAddress2}
-                  onChange={this.handleChange}
-                />
+                {generateTextFields('shippingAddress2', 'Apt. (optional)')}
               </Grid>
             </Grid>
 
             <Grid container item>
               <Grid item xs={4}>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="shippingCity"
-                  name="shippingCity"
-                  label="City"
-                  error={this.state.cityErr}
-                  helperText={this.state.cityHelper}
-                  value={this.state.shippingCity}
-                  onChange={this.handleChange}
-                />
+                {generateTextFields(
+                  'shippingCity',
+                  'City',
+                  'cityErr',
+                  'cityHelper'
+                )}
               </Grid>
               <Grid item xs={4}>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  required
-                  id="shippingState"
-                  name="shippingState"
-                  label="State"
-                  error={this.state.stateErr}
-                  helperText={this.state.stateHelper}
-                  value={this.state.shippingState}
-                  onChange={this.handleChange}
-                />
+                {generateTextFields(
+                  'shippingState',
+                  'State',
+                  'stateErr',
+                  'stateHelper'
+                )}
               </Grid>
               <Grid item xs={4}>
-                <TextField
-                  inputProps={{ maxLength: 5 }}
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  required
-                  id="shippingZip"
-                  name="shippingZip"
-                  label="Zip Code"
-                  error={this.state.zipErr}
-                  helperText={this.state.zipHelper}
-                  value={this.state.shippingZip}
-                  onChange={this.handleChange}
-                />
+                {generateTextFields(
+                  'shippingZip',
+                  'Zip Code',
+                  'zipErr',
+                  'zipHelper',
+                  { maxLength: 5 }
+                )}
               </Grid>
             </Grid>
 

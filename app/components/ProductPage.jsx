@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProductThunk } from '../redux/singleProduct.js';
 import Grid from '@material-ui/core/Grid';
@@ -9,6 +10,8 @@ import ProductPageQuantityTracker from './ProductPageQuantityTracker.jsx';
 import createOrder from '../redux/orders';
 import updateOrder from '../redux/orders';
 import { withStyles } from '@material-ui/core/styles';
+import EditProductForm from './EditProductForm';
+import AllProductsGrid from './AllProductsGrid';
 
 const styles = {
   root: {
@@ -32,10 +35,18 @@ class ProductPage extends React.Component {
     super();
     this.state = {
       cartItem: {},
-      quantityOfProduct: 0
+      quantityOfProduct: 0,
+      isEdit: false,
+      viewAll: false
     };
+    this.toggleEditing = this.toggleEditing.bind(this);
   }
 
+  toggleEditing() {
+    console.log('isEdit', this.state.isEdit);
+    this.setState({ isEdit: !this.state.isEdit });
+    console.log('isEdit', this.state.isEdit);
+  }
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.getProduct(id);
@@ -86,6 +97,22 @@ class ProductPage extends React.Component {
               </Grid>
             </Grid>
           </Paper>
+          {this.props.activeUser.userTypes === 'guest' ? (
+            <Link to="/editProductForm">
+              <Button toggleEditing={this.toggleEditing} size="small">
+                Edit Product
+              </Button>
+            </Link>
+          ) : (
+            ''
+          )}
+          {this.props.activeUser.userTypes === 'guest' ? (
+            <Link to="/seeAllProducts">
+              <Button size="small">See All Products</Button>
+            </Link>
+          ) : (
+            ''
+          )}
         </div>
       );
     }
@@ -94,7 +121,8 @@ class ProductPage extends React.Component {
 const mapStateToProps = state => ({
   product: state.product,
   cart: state.cart,
-  orders: state.orders
+  orders: state.orders,
+  activeUser: state.activeUser
 });
 
 const mapDispatchToProps = dispatch => ({
