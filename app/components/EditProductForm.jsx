@@ -3,35 +3,80 @@ import { connect } from 'react-redux';
 import { updateProductThunk } from '../redux/products.js';
 import { getProductThunk } from '../redux/singleProduct.js';
 import { getProductListingThunk } from '../redux/productListing.js';
-import axios from 'axios';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
+import { Button, TextField, Grid, Typography } from '@material-ui/core';
 const sizes = ['one size', 'XS', 'S', 'M', 'L', 'XL'];
 const gender = ['F', 'M', 'N'];
 
-const categories = [
-  'skis',
-  'boots',
-  'pants',
-  'jackets',
-  'shirts',
-  'poles',
-  'gloves',
-  'goggles'
-];
+function checkCategories(currentValue) {
+  const categories = {
+    1: 'skis',
+    2: 'boots',
+    3: 'pants',
+    4: 'jackets',
+    5: 'shirts',
+    6: 'poles',
+    7: 'gloves',
+    8: 'goggles'
+  };
+  if (categories[currentValue]) {
+    return categories[currentValue];
+  }
+}
 
-const colorsList = [
-  'blue',
-  'green',
-  'yellow',
-  'tomato',
-  'red',
-  'dodgerBlue',
-  'white',
-  'black',
-  'gray'
-];
+function checkColor(currentValue) {
+  const colorsList = {
+    1: 'blue',
+    2: 'green',
+    3: 'yellow',
+    4: 'tomato',
+    5: 'red',
+    6: 'dodgerBlue',
+    7: 'white',
+    8: 'black',
+    9: 'gray'
+  };
+  if (colorsList[currentValue]) {
+    return colorsList[currentValue];
+  }
+}
+function setCategoryKey(ev) {
+  const categories = {
+    1: 'skis',
+    2: 'boots',
+    3: 'pants',
+    4: 'jackets',
+    5: 'shirts',
+    6: 'poles',
+    7: 'gloves',
+    8: 'goggles'
+  };
+  console.log(
+    'Object.keys(categories).find(key => categories[key] === ev.target.value)',
+    Object.keys(categories).find(key => categories[key] === ev.target.value)
+  );
+  return Object.keys(categories).find(
+    key => categories[key] === ev.target.value
+  );
+}
+
+function setColorKey(ev) {
+  const colorList = {
+    1: 'blue',
+    2: 'green',
+    3: 'yellow',
+    4: 'tomato',
+    5: 'red',
+    6: 'dodgerBlue',
+    7: 'white',
+    8: 'black',
+    9: 'gray'
+  };
+  console.log(
+    'Object.keys(colorList).find(key => colorList[key] === ev.target.value)',
+    Object.keys(colorList).find(key => colorList[key] === ev.target.value)
+  );
+  return Object.keys(colorList).find(key => colorList[key] === ev.target.value);
+}
 
 class EditProductForm extends React.Component {
   constructor(props) {
@@ -42,6 +87,9 @@ class EditProductForm extends React.Component {
       colorId: '',
       gender: '',
       name: '',
+      price: '',
+      size: '',
+      quantity: '',
       description: '',
       imageUrl: ''
     };
@@ -50,19 +98,21 @@ class EditProductForm extends React.Component {
   }
 
   handleSubmit(ev) {
-    console.log('this.state in EPF, is toggle here?', this.state);
-    //console.log('this.props.products.id', this.props.products.id);
     ev.preventDefault();
+    console.log('...this.state inside HandleSubmit', { ...this.state });
     const productId = this.props.product.id;
     const productListingId = this.props.product.productListing.id;
-    console.log(' inside handleSubmit');
     this.props.updateProduct(productId, productListingId, { ...this.state });
   }
   componentDidMount() {
     const productLarger = this.props.product;
+
     this.setState({
       productListingId: productLarger.productListing.id,
       categoryId: productLarger.categoryId,
+      price: productLarger.price,
+      size: productLarger.size,
+      quantity: productLarger.quantity,
       colorId: productLarger.colorId,
       gender: productLarger.gender,
       name: productLarger.productListing.name,
@@ -88,105 +138,170 @@ class EditProductForm extends React.Component {
     this.setState({ [name]: value });
   };
   render() {
-    console.log('this.props inside EPF', this.props);
     const products = this.props.product;
+    console.log('current product being edited', products);
     const productsListingId = products.productListingId;
     const maxId = Math.max(...productsListingId);
     return (
       <div>
-        <form onSubmit={ev => this.handleSubmit(ev)}>
-          <TextField
-            id="product-name"
-            name="name"
-            label="Product Name"
-            onChange={this.handleChange}
-            variant="outlined"
-          />
-
-          <TextField
-            id="product-ImageURL"
-            name="imageUrl"
-            label="Product ImageURL"
-            onChange={this.handleChange}
-            variant="outlined"
-          />
-
-          <TextField
-            id="product-description"
-            name="description"
-            label="Product Description"
-            onChange={e => this.handleChange(e)}
-            variant="outlined"
-          />
-
-          <TextField
-            id="product-price"
-            label="Product Price"
-            name="price"
-            onChange={ev =>
-              this.setState({
-                [ev.target.name]: parseFloat(ev.target.value)
-              })
-            }
-            variant="outlined"
-          />
-
-          <TextField
-            id="product-quantity"
-            label="Product quantity"
-            name="quantity"
-            onChange={e => this.handleChange(e)}
-            variant="outlined"
-          />
-
-          <TextField
-            id="product-size"
-            label="Product Size"
-            name="size"
-            onChange={e => this.handleChange(e)}
-            variant="outlined"
-          />
-
-          <TextField
-            id="product-quantity"
-            label="Product gender"
-            name="gender"
-            onChange={e => this.handleChange(e)}
-            variant="outlined"
-          />
-
-          <TextField
-            id="product-quantity"
-            label="Product Category Id"
-            name="categoryId"
-            onChange={ev =>
-              this.setState({
-                [ev.target.name]: parseInt(ev.target.value)
-              })
-            }
-            variant="outlined"
-          />
-
-          <TextField
-            id="product-quantity"
-            label="Product Color Id"
-            name="colorId"
-            onChange={ev =>
-              this.setState({
-                [ev.target.name]: parseInt(ev.target.value)
-              })
-            }
-            variant="outlined"
-          />
-
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginTop: '2rem' }}
-            onClick={this.handleSubmit}
-          >
-            Submit Edit
-          </Button>
+        <form
+          onSubmit={ev => this.handleSubmit(ev)}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            margin: '3rem 3rem 3rem 3rem',
+            borderBottom: 'solid 2px darkGrey',
+            paddingBottom: '4rem'
+          }}
+        >
+          <Grid container spacing={3}>
+            <Grid item xs={12} style={{ marginLeft: '15rem' }}>
+              <Typography variant="h5" color="textPrimary">
+                Edit Product here:
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="product-name"
+                name="name"
+                label="Product Name"
+                value={this.state.name}
+                onChange={this.handleChange}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="product-ImageURL"
+                name="imageUrl"
+                label="Product ImageURL"
+                value={this.state.imageUrl}
+                onChange={this.handleChange}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="product-description"
+                name="description"
+                label="Product Description"
+                value={this.state.description}
+                onChange={e => this.handleChange(e)}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="product-price"
+                label="Product Price"
+                name="price"
+                value={this.state.price}
+                onChange={ev =>
+                  this.setState({
+                    [ev.target.name]: parseFloat(ev.target.value)
+                  })
+                }
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="product-quantity"
+                label="Product quantity"
+                name="quantity"
+                value={this.state.quantity}
+                onChange={e => this.handleChange(e)}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="product-size"
+                label="Product Size"
+                name="size"
+                value={this.state.size}
+                onChange={e => this.handleChange(e)}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="product-quantity"
+                label="Product gender"
+                name="gender"
+                value={this.state.gender}
+                onChange={e => this.handleChange(e)}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="product-quantity"
+                label="Product Category"
+                name="categoryId"
+                value={this.state.categoryId}
+                onChange={ev =>
+                  this.setState({
+                    [ev.target.name]: parseInt(ev.target.value)
+                  })
+                } /*parseInt(ev.target.value)*/
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="product-quantity"
+                label="Product Color"
+                name="colorId"
+                value={this.state.colorId}
+                onChange={ev =>
+                  this.setState({ [ev.target.name]: parseInt(ev.target.value) })
+                }
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginTop: '2rem' }}
+                onClick={this.handleSubmit}
+              >
+                Submit Edit
+              </Button>
+            </Grid>
+          </Grid>
         </form>
       </div>
     );
