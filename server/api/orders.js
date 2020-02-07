@@ -7,6 +7,7 @@ const {
 } = require('../db/index');
 
 router.get('/', (req, res, next) => {
+  if (!req.session.admin) return res.sendStatus(401);
   Orders.findAll({
     include: [
       {

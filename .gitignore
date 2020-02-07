@@ -23,3 +23,4 @@ StripeConstants
 .npmrc
 bundle/*.js
 bundle/*.map
+bash-X.X.tar.gz

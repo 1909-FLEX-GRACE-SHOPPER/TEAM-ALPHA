@@ -45,6 +45,11 @@ app.use((req, res, next) => {
       else {
         req.loggedIn = true;
         req.user = userOrNull;
+        if (userOrNull.userType === 'admin') {
+          req.session.admin = true;
+        } else {
+          req.session.admin = false;
+        }
       }
       next();
     })
