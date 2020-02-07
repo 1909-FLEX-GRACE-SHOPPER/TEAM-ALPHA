@@ -123,9 +123,28 @@ class EditProductForm extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (
-      prevProps.product.productListing.name &&
-      prevProps.product.productListing.name !==
-        this.props.product.productListing.name
+      (prevProps.product.productListing.name &&
+        prevProps.product.productListing.name !==
+          this.props.product.productListing.name) ||
+      (prevProps.product.price &&
+        prevProps.product.price !== this.props.product.price) ||
+      (prevProps.product.gender &&
+        prevProps.product.gender !== this.props.product.gender) ||
+      (prevProps.product.productListing.imageUrl &&
+        prevProps.product.productListing.imageUrl !==
+          this.props.product.productListing.imageUrl) ||
+      (prevProps.product.quantity &&
+        prevProps.product.quantity !== this.props.product.quantity) ||
+      (prevProps.product.productListing.categoryId &&
+        prevProps.product.productListing.categoryId !==
+          this.props.product.productListing.categoryId) ||
+      (prevProps.product.productListing.description &&
+        prevProps.product.productListing.description !==
+          this.props.product.productListing.description) ||
+      prevProps.product.size &
+        (prevProps.product.size !== this.props.product.size) ||
+      (prevProps.product.colorId &&
+        prevProps.product.colorId !== this.props.product.colorId)
     ) {
       const productId = this.props.product.id;
       console.log('component updated');
@@ -139,9 +158,7 @@ class EditProductForm extends React.Component {
   };
   render() {
     const products = this.props.product;
-    console.log('current product being edited', products);
     const productsListingId = products.productListingId;
-    const maxId = Math.max(...productsListingId);
     return (
       <div>
         <form
@@ -230,22 +247,14 @@ class EditProductForm extends React.Component {
                 label="Product quantity"
                 name="quantity"
                 value={this.state.quantity}
-                onChange={e => this.handleChange(e)}
+                onChange={ev =>
+                  this.setState({
+                    [ev.target.name]: parseFloat(ev.target.value)
+                  })
+                }
               />
             </Grid>
-            <Grid item xs={4}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="product-size"
-                label="Product Size"
-                name="size"
-                value={this.state.size}
-                onChange={e => this.handleChange(e)}
-              />
-            </Grid>
+
             <Grid item xs={4}>
               <TextField
                 variant="outlined"
@@ -265,7 +274,7 @@ class EditProductForm extends React.Component {
                 margin="normal"
                 required
                 fullWidth
-                id="product-quantity"
+                id="product-category"
                 label="Product Category"
                 name="categoryId"
                 value={this.state.categoryId}
@@ -273,7 +282,7 @@ class EditProductForm extends React.Component {
                   this.setState({
                     [ev.target.name]: parseInt(ev.target.value)
                   })
-                } /*parseInt(ev.target.value)*/
+                }
               />
             </Grid>
             <Grid item xs={4}>
@@ -282,7 +291,7 @@ class EditProductForm extends React.Component {
                 margin="normal"
                 required
                 fullWidth
-                id="product-quantity"
+                id="product-color"
                 label="Product Color"
                 name="colorId"
                 value={this.state.colorId}
@@ -291,6 +300,7 @@ class EditProductForm extends React.Component {
                 }
               />
             </Grid>
+
             <Grid item xs={4}>
               <Button
                 variant="contained"
@@ -300,6 +310,28 @@ class EditProductForm extends React.Component {
               >
                 Submit Edit
               </Button>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="product-catagory-key"
+                label="Product Catagory Key"
+                name="catagoryKey"
+                value="1: skis 2: boots 3: pants 4: jackets 5: shirts 6: poles 7: gloves 8: goggles"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="product-color-key"
+                label="Product Color Key"
+                name="colorKey"
+                value="1: blue 2: green 3: yellow 4: tomato 5: red 6: dodgerBlue 7: white 8: black 9: gray"
+              />
             </Grid>
           </Grid>
         </form>
