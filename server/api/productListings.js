@@ -7,6 +7,7 @@ const {
 } = require('../db/index');
 
 router.post('/', (req, res, next) => {
+  if (!req.session.admin) return res.sendStatus(401);
   ProductListings.create(req.body)
     .then(newProduct => res.status(201).send(newProduct))
     .catch(e => {
@@ -16,6 +17,7 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/editproduct', (req, res, next) => {
+  if (!req.session.admin) return res.sendStatus(401);
   const productListingId = req.body.productListingId;
   const productId = req.body.productId;
   const { edits } = req.body;
@@ -96,6 +98,7 @@ router.put('/editproduct', (req, res, next) => {
 });
 
 router.put('/editproductOLD', (req, res, next) => {
+  if (!req.session.admin) return res.sendStatus(401);
   const productId = req.body.productId;
   const productListingId = req.body.productListingId;
   console.log('ids', productListingId, productId);

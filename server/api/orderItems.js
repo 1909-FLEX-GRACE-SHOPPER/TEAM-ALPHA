@@ -4,6 +4,7 @@ const { OrderItems } = require('../db/index');
 //NOTE: Needed to add this API in order to delete any associations with the active / "open" status cart items.
 
 router.get('/', (req, res, next) => {
+  if (!req.session.admin) return res.sendStatus(401);
   OrderItems.findAll()
     .then(orderItems => res.send(orderItems))
     .catch(e => {

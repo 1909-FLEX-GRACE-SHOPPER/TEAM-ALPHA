@@ -9,6 +9,11 @@ router.post('/login', (req, res, next) => {
     .then(userOrNull => {
       if (!userOrNull) return res.sendStatus(401);
       req.session.userId = userOrNull.id;
+      if (userOrNull.userType === 'admin') {
+        req.session.admin = true;
+      } else {
+        req.session.admin = false;
+      }
       res.status(200).send(userOrNull);
     })
     .catch(next);
@@ -21,6 +26,11 @@ router.post('/signup', (req, res, next) => {
     .then(user => {
       if (!user) return res.status(500).send('error creating user');
       req.session.userId = user.id;
+      if (user.userType === 'admin') {
+        req.session.admin = true;
+      } else {
+        req.session.admin = false;
+      }
       res.send(user);
     })
     .catch(next);
@@ -28,6 +38,7 @@ router.post('/signup', (req, res, next) => {
 
 router.get('/signout', (req, res, next) => {
   delete req.session.userId;
+  delete req.session.admin;
   res.sendStatus(204);
   next();
 });
