@@ -166,68 +166,68 @@ const initialState = {
   orderTotal: 0
 };
 
-// const cartReducer = (state = initialState, action) => {
-//   switch (action.type) {
-//     case SET_ORDER_TO_CART:
-//       return {
-//         ...state,
-//         //Grabbing all prodcuts from active cart
-//         items: action.items
-//       };
+const cartReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SET_ORDER_TO_CART:
+      return {
+        ...state,
+        //Grabbing all prodcuts from active cart
+        items: action.items
+      };
 
-//     // I think we actually do need this (see below) - JH
-//     //I dont think we actually need this (maybe we do?). Currently with the way the add to cart button works on the product page, it will POST a fixed object with the items price, productID, and active orderID into the the cart. Though this will pass the active orderID and the productId we dont actually get any assocaition to the productListings b/c this is a manual addition of an object with this reducer. Therefore I wont cant get the product info into the cart page. This is why I needed to add the fetchActiveOrder thunk into the add to cart button on the product page to fetch the updated activeorder. Also, orderTotal would not be needed here because once we log out and log back in the intialState will set it back to $0.
-//     case ADD_TO_CART:
-//       return {
-//         ...state,
-//         // Check comment above ^^^
-//         // I needed to uncomment the below out in order to make the cart -JH
-//         // update when a user is logged out
-//         items: [...state.items, action.orderItem],
-//         orderTotal:
-//           parseInt(state.orderTotal) + parseInt(action.orderItem.unitPrice)
-//       };
+    // I think we actually do need this (see below) - JH
+    //I dont think we actually need this (maybe we do?). Currently with the way the add to cart button works on the product page, it will POST a fixed object with the items price, productID, and active orderID into the the cart. Though this will pass the active orderID and the productId we dont actually get any assocaition to the productListings b/c this is a manual addition of an object with this reducer. Therefore I wont cant get the product info into the cart page. This is why I needed to add the fetchActiveOrder thunk into the add to cart button on the product page to fetch the updated activeorder. Also, orderTotal would not be needed here because once we log out and log back in the intialState will set it back to $0.
+    case ADD_TO_CART:
+      return {
+        ...state,
+        // Check comment above ^^^
+        // I needed to uncomment the below out in order to make the cart -JH
+        // update when a user is logged out
+        items: [...state.items, action.orderItem],
+        orderTotal:
+          parseInt(state.orderTotal) + parseInt(action.orderItem.unitPrice)
+      };
 
-//     // DONT NEED THIS ANYMORE EITHER SINCE WE WONT BE KEEP QUANTITY. BUT LEAVING IT HERE JUST INCASE.
-//     // case EDIT_QUANTITY:
-//     //   return {
-//     //     ...state,
-//     //     items: state.items.map(orderItem => {
-//     //       if (orderItem.id === action.orderItem.id) {
-//     //         return action.orderItem;
-//     //       }
-//     //       return action.orderItem;
-//     //     }),
-//     //     orderTotal: state.orderTotal.reduce((total, item) => total + item.price)
-//     //   };
-//     case REMOVE_FROM_CART:
-//       return {
-//         ...state,
-//         items: state.items.filter(
-//           orderItem => orderItem.id !== action.orderItem.id
-//         ),
-//         orderTotal:
-//           parseInt(state.orderTotal) - parseInt(action.orderItem.unitPrice)
-//       };
-//     case EMPTY_CART:
-//       return {
-//         items: [],
-//         orderTotal: 0
-//       };
-//     case SIGN_OUT:
-//       return {
-//         items: [],
-//         orderTotal: 0
-//       };
-//     case SET_GUEST_ITEMS:
-//       return {
-//         items: action.items,
-//         orderTotal: action.orderTotal
-//       };
-//     default:
-//       return state;
-//   }
-// };
+    // DONT NEED THIS ANYMORE EITHER SINCE WE WONT BE KEEP QUANTITY. BUT LEAVING IT HERE JUST INCASE.
+    // case EDIT_QUANTITY:
+    //   return {
+    //     ...state,
+    //     items: state.items.map(orderItem => {
+    //       if (orderItem.id === action.orderItem.id) {
+    //         return action.orderItem;
+    //       }
+    //       return action.orderItem;
+    //     }),
+    //     orderTotal: state.orderTotal.reduce((total, item) => total + item.price)
+    //   };
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        items: state.items.filter(
+          orderItem => orderItem.id !== action.orderItem.id
+        ),
+        orderTotal:
+          parseInt(state.orderTotal) - parseInt(action.orderItem.unitPrice)
+      };
+    case EMPTY_CART:
+      return {
+        items: [],
+        orderTotal: 0
+      };
+    case SIGN_OUT:
+      return {
+        items: [],
+        orderTotal: 0
+      };
+    case SET_GUEST_ITEMS:
+      return {
+        items: action.items,
+        orderTotal: action.orderTotal
+      };
+    default:
+      return state;
+  }
+};
 
 const productListingReducer = (state = initialState, action) => {
   switch (action.type) {
