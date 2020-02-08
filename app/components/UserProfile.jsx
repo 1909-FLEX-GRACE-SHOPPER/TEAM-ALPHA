@@ -64,7 +64,7 @@ class UserProfile extends React.Component {
           {/* <Link to="/api/github/login">
             Login to your github
           </Link> */}
-          <a href="/api/github/login">Login to your github</a>
+          <a href="/api/github/login">Connect to github</a>
         </CardActions>
       </Card>
     );
