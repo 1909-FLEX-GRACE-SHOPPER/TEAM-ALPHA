@@ -146,7 +146,7 @@ export const initialLogInAttempt = () => {
           );
           // add the items to the redux store
           let price = localStorageItems.reduce((acc, item) => {
-            acc += item.unitPrice;
+            acc += parseFloat(item.unitPrice);
             return acc;
           }, 0);
           return dispatch(setGuestItemsToCart(localStorageItems, price));
