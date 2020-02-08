@@ -49,7 +49,7 @@ class GuestPayment extends Component {
     };
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     const { activeUser } = this.props;
     if (
       this.props.authentication.isLoggedIn &&
@@ -73,8 +73,27 @@ class GuestPayment extends Component {
     });
   };
 
+  generateTextFields = (id, label, err, helper) => {
+    return (
+      <TextField
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        onChange={this.handleChange}
+        id={id}
+        name={id}
+        label={label}
+        error={this.state[err] || null}
+        helperText={this.state[helper] || null}
+        value={this.state[id]}
+      />
+    );
+  };
+
   billingFields = () => {
     const { shippingIsBilling } = this.state;
+    const { generateTextFields } = this;
     if (shippingIsBilling) {
       return null;
     } else {
@@ -86,76 +105,29 @@ class GuestPayment extends Component {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="billingAddress1"
-              name="billingAddress1"
-              label="Address Line 1"
-              error={this.state.address1Err}
-              helperText={this.state.address1Helper}
-              value={this.state.billingAddress1}
-              onChange={this.handleChange}
-            />
+            {generateTextFields(
+              'billingAddress1',
+              'Address Line 1',
+              'address1Err',
+              'address1Helper'
+            )}
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="billingAddress2"
-              name="billingAddress2"
-              label="Address Line 2"
-              value={this.state.billingAddress2}
-              onChange={this.handleChange}
-            />
+            {generateTextFields('billingAddress2', 'Address Line 2')}
           </Grid>
           <Grid item xs={12} sm={4}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="billingCity"
-              name="billingCity"
-              label="City"
-              error={this.state.cityErr}
-              helperText={this.state.cityHelper}
-              value={this.state.billingCity}
-              onChange={this.handleChange}
-            />
+            {generateTextFields('billingCity', 'City', 'cityErr', 'cityHelper')}
           </Grid>
           <Grid item xs={12} sm={4}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="billingState"
-              name="billingState"
-              label="State"
-              error={this.state.stateErr}
-              helperText={this.state.stateHelper}
-              value={this.state.billingState}
-              onChange={this.handleChange}
-            />
+            {generateTextFields(
+              'billingState',
+              'State',
+              'stateErr',
+              'stateHelper'
+            )}
           </Grid>
           <Grid item xs={12} sm={4}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="billingZip"
-              name="billingZip"
-              label="Zip"
-              error={this.state.zipErr}
-              helperText={this.state.zipHelper}
-              value={this.state.billingZip}
-              onChange={this.handleChange}
-            />
+            {generateTextFields('billingZip', 'Zip', 'ZipErr', 'zipHelper')}
           </Grid>
         </Grid>
       );
