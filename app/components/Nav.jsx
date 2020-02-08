@@ -9,7 +9,7 @@ import {
   ButtonGroup
 } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import StoreIcon from '@material-ui/icons/Store';
+import AcUnitIcon from '@material-ui/icons/AcUnit';
 import { logOutAttempt } from '../redux/authentication';
 // styling nav
 // could create two divs within the toolbar flex box and space them properly
@@ -55,9 +55,6 @@ class Nav extends Component {
           <Link to="/addproduct" style={{ textDecoration: 'none' }}>
             <Button>Add a Product</Button>
           </Link>
-          <Link to="/editprofile" style={{ textDecoration: 'none' }}>
-            <Button>Edit a Profile</Button>
-          </Link>
         </ButtonGroup>
       );
     }
@@ -81,7 +78,7 @@ class Nav extends Component {
         >
           <Link to="/">
             <IconButton color="default" aria-label="home">
-              <StoreIcon />
+              <AcUnitIcon style={{ fontSize: 60 }} />
             </IconButton>
           </Link>
           <ButtonGroup
@@ -94,12 +91,6 @@ class Nav extends Component {
             </Link>
             <Link to="/products/women" style={{ textDecoration: 'none' }}>
               <Button>Women</Button>
-            </Link>
-            <Link to="/products/gear" style={{ textDecoration: 'none' }}>
-              <Button>Gear</Button>
-            </Link>
-            <Link to="/products/apparel" style={{ textDecoration: 'none' }}>
-              <Button>Apparel</Button>
             </Link>
           </ButtonGroup>
           {this.loginStatus()}
