@@ -61,12 +61,12 @@ app.use((req, res, next) => {
       next();
     });
 });
-app.get('/api/github/login', (req, res, next) => {
+app.get('/api/github/login', (req, res) => {
   res.redirect(
     `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}`
   );
 });
-app.get('/api/github/callback', (req, res, next) => {
+app.get('/api/github/callback', (req, res) => {
   const { code } = req.query;
 
   axios
@@ -97,7 +97,7 @@ app.get('/api/github/callback', (req, res, next) => {
       res.redirect('/error');
     });
 });
-app.get('/api/github/user', (req, res, next) => {
+app.get('/api/github/user', (req, res) => {
   axios
     .get('https://api.github.com/user', {
       headers: {
