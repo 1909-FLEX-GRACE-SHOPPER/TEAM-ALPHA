@@ -9,7 +9,7 @@ const {
   Users,
   ProductListings
 } = require('./server/db/index');
-
+const faker = require('faker');
 /*
 NOTE: Decided to do a bulkCreate instead of doing individual creations like...
 
@@ -48,7 +48,7 @@ const productListingsList = [
   {
     id: 1,
     name: 'Ski-500X ',
-    description: `a great product - ${Math.random()}`,
+    description: `${faker.lorem.sentences()}`,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQtc_LQx5SsX3ieNr-gw_JerO081Q_k_h-JGdJXWEDrlO4Q5hUE'
   },
@@ -69,7 +69,7 @@ const productListingsList = [
   {
     id: 4,
     name: 'Ski Boots',
-    description: `a great product - ${Math.random()}`,
+    description: `${faker.lorem.sentences()}`,
     imageUrl:
       'https://summitsports.scene7.com/is/image/SummitSports/519656_519656_1?$256$'
   },
@@ -77,41 +77,41 @@ const productListingsList = [
   {
     id: 5,
     name: 'Ski Pants',
-    description: `a great product - ${Math.random()}`,
+    description: `${faker.lorem.sentences()}`,
     imageUrl:
       'https://summitsports.scene7.com/is/image/SummitSports/533935_533941_1?$256$'
   },
   {
     id: 6,
     name: 'Ski Jacket',
-    description: `a great product - ${Math.random()}`,
+    description: `${faker.lorem.sentences()}`,
     imageUrl:
       'https://summitsports.scene7.com/is/image/SummitSports/590537_590542_1?$256$'
   },
   {
     id: 7,
     name: 'Ski Shirt',
-    description: `a great product - ${Math.random()}`,
+    description: `${faker.lorem.sentences()}`,
     imageUrl:
       'https://summitsports.scene7.com/is/image/SummitSports/555576_555576_1?$256$'
   },
   {
     id: 8,
     name: 'Ski Poles',
-    description: `a great product - ${Math.random()}`,
+    description: `${faker.lorem.sentences()}`,
     imageUrl:
       'https://summitsports.scene7.com/is/image/SummitSports/565025_565025_1?$256$'
   },
   {
     id: 9,
     name: 'Ski Gloves',
-    description: `a great product - ${Math.random()}`,
+    description: `${faker.lorem.sentences()}`,
     imageUrl: 'https://s7d2.scene7.com/is/image/SS/250169_ULG_1?$256$'
   },
   {
     id: 10,
     name: 'Ski Goggles',
-    description: `a great product - ${Math.random()}`,
+    description: `${faker.lorem.sentences()}`,
     imageUrl:
       'https://summitsports.scene7.com/is/image/SummitSports/547688_547689_1?$256$'
   }
