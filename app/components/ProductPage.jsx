@@ -43,9 +43,9 @@ class ProductPage extends React.Component {
   }
 
   toggleEditing() {
-    console.log('isEdit', this.state.isEdit);
+    //console.log('isEdit', this.state.isEdit);
     this.setState({ isEdit: !this.state.isEdit });
-    console.log('isEdit', this.state.isEdit);
+    // console.log('isEdit', this.state.isEdit);
   }
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -53,6 +53,10 @@ class ProductPage extends React.Component {
   }
 
   render() {
+    console.log(
+      'this.props.activeUser.userType',
+      this.props.activeUser.userType
+    );
     const product = this.props.product;
     if (!product.productListing) {
       return <div>Product not found...</div>;
@@ -97,7 +101,7 @@ class ProductPage extends React.Component {
               </Grid>
             </Grid>
           </Paper>
-          {this.props.activeUser.userTypes === 'guest' ? (
+          {this.props.activeUser.userType === 'admin' ? (
             <Link to="/editProductForm">
               <Button toggleEditing={this.toggleEditing} size="small">
                 Edit Product
@@ -106,7 +110,7 @@ class ProductPage extends React.Component {
           ) : (
             ''
           )}
-          {this.props.activeUser.userTypes === 'guest' ? (
+          {this.props.activeUser.userType === 'admin' ? (
             <Link to="/seeAllProducts">
               <Button size="small">See All Products</Button>
             </Link>

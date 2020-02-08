@@ -123,6 +123,10 @@ const Users = db.define(
         notEmpty: true
       }
     }
+  },
+  github_access_token: {
+    type: STRING,
+    allowNull: true
   }
   // {
   //   instanceMethods: {

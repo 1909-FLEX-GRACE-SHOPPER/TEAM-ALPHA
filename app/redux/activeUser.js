@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SIGN_IN } from './authentication';
+import { SIGN_IN, SIGN_OUT } from './authentication';
 // const SET_USER = Symbol('set_user');
 const EDIT_USER = Symbol('edit_user');
 
@@ -65,6 +65,8 @@ const activeUserReducer = (state = initialState, action) => {
       return activeUser;
     case EDIT_USER:
       return editedUser;
+    case SIGN_OUT:
+      return initialState;
     default:
       return state;
   }

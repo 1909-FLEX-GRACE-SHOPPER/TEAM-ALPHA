@@ -36,6 +36,7 @@ class Checkout extends Component {
       // 1) post the guest user
       // 2) then post order associated with user
       // 3) then post order items associated with order
+      localStorage.setItem('ACTIVE_USER', JSON.stringify(activeUser));
       activeUser.userType = 'guest';
       const userId = uuidv4();
       activeUser.id = userId;
@@ -92,7 +93,7 @@ class Checkout extends Component {
       <StripeCheckout
         name={name}
         description={description}
-        amount={fromUsdToCent(amount) * nycTax}
+        amount={fromUsdToCent(amount * nycTax)}
         token={onToken(amount, description)}
         currency={CURRENCY}
         stripeKey={STRIPE_PUBLISHABLE}

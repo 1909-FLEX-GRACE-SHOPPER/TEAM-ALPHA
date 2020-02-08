@@ -18,7 +18,7 @@ class Success extends React.Component {
   }
 
   render() {
-    const { orders, activeUser, authentication } = this.props;
+    let { orders, activeUser, authentication } = this.props;
     const { activeOrder } = orders;
     const orderId = this.props.match.params.id;
 
@@ -29,6 +29,12 @@ class Success extends React.Component {
       ? activeOrder.totalCost
       : totalCost;
 
+    if (!authentication.isLoggedIn) {
+      activeUser = JSON.parse(localStorage.getItem('ACTIVE_USER'));
+    }
+    setTimeout(() => {
+      localStorage.removeItem('ACTIVE_USER');
+    }, 3000);
     return (
       <Card
         style={{

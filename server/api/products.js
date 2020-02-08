@@ -48,6 +48,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+  if (!req.session.admin) return res.sendStatus(401);
   Products.create(req.body)
     .then(newProduct => res.status(201).send(newProduct))
 
@@ -57,6 +58,7 @@ router.post('/', (req, res, next) => {
     });
 });
 router.put('/:id', (req, res, next) => {
+  if (!req.session.admin) return res.sendStatus(401);
   Products.findOne({
     where: {
       id: req.params.id
@@ -74,6 +76,7 @@ router.put('/:id', (req, res, next) => {
     });
 });
 router.delete('/:id', (req, res, next) => {
+  if (!req.session.admin) return res.sendStatus(401);
   Products.destroy({
     where: {
       id: req.params.id
