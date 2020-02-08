@@ -14,7 +14,8 @@
     "test": "NODE_ENV='test' mocha ./test --recursive",
     "test-ci": "NODE_ENV='test' mocha ./test --recursive",
     "testLint": "./node_modules/.bin/eslint' ./test --fix",
-    "seed": "node newSeed.js"
+    "seed": "node newSeed.js",
+    "heroku-postbuild": "npm run seed"
   },
   "repository": {
     "type": "git",
