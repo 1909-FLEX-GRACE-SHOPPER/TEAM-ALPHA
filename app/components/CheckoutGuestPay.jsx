@@ -73,9 +73,10 @@ class GuestPayment extends Component {
     });
   };
 
-  generateTextFields = (id, label, err, helper) => {
+  generateTextFields = (id, label, err, helper, inputProps) => {
     return (
       <TextField
+        inputProps={inputProps || ''}
         variant="outlined"
         margin="normal"
         required
@@ -127,7 +128,9 @@ class GuestPayment extends Component {
             )}
           </Grid>
           <Grid item xs={12} sm={4}>
-            {generateTextFields('billingZip', 'Zip', 'ZipErr', 'zipHelper')}
+            {generateTextFields('billingZip', 'Zip', 'zipErr', 'zipHelper', {
+              maxLength: 5
+            })}
           </Grid>
         </Grid>
       );
