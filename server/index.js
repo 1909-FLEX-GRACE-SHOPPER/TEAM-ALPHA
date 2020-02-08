@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
-const morgan = require('morgan');
+let morgan;
+if (process.env.NODE_ENV !== 'production') {
+  morgan = require('morgan');
+}
 const chalk = require('chalk');
 const axios = require('axios');
 require('dotenv').config();
@@ -11,7 +14,10 @@ const app = express();
 // we are going to need the Users for authentication
 // though we could modularize that as well
 const { Users } = require('./db/index');
-app.use(morgan('dev'));
+
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+}
 
 // body parsing
 app.use(express.json());
