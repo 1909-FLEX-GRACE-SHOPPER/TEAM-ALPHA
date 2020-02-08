@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 const express = require('express');
 const path = require('path');
 let morgan;
@@ -6,7 +9,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const chalk = require('chalk');
 const axios = require('axios');
-require('dotenv').config();
 // these two are good for cookies
 // const cookieParser = require('cookie-parser');
 const session = require('express-session');
