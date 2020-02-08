@@ -32,6 +32,7 @@
     "cors": "^2.8.5",
     "express": "^4.14.0",
     "express-session": "^1.17.0",
+    "faker": "^4.1.0",
     "lint": "^0.7.0",
     "material-ui-breadcrumbs": "^0.1.6",
     "moment": "^2.24.0",
