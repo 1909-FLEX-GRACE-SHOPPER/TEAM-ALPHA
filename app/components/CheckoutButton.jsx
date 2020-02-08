@@ -93,7 +93,7 @@ class Checkout extends Component {
       <StripeCheckout
         name={name}
         description={description}
-        amount={fromUsdToCent(amount) * nycTax}
+        amount={fromUsdToCent(amount * nycTax)}
         token={onToken(amount, description)}
         currency={CURRENCY}
         stripeKey={STRIPE_PUBLISHABLE}
