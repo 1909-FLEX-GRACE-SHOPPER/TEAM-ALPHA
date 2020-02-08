@@ -124,6 +124,13 @@ app.use(express.static(path.join(__dirname, '../public')));
 // got to use those routes!
 app.use('/api', require('./api'));
 
+// stripe
+// const configureServer = require('./stripe/server');
+const configureRoutes = require('./stripe/routes');
+
+// configureServer(app);
+configureRoutes(app);
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
