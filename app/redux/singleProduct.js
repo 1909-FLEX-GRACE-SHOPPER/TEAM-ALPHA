@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { EDIT_PRODUCT } from './products';
 
 const initialState = {};
 
@@ -31,6 +32,8 @@ const productReducer = (state = initialState, action) => {
   switch (action.type) {
     case GOT_PRODUCT:
       return action.payload;
+    case EDIT_PRODUCT:
+      return action.product;
     default:
       return state;
   }

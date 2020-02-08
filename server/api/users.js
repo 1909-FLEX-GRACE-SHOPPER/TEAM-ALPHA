@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { Users, Orders } = require('../db/index');
 
 router.get('/', (req, res, next) => {
+  if (!req.session.admin) return res.sendStatus(401);
   Users.findAll()
     .then(users => {
       res.status(200).send(users);

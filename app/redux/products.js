@@ -4,7 +4,7 @@ import axios from 'axios';
 const SET_PRODUCTS = Symbol('set_products');
 const ADD_PRODUCT = Symbol('add_product');
 const DELETE_PRODUCT = Symbol('delete_product');
-const EDIT_PRODUCT = Symbol('edit_product');
+export const EDIT_PRODUCT = Symbol('edit_product');
 
 // action creators
 
@@ -30,6 +30,7 @@ export const deleteProduct = product => {
 };
 
 export const editProduct = product => {
+  console.log('edit product creator');
   return {
     type: EDIT_PRODUCT,
     product
@@ -65,12 +66,39 @@ export const removeProduct = product => {
   };
 };
 
-export const updateProduct = (edits, product) => {
+export const updateProductThunk = (productId, productListingId, edits) => {
+  // console.log('updateProduct thunk edits:', edits);
+
   return async dispatch => {
+    // adding comment here to re-commit so travis will run again. It currently has an error with no actual error and wont let us rerun.
     const editedProduct = (
-      await axios.put(`/api/products/${product.id}`, edits)
+      await axios.put(`/api/productListings/editproduct`, {
+        productId,
+        productListingId,
+        edits
+      })
     ).data;
-    return dispatch(editProduct(editedProduct));
+    //const { product, productListing, } = editedProduct;
+    console.log('editedProduct in updateProductThunk', editedProduct);
+    console.log(
+      'editedProduct.productListing in updateProductThunk',
+      editedProduct.productListing
+    );
+    dispatch(editProduct(editedProduct));
+    // if (product) {
+    //   if (!productListing) {
+    //     product.productListing = prevProds;
+    //   } else {
+    //     product.productListing = productListing;
+    //   }
+    //   dispatch(editProduct(product));
+    // }
+
+    // console.log('dispatched product');
+    // if (productListing) {
+    //   console.log('dispatching product listing');
+    //   dispatch(editProductListing(productListing));
+    // }
   };
 };
 
