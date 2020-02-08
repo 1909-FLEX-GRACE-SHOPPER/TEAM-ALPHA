@@ -25,7 +25,19 @@ const signOut = () => {
   };
 };
 
-// STILL NEED TO DO LOG IN ERROR
+const setLogInError = () => {
+  return {
+    type: LOG_IN_ERROR,
+    logInError: true
+  };
+};
+
+export const removeLogInError = () => {
+  return {
+    type: LOG_IN_ERROR,
+    logInError: false
+  };
+};
 
 // thunks
 export const logInAttempt = logInInfo => {
@@ -37,6 +49,7 @@ export const logInAttempt = logInInfo => {
       })
       .catch(e => {
         console.error(e);
+        dispatch(setLogInError());
         return dispatch(signOut());
       });
     const user = getState().activeUser;

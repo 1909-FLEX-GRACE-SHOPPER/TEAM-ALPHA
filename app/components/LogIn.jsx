@@ -10,7 +10,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { logInAttempt } from '../redux/authentication';
+import { logInAttempt, removeLogInError } from '../redux/authentication';
 // also need all the redux authentication stuff
 
 const Copyright = () => {
@@ -61,8 +61,9 @@ class Login extends Component {
     const {
       authentication: { logInError }
     } = this.props;
-    // need to change log in error status
-    // need a function/thunk to do this as well
+    if (logInError) {
+      this.props.removeLogInError();
+    }
   };
 
   onSubmit = ev => {
@@ -76,7 +77,7 @@ class Login extends Component {
       authentication: { logInError }
     } = this.props;
     if (logInError) {
-      return <h6>Your email or password is incorrect</h6>;
+      return <h4>Your email or password is incorrect</h4>;
     } else return null;
   };
 
@@ -146,7 +147,8 @@ const mapStateToProps = ({ authentication }) => ({ authentication });
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: info => dispatch(logInAttempt(info))
+    login: info => dispatch(logInAttempt(info)),
+    removeLogInError: () => dispatch(removeLogInError())
   };
 };
 
