@@ -79,7 +79,16 @@ export const logOutAttempt = () => {
     axios
       .get('/auth/signout')
       .then(() => {
-        return dispatch(signOut());
+        dispatch(signOut());
+        const guestOrderId = uuidv4();
+        const newOrderForGuestUser = {
+          id: guestOrderId,
+          totalCost: 0.0,
+          status: 'open'
+        };
+        dispatch(setActiveOrder(newOrderForGuestUser));
+        const cartItems = [];
+        localStorage.setItem(localStorageKey, JSON.stringify(cartItems));
       })
       .catch(e => {
         console.error(e);

@@ -287,6 +287,10 @@ class GuestPayment extends Component {
                   activeOrder={updatedActiveOrderTotal}
                   submitOrder={submitOrder}
                   // below is for guest
+                  // open={localStorage.setItem(
+                  //   'ACTIVE_USER',
+                  //   JSON.stringify(activeUser)
+                  // )}
                   activeUser={activeUser}
                   createOrder={createOrder}
                   cart={cart}
