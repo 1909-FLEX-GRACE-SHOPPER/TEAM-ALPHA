@@ -227,17 +227,4 @@ const cartReducer = (state = initialState, action) => {
   }
 };
 
-const productListingReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case GOT_PRODUCTLISTING:
-      return action.payload;
-    case EDIT_PRODUCTLISTING:
-      if (state.id === action.payload.id) {
-        return action.payload;
-      } else return state;
-    default:
-      return state;
-  }
-};
-
 export default cartReducer;
