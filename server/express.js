@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const startServer = require('../main');
 const { db } = require('./db/index.js');
-require('dotenv').config();
+
 
 const seed = require('../seed');
 

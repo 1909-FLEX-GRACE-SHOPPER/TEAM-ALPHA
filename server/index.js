@@ -36,7 +36,7 @@ app.use(
 
 // session logging
 app.use((req, res, next) => {
-  console.log('session', req.session);
+  // console.log('session', req.session);
   next();
 });
 
@@ -76,6 +76,7 @@ app.get('/api/github/callback', (req, res, next) => {
     )
     .then(res => {
       console.log('Github Response: ', res.data);
+      console.log('sessoin id ', req.session.userId);
       Users.findByPk(req.session.userId).then(userOrNull => {
         return userOrNull.update({
           github_access_token: res.data.access_token
@@ -83,7 +84,7 @@ app.get('/api/github/callback', (req, res, next) => {
       });
     })
     .then(() => {
-      res.redirect('/user');
+      res.redirect('/');
     })
     .catch(e => {
       console.log(chalk.red('Error authenticating with Github.'));
