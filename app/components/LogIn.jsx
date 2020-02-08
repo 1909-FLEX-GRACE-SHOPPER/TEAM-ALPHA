@@ -43,7 +43,11 @@ class Login extends Component {
     super();
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      emailHelper: '',
+      emailErr: false,
+      passHelper: '',
+      passErr: false
     };
   }
 
@@ -58,6 +62,26 @@ class Login extends Component {
     this.setState({
       [name]: value
     });
+
+    if (name === 'email') {
+      if (value.length > 0 && this.validateEmail(value)) {
+        this.setState({ emailHelper: '', emailErr: false });
+      } else if (value.length === 0) {
+        this.setState({ emailHelper: 'Email cannot be empty', emailErr: true });
+      }
+    }
+
+    if (name === 'password') {
+      if (value.length > 0) {
+        this.setState({ passHelper: '', passHelper: false });
+      } else {
+        this.setState({
+          passHelper: 'Password cannot be empty',
+          passErr: true
+        });
+      }
+    }
+
     const {
       authentication: { logInError }
     } = this.props;
@@ -66,10 +90,20 @@ class Login extends Component {
     }
   };
 
+  validateEmail = email => {
+    const regex = /\S+@\S+\.\S+/;
+    return regex.test(email);
+  };
+
   onSubmit = ev => {
     ev.preventDefault();
     const { email, password } = this.state;
-    this.props.login(this.state);
+    if (this.validateEmail(email) === false) {
+      this.setState({ emailHelper: 'Email must be valid', emailErr: true });
+      return;
+    } else {
+      this.props.login({ email, password });
+    }
   };
 
   logInError = () => {
@@ -107,7 +141,10 @@ class Login extends Component {
               name="email"
               label="Email Address"
               autoComplete="email"
+              error={this.state.emailErr}
+              helperText={this.state.emailHelper}
               onChange={this.handleChange}
+              value={this.state.email}
             />
             <TextField
               variant="outlined"
@@ -119,6 +156,9 @@ class Login extends Component {
               label="Password"
               type="password"
               autoComplete="current-password"
+              error={this.state.passErr}
+              helperText={this.state.passHelper}
+              value={this.state.password}
               onChange={this.handleChange}
             />
             <Button
