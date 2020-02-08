@@ -45,7 +45,7 @@ const Products = db.define('products', {
     type: INTEGER,
     allowNull: false,
     validate: {
-      sInt: true,
+      isInt: true,
       min: 0
     }
   },

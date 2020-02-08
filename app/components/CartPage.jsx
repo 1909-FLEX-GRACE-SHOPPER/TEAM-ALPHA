@@ -16,8 +16,10 @@ import { Link } from 'react-router-dom';
 class CartTable extends Component {
   sumOrderTotal() {
     let orderTotal = 0;
-    this.props.cart.items.map(item => (orderTotal += parseInt(item.unitPrice)));
-    return orderTotal.toFixed(2);
+    this.props.cart.items.map(
+      item => (orderTotal += parseFloat(item.unitPrice))
+    );
+    return orderTotal;
   }
 
   onClickDelete(itemId) {
@@ -76,7 +78,9 @@ class CartTable extends Component {
               <TableRow>
                 <TableCell rowSpan={5} />
                 <TableCell colSpan={4}>Subtotal</TableCell>
-                <TableCell align="right">${this.sumOrderTotal()}</TableCell>
+                <TableCell align="right">
+                  ${this.sumOrderTotal().toFixed(2)}
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>

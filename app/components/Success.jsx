@@ -24,6 +24,7 @@ class Success extends React.Component {
 
     // this is not ideal, but I think it will work
     const totalCost = JSON.parse(localStorage.getItem('ORDER_COST'));
+
     const costToShow = authentication.isLoggedIn
       ? activeOrder.totalCost
       : totalCost;
@@ -81,7 +82,7 @@ class Success extends React.Component {
                   <Divider style={{ marginBottom: '2rem' }} />
                   <Grid item xs>
                     <Typography gutterBottom variant="h6">
-                      Order total:{'  '} $ {costToShow}.00
+                      Order total:{'  '} $ {costToShow}
                     </Typography>
                     <Typography gutterBottom variant="h6">
                       Order no#{orderId}

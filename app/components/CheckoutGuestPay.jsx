@@ -216,6 +216,7 @@ class GuestPayment extends Component {
   };
 
   render() {
+    console.log('ACTIVE ORDER ON PAGE', this.props.orders.activeOrder);
     const {
       activeUser,
       cart,
@@ -230,9 +231,10 @@ class GuestPayment extends Component {
     const { activeOrder } = orders;
 
     // Found a way to hack in the totalCost for the order. Probably not the best way to do it.
+    const nycTax = 1.08875;
     const updatedActiveOrderTotal = {
       ...activeOrder,
-      totalCost: orderTotal
+      totalCost: (orderTotal * nycTax).toFixed(2)
     };
     console.log('DID ORDER TOTAL UPDATE?????!?!', updatedActiveOrderTotal);
 
