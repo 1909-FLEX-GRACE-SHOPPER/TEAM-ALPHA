@@ -50,7 +50,21 @@ const productListingsList = [
     name: 'Ski-500X ',
     description: `a great product - ${Math.random()}`,
     imageUrl:
-      'https://summitsports.scene7.com/is/image/SummitSports/574445_574445_1?$256$'
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQtc_LQx5SsX3ieNr-gw_JerO081Q_k_h-JGdJXWEDrlO4Q5hUE'
+  },
+  {
+    id: 2,
+    name: 'Ski-500X ',
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://summitsports.scene7.com/is/image/SummitSports/481165_481165_1?$256$'
+  },
+  {
+    id: 3,
+    name: 'Ski-500X ',
+    description: `a great product - ${Math.random()}`,
+    imageUrl:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQIPxZsLPtrpOxItTNikfx9A5BmDzrOLg6wA6nCmhwDsBb5efYw'
   },
   {
     id: 4,
@@ -59,6 +73,7 @@ const productListingsList = [
     imageUrl:
       'https://summitsports.scene7.com/is/image/SummitSports/519656_519656_1?$256$'
   },
+
   {
     id: 5,
     name: 'Ski Pants',
@@ -260,7 +275,7 @@ const productsList = [
     categoryId: 1,
     gender: 'N',
     colorId: 2,
-    productListingId: 1
+    productListingId: 2
   },
   {
     quantity: Math.floor(10 * Math.random()),
@@ -268,11 +283,11 @@ const productsList = [
     categoryId: 1,
     gender: 'N',
     colorId: 3,
-    productListingId: 1
+    productListingId: 3
   },
   {
     quantity: Math.floor(10 * Math.random()),
-    price: 1.0,
+    price: 899.0,
     categoryId: 2,
     gender: 'M',
     colorId: 2,
@@ -280,7 +295,7 @@ const productsList = [
   },
   {
     quantity: Math.floor(10 * Math.random()),
-    price: 1.0,
+    price: 599.0,
     categoryId: 3,
     sizeId: 4,
     gender: 'F',
@@ -289,16 +304,16 @@ const productsList = [
   },
   {
     quantity: Math.floor(10 * Math.random()),
-    price: 1.0,
+    price: 799.0,
     categoryId: 4,
     size: 'XS',
-    gender: 'N',
+    gender: 'F',
     colorId: 4,
     productListingId: 6
   },
   {
     quantity: Math.floor(10 * Math.random()),
-    price: 1.0,
+    price: 65.0,
     categoryId: 5,
     size: 'S',
     gender: 'F',
@@ -307,26 +322,26 @@ const productsList = [
   },
   {
     quantity: Math.floor(10 * Math.random()),
-    price: 1.0,
+    price: 99.0,
     categoryId: 6,
-    gender: 'N',
+    gender: 'M',
     colorId: 7,
     productListingId: 8
   },
   {
     quantity: Math.floor(10 * Math.random()),
-    price: 1.0,
+    price: 35.0,
     categoryId: 7,
     size: 'XS',
-    gender: 'N',
+    gender: 'F',
     colorId: 9,
     productListingId: 9
   },
   {
     quantity: Math.floor(10 * Math.random()),
-    price: 1.0,
+    price: 155.0,
     categoryId: 8,
-    gender: 'N',
+    gender: 'M',
     colorId: 8,
     productListingId: 10
   }

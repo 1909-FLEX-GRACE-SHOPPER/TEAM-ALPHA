@@ -44,7 +44,7 @@ class ProductTile extends React.Component {
           <Card>
             <Link to={`/products/${products.id}`}>
               <ButtonBase>
-                <img alt="complex" src={product.imageUrl} />
+                <img height="256" width="256" src={product.imageUrl} />
               </ButtonBase>
             </Link>
             <CardActions>
@@ -73,15 +73,6 @@ class ProductTile extends React.Component {
                 </Typography>
               </Grid>
             </CardActions>
-            <Grid item xs={12}>
-              <Typography
-                variant="subtitle1"
-                color="textSecondary"
-                component="p"
-              >
-                {products.productListing.description}
-              </Typography>
-            </Grid>
           </Card>
         </div>
       );

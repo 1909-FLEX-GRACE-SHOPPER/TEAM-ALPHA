@@ -79,6 +79,15 @@ class ProductPage extends React.Component {
                       Color: {product.color.color}
                     </Typography>
                   </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant="subtitle1"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      {product.productListing.description}
+                    </Typography>
+                  </Grid>
                   <Grid item xs={4}>
                     <Typography variant="subtitle1" direction="row">
                       Available: {product.quantity}

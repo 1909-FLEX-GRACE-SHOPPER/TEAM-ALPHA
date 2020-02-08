@@ -43,7 +43,8 @@ const ProductCatTile = props => {
           <Link to={`/categories/${product.categoryId}`}>
             <ButtonBase className={classes.image}>
               <img
-                style={{ width: '100' }}
+                height="256"
+                width="256"
                 className={classes.img}
                 alt="complex"
                 src={product.productListing.imageUrl}
