@@ -1,4 +1,9 @@
-const stripe = require('../../../StripeConstants/backend/stripe');
+const STRIPE_SECRET_KEY =
+  process.env.STRIPE_SECRET ||
+  require('../../../StripeConstants/backend/stripe');
+const configureStripe = require('stripe');
+
+const stripe = configureStripe(STRIPE_SECRET_KEY);
 
 const postStripeCharge = res => (stripeErr, stripeRes) => {
   if (stripeErr) {
