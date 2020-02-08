@@ -25,6 +25,7 @@ class Checkout extends Component {
       authentication
     } = this.props;
     const id = activeOrder.id;
+    localStorage.setItem('ACTIVE_USER', JSON.stringify(activeUser));
     // signed in user
     if (authentication.isLoggedIn) {
       submitOrder(activeOrder);
@@ -36,7 +37,6 @@ class Checkout extends Component {
       // 1) post the guest user
       // 2) then post order associated with user
       // 3) then post order items associated with order
-      localStorage.setItem('ACTIVE_USER', JSON.stringify(activeUser));
       activeUser.userType = 'guest';
       const userId = uuidv4();
       activeUser.id = userId;

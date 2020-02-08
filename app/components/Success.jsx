@@ -18,7 +18,7 @@ class Success extends React.Component {
   }
 
   render() {
-    let { orders, activeUser, authentication } = this.props;
+    let { orders, authentication } = this.props;
     const { activeOrder } = orders;
     const orderId = this.props.match.params.id;
 
@@ -29,9 +29,8 @@ class Success extends React.Component {
       ? activeOrder.totalCost
       : totalCost;
 
-    if (!authentication.isLoggedIn) {
-      activeUser = JSON.parse(localStorage.getItem('ACTIVE_USER'));
-    }
+    let activeUser = {};
+    activeUser = JSON.parse(localStorage.getItem('ACTIVE_USER'));
     setTimeout(() => {
       localStorage.removeItem('ACTIVE_USER');
     }, 3000);
