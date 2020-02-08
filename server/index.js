@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const chalk = require('chalk');
+const axios = require('axios');
+require('dotenv').config();
 // these two are good for cookies
 // const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -52,6 +54,59 @@ app.use((req, res, next) => {
       console.log('error searching for a user by session.userId');
       console.error(e);
       next();
+    });
+});
+app.get('/api/github/login', (req, res, next) => {
+  res.redirect(
+    `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}`
+  );
+});
+app.get('/api/github/callback', (req, res, next) => {
+  const { code } = req.query;
+
+  axios
+    .post(
+      `https://github.com/login/oauth/access_token?code=${code}&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`,
+      {},
+      {
+        headers: {
+          Accept: 'application/json'
+        }
+      }
+    )
+    .then(res => {
+      console.log('Github Response: ', res.data);
+      Users.findByPk(req.session.userId).then(userOrNull => {
+        return userOrNull.update({
+          github_access_token: res.data.access_token
+        });
+      });
+    })
+    .then(() => {
+      res.redirect('/user');
+    })
+    .catch(e => {
+      console.log(chalk.red('Error authenticating with Github.'));
+      console.error(e);
+      res.redirect('/error');
+    });
+});
+app.get('/api/github/user', (req, res, next) => {
+  axios
+    .get('https://api.github.com/user', {
+      headers: {
+        Authorization: `token ${req.github_access_token}`
+      }
+    })
+    .then(axRes => {
+      res.send(axRes.data);
+    })
+    .catch(e => {
+      console.log(
+        chalk.red('Error while getting response from github user route.')
+      );
+      console.error(e);
+      res.redirect('/error');
     });
 });
 
