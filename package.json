@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "12.11.1"
+  },
   "scripts": {
     "start": "NODE_ENV=production node server/express.js",
     "start:server-dev": "./node_modules/.bin/nodemon -q --watch server server/express.js",
