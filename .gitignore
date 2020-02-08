@@ -15,7 +15,7 @@ npm-debug.log
 *.swp
 
 # Stripe stuff
-StripeConstants
+StripeConstants/backend
 .DS_Store
 .vscode
 .idea
