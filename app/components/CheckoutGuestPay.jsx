@@ -73,9 +73,10 @@ class GuestPayment extends Component {
     });
   };
 
-  generateTextFields = (id, label, err, helper) => {
+  generateTextFields = (id, label, err, helper, inputProps) => {
     return (
       <TextField
+        inputProps={inputProps || ''}
         variant="outlined"
         margin="normal"
         required
@@ -127,7 +128,9 @@ class GuestPayment extends Component {
             )}
           </Grid>
           <Grid item xs={12} sm={4}>
-            {generateTextFields('billingZip', 'Zip', 'ZipErr', 'zipHelper')}
+            {generateTextFields('billingZip', 'Zip', 'zipErr', 'zipHelper', {
+              maxLength: 5
+            })}
           </Grid>
         </Grid>
       );
@@ -216,6 +219,7 @@ class GuestPayment extends Component {
   };
 
   render() {
+    console.log('ACTIVE ORDER ON PAGE', this.props.orders.activeOrder);
     const {
       activeUser,
       cart,
@@ -230,9 +234,10 @@ class GuestPayment extends Component {
     const { activeOrder } = orders;
 
     // Found a way to hack in the totalCost for the order. Probably not the best way to do it.
+    const nycTax = 1.08875;
     const updatedActiveOrderTotal = {
       ...activeOrder,
-      totalCost: orderTotal
+      totalCost: (orderTotal * nycTax).toFixed(2)
     };
     console.log('DID ORDER TOTAL UPDATE?????!?!', updatedActiveOrderTotal);
 
@@ -287,6 +292,10 @@ class GuestPayment extends Component {
                   activeOrder={updatedActiveOrderTotal}
                   submitOrder={submitOrder}
                   // below is for guest
+                  // open={localStorage.setItem(
+                  //   'ACTIVE_USER',
+                  //   JSON.stringify(activeUser)
+                  // )}
                   activeUser={activeUser}
                   createOrder={createOrder}
                   cart={cart}

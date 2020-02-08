@@ -16,11 +16,11 @@ npm-debug.log
 
 # Stripe stuff
 StripeConstants
-
 .DS_Store
 .vscode
 .idea
 .npmrc
+.env
 bundle/*.js
 bundle/*.map
 bash-X.X.tar.gz
