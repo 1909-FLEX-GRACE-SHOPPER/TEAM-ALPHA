@@ -59,7 +59,7 @@ class UserProfile extends React.Component {
         </CardContent>
         <CardActions>
           <Link to="/editprofile">
-            <Button size="small">Edit</Button>
+            <Button size="small">Edit your profile</Button>
           </Link>
           {/* <Link to="/api/github/login">
             Login to your github
