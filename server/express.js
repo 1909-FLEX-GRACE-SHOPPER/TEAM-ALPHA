@@ -2,7 +2,6 @@ const chalk = require('chalk');
 const startServer = require('../main');
 const { db } = require('./db/index.js');
 
-
 const seed = require('../seed');
 
 if (process.env.NODE_ENV === 'production') {
