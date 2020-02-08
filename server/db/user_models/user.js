@@ -118,6 +118,10 @@ const Users = db.define('users', {
     validate: {
       notEmpty: true
     }
+  },
+  github_access_token: {
+    type: STRING,
+    allowNull: true
   }
 });
 

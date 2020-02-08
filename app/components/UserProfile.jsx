@@ -10,12 +10,6 @@ import {
 import { connect } from 'react-redux';
 import { fetchSingelUser } from '../redux/singleUser';
 //we should comment out this part after we are getting singel user id,line below is just for the test
-const user = {
-  firstName: 'elham',
-  lastName: 'amini',
-  email: 'elhamfarvid@gmail.com',
-  shippingAddress1: '99 battrey place,apt 8M'
-};
 
 export const setUserAddress = user => {
   return `${user.shippingAddress1} ${user.shippingAddress2} ${user.shippingCity} ${user.shippingState} ${user.shippingZip}`;
@@ -65,8 +59,12 @@ class UserProfile extends React.Component {
         </CardContent>
         <CardActions>
           <Link to="/editprofile">
-            <Button size="small">Edit</Button>
+            <Button size="small">Edit your profile</Button>
           </Link>
+          {/* <Link to="/api/github/login">
+            Login to your github
+          </Link> */}
+          <a href="/api/github/login">Connect to github</a>
         </CardActions>
       </Card>
     );
