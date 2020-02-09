@@ -142,7 +142,7 @@ const Users = db.define(
       //       });
       //   });
       // },
-      beforeBulkCreate: (users, options) => {
+      beforeBulkCreate: users => {
         for (const user of users) {
           const { password } = user;
           const saltRounds = 10;
