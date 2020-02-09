@@ -67,6 +67,10 @@ export const fetchActiveOrder = activeOrder => {
         const localStorageItems = JSON.parse(
           localStorage.getItem(localStorageKey)
         );
+        localStorageItems.forEach(item => {
+          item.orderId = order.id;
+          axios.post('api/orderItems', item);
+        });
         orderItems = orderItems.concat(localStorageItems);
         localStorage.removeItem(localStorageKey);
       }
