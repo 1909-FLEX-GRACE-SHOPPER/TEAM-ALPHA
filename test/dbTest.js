@@ -5,20 +5,6 @@ describe('Sequelize model', () => {
   before(() => db.sync({ force: true }));
   afterEach(() => db.sync({ force: true }));
 
-  // it('has fields firstName, lastName, email, password', async () => {
-  //   const user = await Users.create({
-  //     firstName: 'Mark',
-  //     lastName: 'Bae',
-  //     email: 'mark@fullstackacademy.com',
-  //     password: 'abcde'
-  //   });
-  //   expect(user.firstName).to.equal('Mark');
-  //   expect(user.lastName).to.equal('Bae');
-
-  //   expect(user.email).to.equal('mark@fullstackacademy.com');
-  //   expect(user.password).to.equal('abcde');
-  // });
-
   it('firstName, lastName, email ,password cannot be empty', async () => {
     const user = Users.build({
       firstName: '',

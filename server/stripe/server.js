@@ -1,9 +1,9 @@
 const cors = require('cors');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 
 // const CORS_WHITELIST = require('../StripeConstants/backend/frontend').default;
 
-const CORS_WHITELIST = require('../StripeConstants/backend/frontend');
+const CORS_WHITELIST = require('../../StripeConstants/backend/frontend');
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -16,7 +16,7 @@ const corsOptions = {
 const configureServer = app => {
   app.use(cors(corsOptions));
 
-  app.use(bodyParser.json());
+  // app.use(bodyParser.json());
 };
 
 module.exports = configureServer;

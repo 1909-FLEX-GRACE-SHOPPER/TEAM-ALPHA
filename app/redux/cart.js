@@ -67,6 +67,10 @@ export const fetchActiveOrder = activeOrder => {
         const localStorageItems = JSON.parse(
           localStorage.getItem(localStorageKey)
         );
+        localStorageItems.forEach(item => {
+          item.orderId = order.id;
+          axios.post('api/orderItems', item);
+        });
         orderItems = orderItems.concat(localStorageItems);
         localStorage.removeItem(localStorageKey);
       }
@@ -184,9 +188,7 @@ const cartReducer = (state = initialState, action) => {
         // I needed to uncomment the below out in order to make the cart -JH
         // update when a user is logged out
         items: [...state.items, action.orderItem],
-        orderTotal: (
-          parseInt(state.orderTotal) + parseInt(action.orderItem.unitPrice)
-        ).toFixed(2)
+        orderTotal: (state.orderTotal += parseFloat(action.orderItem.unitPrice))
       };
 
     // DONT NEED THIS ANYMORE EITHER SINCE WE WONT BE KEEP QUANTITY. BUT LEAVING IT HERE JUST INCASE.
@@ -207,9 +209,7 @@ const cartReducer = (state = initialState, action) => {
         items: state.items.filter(
           orderItem => orderItem.id !== action.orderItem.id
         ),
-        orderTotal: (
-          parseInt(state.orderTotal) - parseInt(action.orderItem.unitPrice)
-        ).toFixed(2)
+        orderTotal: (state.orderTotal -= parseFloat(action.orderItem.unitPrice))
       };
     case EMPTY_CART:
       return {

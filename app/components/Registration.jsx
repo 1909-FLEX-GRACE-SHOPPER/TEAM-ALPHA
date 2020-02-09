@@ -12,6 +12,7 @@ import {
   FormControlLabel,
   Switch
 } from '@material-ui/core';
+import { createUser } from '../redux/users';
 // import { makeStyles } from '@material-ui/core/styles';
 
 // need thunk to create the user
@@ -57,7 +58,37 @@ class Registration extends Component {
       billingAddress2: '',
       billingCity: '',
       billingState: '',
-      billingZip: ''
+      billingZip: '',
+
+      //////
+
+      //validation handling
+      firstNameHelper: '',
+      firstNameErr: false,
+      lastNameHelper: '',
+      lastNameErr: false,
+      emailHelper: '',
+      emailErr: false,
+      address1Helper: '',
+      address1Err: false,
+      // errShippingAddress2: '',
+      cityHelper: '',
+      cityErr: false,
+      stateHelper: '',
+      stateErr: false,
+      zipHelper: '',
+      zipErr: false,
+
+      //////
+
+      billingAddress1Helper: '',
+      billingAddress1Err: false,
+      billingCityHelper: '',
+      billingCityErr: false,
+      billingStateHelper: '',
+      billingStateErr: false,
+      billingZipHelper: '',
+      billingZipErr: false
     };
   }
 
@@ -69,9 +100,131 @@ class Registration extends Component {
   }
 
   handleChange = ({ target: { value, name } }) => {
+    const {
+      shippingAddress1,
+      shippingAddress2,
+      shippingCity,
+      shippingState,
+      shippingZip
+    } = this.state;
+
     this.setState({
       [name]: value
     });
+
+    if (this.state.shippingIsBilling) {
+      this.setState({
+        billingAddress1: shippingAddress1,
+        billingAddress2: shippingAddress2,
+        billingCity: shippingCity,
+        billingState: shippingState,
+        billingZip: shippingZip
+      });
+    }
+
+    if (name === 'email') {
+      if (value.length > 0) this.setState({ emailHelper: '', emailErr: false });
+      else
+        this.setState({
+          emailHelper: 'Email cannot be empty',
+          emailErr: true
+        });
+    }
+    if (name === 'firstName') {
+      if (value.length > 0)
+        this.setState({ firstNameHelper: '', firstNameErr: false });
+      else
+        this.setState({
+          firstNameHelper: 'First name cannot be empty',
+          firstNameErr: true
+        });
+    }
+    if (name === 'lastName') {
+      if (value.length > 0)
+        this.setState({ lastNameHelper: '', lastNameErr: false });
+      else
+        this.setState({
+          lastNameHelper: 'Last name cannot be empty',
+          lastNameErr: true
+        });
+    }
+    if (name === 'shippingAddress1') {
+      if (value.length > 0)
+        this.setState({ address1Helper: '', address1Err: false });
+      else
+        this.setState({
+          address1Helper: 'Address cannot be empty',
+          address1Err: true
+        });
+    }
+    if (name === 'shippingCity') {
+      if (value.length > 0) this.setState({ cityHelper: '', cityErr: false });
+      else
+        this.setState({
+          cityHelper: 'City cannot be empty',
+          cityErr: true
+        });
+    }
+    if (name === 'shippingState') {
+      if (value.length > 0) this.setState({ stateHelper: '', stateErr: false });
+      else
+        this.setState({
+          stateHelper: 'State cannot be empty',
+          stateErr: true
+        });
+    }
+    if (name === 'shippingZip') {
+      if (isNaN(Number(this.state.shippingZip))) {
+        this.setState({ zipHelper: 'Zip code must be numeric', zipErr: true });
+      } else if (value.length > 0 && !isNaN(Number(this.state.shippingZip)))
+        this.setState({ zipHelper: '', zipErr: false });
+      else
+        this.setState({
+          zipHelper: 'Zip code cannot be empty',
+          zipErr: true
+        });
+    }
+    if (name === 'billingAddress1') {
+      if (value.length > 0)
+        this.setState({ billingAddress1Helper: '', billingAddress1Err: false });
+      else
+        this.setState({
+          billingAddress1Helper: 'Address cannot be empty',
+          billingAddress1Err: true
+        });
+    }
+    if (name === 'billingCity') {
+      if (value.length > 0)
+        this.setState({ billingCityHelper: '', billingCityErr: false });
+      else
+        this.setState({
+          billingCityHelper: 'City cannot be empty',
+          billingCityErr: true
+        });
+    }
+    if (name === 'billingState') {
+      if (value.length > 0)
+        this.setState({ billingStateHelper: '', billingStateErr: false });
+      else
+        this.setState({
+          billingStateHelper: 'State cannot be empty',
+          billingStateErr: true
+        });
+    }
+    if (name === 'billingZip') {
+      if (isNaN(Number(this.state.billingZip))) {
+        this.setState({
+          billingZipHelper: 'Zip code must be numeric',
+          billingZipErr: true
+        });
+      } else if (value.length > 0 && !isNaN(Number(this.state.billingZip)))
+        this.setState({ billingZipHelper: '', zipErr: false });
+      else
+        this.setState({
+          billingZipHelper: 'Zip code cannot be empty',
+          billingZipErr: true
+        });
+    }
   };
 
   handleSwitchChange = () => {
@@ -84,35 +237,35 @@ class Registration extends Component {
 
   onSubmit = ev => {
     ev.preventDefault();
-    const { shippingIsBilling } = this.state;
-    if (shippingIsBilling) {
-      const {
-        shippingAddress1,
-        shippingAddress2,
-        shippingCity,
-        shippingState,
-        shippingZip
-      } = this.state;
-      if (this.state.billingAddress1 !== this.state.shippingAddress1) {
-        this.setState({
-          billingAddress1: shippingAddress1,
-          billingAddress2: shippingAddress2,
-          billingCity: shippingCity,
-          billingState: shippingState,
-          billingZip: shippingZip
-        });
-      }
+    return this.props.createUser({
+      ...this.state
       // thunk this.state...
       // deal with not passing shippingIsBilling
-    } else {
-      // thunk this.state!
-      // deal with not passing shippingIsBilling
-      return null; // delete when thunks are put in
-    }
+    });
+  };
+
+  generateTextFields = (id, label, err, helper, inputProps) => {
+    return (
+      <TextField
+        inputProps={inputProps || ''}
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        onChange={this.handleChange}
+        id={id}
+        name={id}
+        label={label}
+        error={this.state[err] || null}
+        helperText={this.state[helper] || null}
+        value={this.state[id]}
+      />
+    );
   };
 
   billingFields = () => {
     const { shippingIsBilling } = this.state;
+    const { generateTextFields } = this;
     if (shippingIsBilling) {
       return null;
     } else {
@@ -124,68 +277,42 @@ class Registration extends Component {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="billingAddress1"
-              name="billingAddress1"
-              label="Address Line 1"
-              value={this.state.billingAddress1}
-              onChange={this.handleChange}
-            />
+            {generateTextFields(
+              'billingAddress1',
+              'Address Line 1',
+              'billingAddress1Err',
+              'billingAddress1Helper'
+            )}
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="billingAddress2"
-              name="billingAddress2"
-              label="Address Line 2"
-              value={this.state.billingAddress2}
-              onChange={this.handleChange}
-            />
+            {generateTextFields('billingAddress2', 'Address Line 2')}
           </Grid>
           <Grid item xs={12} sm={4}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="billingCity"
-              name="billingCity"
-              label="City"
-              value={this.state.billingCity}
-              onChange={this.handleChange}
-            />
+            {generateTextFields(
+              'billingCity',
+              'City',
+              'billingCityErr',
+              'billingCityHelper'
+            )}
           </Grid>
           <Grid item xs={12} sm={4}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="billingState"
-              name="billingState"
-              label="State"
-              value={this.state.billingState}
-              onChange={this.handleChange}
-            />
+            {generateTextFields(
+              'billingState',
+              'billingState',
+              'billingStateErr',
+              'billingStateHelper'
+            )}
           </Grid>
           <Grid item xs={12} sm={4}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="billingZip"
-              name="billingZip"
-              label="Zip"
-              value={this.state.billingZip}
-              onChange={this.handleChange}
-            />
+            {generateTextFields(
+              'billingZip',
+              'billingZip',
+              'billingZipErr',
+              'billingZipHelper',
+              {
+                maxLength: 5
+              }
+            )}
           </Grid>
         </Grid>
       );
@@ -196,6 +323,7 @@ class Registration extends Component {
 
   render() {
     const { shippingIsBilling } = this.state;
+    const { generateTextFields } = this;
     return (
       <Container component="div" maxWidth="sm">
         <CssBaseline />
@@ -215,94 +343,58 @@ class Registration extends Component {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="firstName"
-                name="firstName"
-                label="First Name"
-                value={this.state.firstName}
-                onChange={this.handleChange}
-              />
+              {generateTextFields(
+                'firstName',
+                'First Name',
+                'firstNameErr',
+                'firstNameHelper'
+              )}
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="lastName"
-                name="lastName"
-                label="Last Name"
-                value={this.state.lastName}
-                onChange={this.handleChange}
-              />
+              {generateTextFields(
+                'lastName',
+                'Last Name',
+                'lastNameErr',
+                'lastNameHelper'
+              )}
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="shippingAddress1"
-                name="shippingAddress1"
-                label="Address Line 1"
-                value={this.state.shippingAddress1}
-                onChange={this.handleChange}
-              />
+              {generateTextFields(
+                'shippingAddress1',
+                'Shipping Address 1',
+                'address1Err',
+                'address1Helper'
+              )}
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="shippingAddress2"
-                name="shippingAddress2"
-                label="Address Line 2"
-                value={this.state.shippingAddress2}
-                onChange={this.handleChange}
-              />
+              {generateTextFields('shippingAddress2', 'Shipping Address 2')}
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="shippingCity"
-                name="shippingCity"
-                label="City"
-                value={this.state.shippingCity}
-                onChange={this.handleChange}
-              />
+              {generateTextFields(
+                'shippingCity',
+                'City',
+                'cityErr',
+                'cityHelper'
+              )}
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="shippingState"
-                name="shippingState"
-                label="State"
-                value={this.state.shippingState}
-                onChange={this.handleChange}
-              />
+              {generateTextFields(
+                'shippingState',
+                'State',
+                'stateErr',
+                'stateHelper'
+              )}
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="shippingZip"
-                name="shippingZip"
-                label="Zip"
-                value={this.state.shippingZip}
-                onChange={this.handleChange}
-              />
+              {generateTextFields(
+                'shippingZip',
+                'Zipcode',
+                'zipErr',
+                'zipHelper',
+                {
+                  maxLength: 5
+                }
+              )}
             </Grid>
             <Grid item xs={12}>
               <FormGroup row>
@@ -322,18 +414,7 @@ class Registration extends Component {
           {this.billingFields()}
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                margin="none"
-                required
-                fullWidth
-                id="email"
-                name="email"
-                label="email"
-                type="email"
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
+              {generateTextFields('email', 'Email', 'emailErr', 'emailHelper')}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -376,5 +457,10 @@ class Registration extends Component {
 }
 
 const mapStateToProps = ({ authentication }) => ({ authentication });
+const mapDispatchToProps = dispatch => {
+  return {
+    createUser: user => dispatch(createUser(user))
+  };
+};
 
-export default connect(mapStateToProps)(Registration);
+export default connect(mapStateToProps, mapDispatchToProps)(Registration);

@@ -18,16 +18,23 @@ class Success extends React.Component {
   }
 
   render() {
-    const { orders, activeUser, authentication } = this.props;
+    let { orders, authentication } = this.props;
     const { activeOrder } = orders;
     const orderId = this.props.match.params.id;
 
     // this is not ideal, but I think it will work
     const totalCost = JSON.parse(localStorage.getItem('ORDER_COST'));
-    const costToShow = authentication.isLoggedIn
-      ? activeOrder.totalCost
-      : totalCost;
+    const costToShow = totalCost;
+    // const costToShow = authentication.isLoggedIn
+    //   ? activeOrder.totalCost
+    //   : totalCost;
 
+    let activeUser = {};
+    activeUser = JSON.parse(localStorage.getItem('ACTIVE_USER'));
+    setTimeout(() => {
+      localStorage.removeItem('ACTIVE_USER');
+      localStorage.removeItem('ORDER_COST');
+    }, 3000);
     return (
       <Card
         style={{
@@ -81,7 +88,7 @@ class Success extends React.Component {
                   <Divider style={{ marginBottom: '2rem' }} />
                   <Grid item xs>
                     <Typography gutterBottom variant="h6">
-                      Order total:{'  '} $ {costToShow}.00
+                      Order total:{'  '} $ {costToShow}
                     </Typography>
                     <Typography gutterBottom variant="h6">
                       Order no#{orderId}

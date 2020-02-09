@@ -43,9 +43,9 @@ class ProductPage extends React.Component {
   }
 
   toggleEditing() {
-    console.log('isEdit', this.state.isEdit);
+    //console.log('isEdit', this.state.isEdit);
     this.setState({ isEdit: !this.state.isEdit });
-    console.log('isEdit', this.state.isEdit);
+    // console.log('isEdit', this.state.isEdit);
   }
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -53,51 +53,58 @@ class ProductPage extends React.Component {
   }
 
   render() {
+    console.log('this.props.', this.props);
     const product = this.props.product;
     if (!product.productListing) {
       return <div>Product not found...</div>;
     } else {
       return (
         <div className={styles.root}>
-          <Paper className={styles.paper}>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <img
-                  className={styles.img}
-                  alt="complex"
-                  src={product.productListing.imageUrl}
-                />
-              </Grid>
-              <Grid item xs={6} sm container>
-                <Grid item>
-                  <Typography gutterBottom variant="h5">
-                    {product.productListing.name}
-                  </Typography>
-                  <Grid container direction="row">
-                    <Grid item xs={2}>
-                      <Paper className={styles.paper}>
-                        {' '}
-                        {product.color.color}{' '}
-                      </Paper>
-                      <Paper className={styles.paper}>
-                        {' '}
-                        {product.gender.gender}{' '}
-                      </Paper>
-                    </Grid>
+          <Grid container spacing={2}>
+            <Grid item>
+              <img
+                className={styles.img}
+                alt="complex"
+                src={product.productListing.imageUrl}
+              />
+            </Grid>
+            <Grid item xs={6} sm container>
+              <Grid item>
+                <Typography gutterBottom variant="h4">
+                  {product.productListing.name}
+                </Typography>
+                <Grid container direction="row">
+                  <Grid item xs={4}>
+                    <Typography variant="subtitle1">
+                      Color: {product.color.color}
+                    </Typography>
                   </Grid>
-                  <Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant="subtitle1"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      {product.productListing.description}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography variant="subtitle1" direction="row">
+                      Available: {product.quantity}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
                     <Typography variant="subtitle1">
                       ${product.price}
                     </Typography>
-                    <ProductPageQuantityTracker
-                      totalNumber={product.quantity}
-                    />
                   </Grid>
+                  <ProductPageQuantityTracker totalNumber={product.quantity} />
                 </Grid>
               </Grid>
             </Grid>
-          </Paper>
-          {this.props.activeUser.userTypes === 'guest' ? (
+          </Grid>
+
+          {this.props.activeUser.userType === 'admin' ? (
             <Link to="/editProductForm">
               <Button toggleEditing={this.toggleEditing} size="small">
                 Edit Product
@@ -106,7 +113,7 @@ class ProductPage extends React.Component {
           ) : (
             ''
           )}
-          {this.props.activeUser.userTypes === 'guest' ? (
+          {this.props.activeUser.userType === 'admin' ? (
             <Link to="/seeAllProducts">
               <Button size="small">See All Products</Button>
             </Link>

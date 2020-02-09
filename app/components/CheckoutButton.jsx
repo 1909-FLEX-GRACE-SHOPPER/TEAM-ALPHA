@@ -8,6 +8,8 @@ import { uuidv4 } from '../utils';
 
 const CURRENCY = 'USD';
 
+const nycTax = 1.08875;
+
 const fromUsdToCent = amount => amount * 100;
 
 class Checkout extends Component {
@@ -23,6 +25,8 @@ class Checkout extends Component {
       authentication
     } = this.props;
     const id = activeOrder.id;
+    localStorage.setItem('ACTIVE_USER', JSON.stringify(activeUser));
+    localStorage.setItem('ORDER_COST', JSON.stringify(activeOrder.totalCost));
     // signed in user
     if (authentication.isLoggedIn) {
       submitOrder(activeOrder);
@@ -90,7 +94,7 @@ class Checkout extends Component {
       <StripeCheckout
         name={name}
         description={description}
-        amount={fromUsdToCent(amount)}
+        amount={fromUsdToCent(amount * nycTax)}
         token={onToken(amount, description)}
         currency={CURRENCY}
         stripeKey={STRIPE_PUBLISHABLE}

@@ -25,10 +25,24 @@ const signOut = () => {
   };
 };
 
-// STILL NEED TO DO LOG IN ERROR
+const setLogInError = () => {
+  return {
+    type: LOG_IN_ERROR,
+    logInError: true
+  };
+};
+
+export const removeLogInError = () => {
+  return {
+    type: LOG_IN_ERROR,
+    logInError: false
+  };
+};
 
 // thunks
 export const logInAttempt = logInInfo => {
+  console.log('LOGIN ATTEMPTING THING BEING PASSED:', logInInfo);
+
   return async (dispatch, getState) => {
     await axios
       .post('/auth/login', logInInfo)
@@ -37,6 +51,7 @@ export const logInAttempt = logInInfo => {
       })
       .catch(e => {
         console.error(e);
+        dispatch(setLogInError());
         return dispatch(signOut());
       });
     const user = getState().activeUser;
@@ -66,7 +81,16 @@ export const logOutAttempt = () => {
     axios
       .get('/auth/signout')
       .then(() => {
-        return dispatch(signOut());
+        dispatch(signOut());
+        const guestOrderId = uuidv4();
+        const newOrderForGuestUser = {
+          id: guestOrderId,
+          totalCost: 0.0,
+          status: 'open'
+        };
+        dispatch(setActiveOrder(newOrderForGuestUser));
+        const cartItems = [];
+        localStorage.setItem(localStorageKey, JSON.stringify(cartItems));
       })
       .catch(e => {
         console.error(e);
@@ -124,7 +148,7 @@ export const initialLogInAttempt = () => {
           );
           // add the items to the redux store
           let price = localStorageItems.reduce((acc, item) => {
-            acc += item.unitPrice;
+            acc += parseFloat(item.unitPrice);
             return acc;
           }, 0);
           return dispatch(setGuestItemsToCart(localStorageItems, price));

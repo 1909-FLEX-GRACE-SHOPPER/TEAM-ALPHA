@@ -10,7 +10,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { logInAttempt } from '../redux/authentication';
+import { logInAttempt, removeLogInError } from '../redux/authentication';
 // also need all the redux authentication stuff
 
 const Copyright = () => {
@@ -43,7 +43,11 @@ class Login extends Component {
     super();
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      emailHelper: '',
+      emailErr: false,
+      passHelper: '',
+      passErr: false
     };
   }
 
@@ -58,17 +62,48 @@ class Login extends Component {
     this.setState({
       [name]: value
     });
+
+    if (name === 'email') {
+      if (value.length > 0 && this.validateEmail(value)) {
+        this.setState({ emailHelper: '', emailErr: false });
+      } else if (value.length === 0) {
+        this.setState({ emailHelper: 'Email cannot be empty', emailErr: true });
+      }
+    }
+
+    if (name === 'password') {
+      if (value.length > 0) {
+        this.setState({ passHelper: '', passHelper: false });
+      } else {
+        this.setState({
+          passHelper: 'Password cannot be empty',
+          passErr: true
+        });
+      }
+    }
+
     const {
       authentication: { logInError }
     } = this.props;
-    // need to change log in error status
-    // need a function/thunk to do this as well
+    if (logInError) {
+      this.props.removeLogInError();
+    }
+  };
+
+  validateEmail = email => {
+    const regex = /\S+@\S+\.\S+/;
+    return regex.test(email);
   };
 
   onSubmit = ev => {
     ev.preventDefault();
     const { email, password } = this.state;
-    this.props.login(this.state);
+    if (this.validateEmail(email) === false) {
+      this.setState({ emailHelper: 'Email must be valid', emailErr: true });
+      return;
+    } else {
+      this.props.login({ email, password });
+    }
   };
 
   logInError = () => {
@@ -76,7 +111,7 @@ class Login extends Component {
       authentication: { logInError }
     } = this.props;
     if (logInError) {
-      return <h6>Your email or password is incorrect</h6>;
+      return <h4>Your email or password is incorrect</h4>;
     } else return null;
   };
 
@@ -106,7 +141,10 @@ class Login extends Component {
               name="email"
               label="Email Address"
               autoComplete="email"
+              error={this.state.emailErr}
+              helperText={this.state.emailHelper}
               onChange={this.handleChange}
+              value={this.state.email}
             />
             <TextField
               variant="outlined"
@@ -118,6 +156,9 @@ class Login extends Component {
               label="Password"
               type="password"
               autoComplete="current-password"
+              error={this.state.passErr}
+              helperText={this.state.passHelper}
+              value={this.state.password}
               onChange={this.handleChange}
             />
             <Button
@@ -146,7 +187,8 @@ const mapStateToProps = ({ authentication }) => ({ authentication });
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: info => dispatch(logInAttempt(info))
+    login: info => dispatch(logInAttempt(info)),
+    removeLogInError: () => dispatch(removeLogInError())
   };
 };
 

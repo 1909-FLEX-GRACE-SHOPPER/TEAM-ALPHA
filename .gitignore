@@ -15,11 +15,12 @@ npm-debug.log
 *.swp
 
 # Stripe stuff
-StripeConstants
-
+StripeConstants/backend
 .DS_Store
 .vscode
 .idea
 .npmrc
+.env
 bundle/*.js
 bundle/*.map
+bash-X.X.tar.gz

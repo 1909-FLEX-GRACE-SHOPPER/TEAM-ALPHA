@@ -2,12 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getProductThunk } from '../redux/singleProduct.js';
 import { Link } from 'react-router-dom';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import Typography from '@material-ui/core/Typography';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import { Button } from '@material-ui/core';
-import EditProductForm from './EditProductForm';
+
+import {
+  ButtonBase,
+  Button,
+  TextField,
+  Grid,
+  Typography,
+  CardActions,
+  Card
+} from '@material-ui/core';
 
 class ProductTile extends React.Component {
   constructor(props) {
@@ -40,28 +44,34 @@ class ProductTile extends React.Component {
           <Card>
             <Link to={`/products/${products.id}`}>
               <ButtonBase>
-                <img alt="complex" src={product.imageUrl} />
+                <img height="256" width="256" src={product.imageUrl} />
               </ButtonBase>
             </Link>
             <CardActions>
-              <Link
-                style={{ textDecoration: 'none' }}
-                size="small"
-                color="primary"
-                to={`/products/${products.id}`}
-              >
-                {product.name}
-              </Link>
-              <Typography
-                variant="subtitle1"
-                color="textSecondary"
-                component="p"
-              >
-                {products.color.color}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                ${products.price}
-              </Typography>
+              <Grid item xs={3}>
+                <Link
+                  style={{ textDecoration: 'none' }}
+                  size="small"
+                  color="primary"
+                  to={`/products/${products.id}`}
+                >
+                  {product.name}
+                </Link>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography
+                  variant="subtitle1"
+                  color="textSecondary"
+                  component="p"
+                >
+                  {products.color.color}
+                </Typography>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  ${products.price}
+                </Typography>
+              </Grid>
             </CardActions>
           </Card>
         </div>
