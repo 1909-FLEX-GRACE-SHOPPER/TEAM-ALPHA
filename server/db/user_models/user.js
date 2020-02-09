@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../database');
 var bcrypt = require('bcrypt');
-const saltRounds = 10;
 
 const { STRING, INTEGER, ENUM, UUID, UUIDV4 } = Sequelize;
 
@@ -122,55 +121,50 @@ const Users = db.define(
       validate: {
         notEmpty: true
       }
+    },
+    github_access_token: {
+      type: STRING,
+      allowNull: true
     }
   },
-  github_access_token: {
-    type: STRING,
-    allowNull: true
+  {
+    hooks: {
+      // beforeBulkCreate: async function(records) {
+      //   records.forEach((user, index) => {
+      //     return bcrypt
+      //       .hash(user.password, 10)
+      //       .then(hash => {
+      //         user.password = hash;
+      //         console.log('password hash:', user.password);
+      //       })
+      //       .catch(err => {
+      //         throw new Error();
+      //       });
+      //   });
+      // },
+      beforeBulkCreate: (users, options) => {
+        for (const user of users) {
+          const { password } = user;
+          const saltRounds = 10;
+          const salt = bcrypt.genSaltSync(saltRounds);
+          const hash = bcrypt.hashSync(password, salt);
+          user.password = hash;
+        }
+      },
+      beforeCreate: user => {
+        const { password } = user;
+        const saltRounds = 10;
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hash = bcrypt.hashSync(password, salt);
+        user.password = hash;
+      }
+    }
   }
-  // {
-  //   instanceMethods: {
-  //     generateHash: function(password) {
-  //       return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-  //     },
-  //     validPassword: function(password) {
-  //       return bcrypt.compareSync(password, this.password);
-  //     }
-  //   }
-  // }
 );
 
-// beforeCreate: async function(user) {
-//   const salt = await bcrypt.genSalt(10); //whatever number you want
-//   user.password = await bcrypt.hash(user.password, salt);
-// }
-
-// User.prototype.validPassword = async function(password) {
-//   return await bcrypt.compare(password, this.password);
-// }
-
-Users.beforeCreate(function(user, options) {
-  return cryptPassword(user.password)
-    .then(success => {
-      user.password = success;
-    })
-    .catch(err => {
-      if (err) console.log(err);
-    });
-});
-
-function cryptPassword(password) {
-console.log("cryptPassword" + password);
-return new Promise(function(resolve, reject) {
-  bcrypt.genSalt(10, function(err, salt) {
-    // Encrypt password using bycrpt module
-    if (err) return reject(err);
-
-    bcrypt.hash(password, salt, null, function(err, hash) {
-      if (err) return reject(err);
-      return resolve(hash);
-    });
-  });
-});
+Users.prototype.isPasswordValid = function(password) {
+  console.log('WHAT IS THIS.PASSWORD?', this.password);
+  return bcrypt.compareSync(password, this.password);
+};
 
 module.exports = Users;

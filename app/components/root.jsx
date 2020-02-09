@@ -20,6 +20,7 @@ import AddProduct from './AddProduct';
 import EditUserProfile from './editUserProfile';
 import AllProductsGrid from './AllProductsGrid';
 import EditProductForm from './EditProductForm';
+import Registration from './Registration';
 import NotFound from './NotFound';
 
 export default class Root extends Component {
@@ -54,6 +55,7 @@ export default class Root extends Component {
             <Route path="/editprofile" component={EditUserProfile} exact />
             <Route path="/seeAllProducts" component={AllProductsGrid} />
             <Route path="/editProductForm" component={EditProductForm} />
+            <Route path="/register" component={Registration} />
             <Route component={NotFound} />
           </Switch>
           <Footer />

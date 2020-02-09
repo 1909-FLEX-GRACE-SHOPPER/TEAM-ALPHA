@@ -1,12 +1,18 @@
 const router = require('express').Router();
-
 const { Users } = require('../db/index');
 
 router.post('/login', (req, res, next) => {
+  console.log(req.body);
   Users.findOne({
-    where: req.body
+    where: {
+      email: req.body.email
+    }
   })
     .then(userOrNull => {
+      if (userOrNull && !userOrNull.isPasswordValid(req.body.password)) {
+        console.log('Invalid password');
+        res.sendStatus(400);
+      }
       if (!userOrNull) return res.sendStatus(401);
       req.session.userId = userOrNull.id;
       if (userOrNull.userType === 'admin') {
