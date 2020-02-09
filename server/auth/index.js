@@ -48,6 +48,7 @@ router.get('/me', (req, res, next) => {
   // res.status(401).send('no prior login!');
   res.status(401);
   const err = new Error('Not logged in');
+  console.error(err);
   next();
 });
 
