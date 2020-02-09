@@ -51,7 +51,10 @@ router.get('/signout', (req, res, next) => {
 
 router.get('/me', (req, res, next) => {
   if (req.loggedIn) return res.send(req.user);
-  res.status(401).send('no prior login!');
+  // res.status(401).send('no prior login!');
+  res.status(401);
+  const err = new Error('Not logged in');
+  console.error(err);
   next();
 });
 
