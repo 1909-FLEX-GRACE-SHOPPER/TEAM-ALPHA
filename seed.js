@@ -394,19 +394,6 @@ const seed = async () => {
     ];
 
     await Orders.bulkCreate(ordersList);
-
-    const productToFind = await Products.findOne();
-    const productId = productToFind.id;
-    const orderToFind = await Orders.findOne();
-    const orderId = orderToFind.id;
-
-    const orderItemToCreate = {
-      productId,
-      orderId,
-      unitPrice: 1.0
-    };
-
-    await OrderItems.create(orderItemToCreate);
   } catch (err) {
     console.log(red(err));
   }
