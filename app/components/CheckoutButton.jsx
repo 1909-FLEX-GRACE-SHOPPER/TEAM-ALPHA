@@ -26,6 +26,7 @@ class Checkout extends Component {
     } = this.props;
     const id = activeOrder.id;
     localStorage.setItem('ACTIVE_USER', JSON.stringify(activeUser));
+    localStorage.setItem('ORDER_COST', JSON.stringify(activeOrder.totalCost));
     // signed in user
     if (authentication.isLoggedIn) {
       submitOrder(activeOrder);

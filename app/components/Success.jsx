@@ -24,15 +24,16 @@ class Success extends React.Component {
 
     // this is not ideal, but I think it will work
     const totalCost = JSON.parse(localStorage.getItem('ORDER_COST'));
-
-    const costToShow = authentication.isLoggedIn
-      ? activeOrder.totalCost
-      : totalCost;
+    const costToShow = totalCost;
+    // const costToShow = authentication.isLoggedIn
+    //   ? activeOrder.totalCost
+    //   : totalCost;
 
     let activeUser = {};
     activeUser = JSON.parse(localStorage.getItem('ACTIVE_USER'));
     setTimeout(() => {
       localStorage.removeItem('ACTIVE_USER');
+      localStorage.removeItem('ORDER_COST');
     }, 3000);
     return (
       <Card
