@@ -42,7 +42,6 @@ export const removeLogInError = () => {
 // thunks
 export const logInAttempt = logInInfo => {
   console.log('LOGIN ATTEMPTING THING BEING PASSED:', logInInfo);
-  const { email, password } = logInInfo;
 
   return async (dispatch, getState) => {
     await axios
