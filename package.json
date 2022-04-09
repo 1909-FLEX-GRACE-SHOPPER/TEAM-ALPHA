@@ -35,7 +35,7 @@
     "faker": "^4.1.0",
     "lint": "^0.7.0",
     "material-ui-breadcrumbs": "^0.1.6",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "pg": "^7.4.3",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
